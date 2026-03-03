@@ -549,8 +549,13 @@
             loadState() {
                 const saved = localStorage.getItem('ultr_state');
                 if (saved) {
-                    this.state = { ...this.state, ...JSON.parse(saved) };
+                    const savedState = JSON.parse(saved);
+                    // Don't restore the screen state - always start at splash
+                    delete savedState.screen;
+                    this.state = { ...this.state, ...savedState };
                 }
+                // Always start at splash screen
+                this.state.screen = 'splash';
             },
 
             saveState() {
