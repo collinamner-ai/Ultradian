@@ -6,97 +6,114 @@
 <title>Ultradian — Your Time to Focus</title>
 <style>
   :root{
-    --bg:#0b0b0c;
-    --surface:#0f1113;
-    --text:#e6eefc;
+    --bg:#07070a;
+    --surface:#0f1114;
+    --text:#e9eefc;
     --muted:#9aa6c7;
     --accent:#6f8bff;
-    --ring: rgba(111,139,255,0.12);
-    --radius:28px;
+    --ring-glow: rgba(111,139,255,0.12);
+    --card-radius:18px;
     --shadow: 0 18px 40px rgba(2,6,23,0.6);
     --tap:48px;
   }
-  :root[data-theme="light"]{
-    --bg:#f5f7fb;
-    --surface:#ffffff;
-    --text:#0f1724;
-    --muted:#6b7280;
-    --accent:#3a5fcd;
-    --ring: rgba(58,95,205,0.12);
-    --shadow: 0 18px 40px rgba(15,23,42,0.06);
-  }
 
   *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
-  html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, rgba(111,139,255,0.03), var(--bg) 40%);color:var(--text);-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:520px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;gap:12px;}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#05050a 0%, #0b0b0f 60%);color:var(--text);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:520px;margin:0 auto;padding:14px;min-height:100vh;display:flex;flex-direction:column;gap:12px;}
+
+  /* Splash (solid, centered) */
+  .splash-full{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#0b0b10,#07070a);z-index:80}
+  .splash-card{width:88%;max-width:420px;padding:28px;border-radius:22px;background:linear-gradient(180deg,#0f1114,#0b0b0f);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:12px;border:1px solid rgba(255,255,255,0.03)}
+  .logo-blob{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03), rgba(111,139,255,0.06));box-shadow:0 10px 30px rgba(111,139,255,0.06)}
+  .enter-btn{margin-top:6px;padding:10px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent),#4a63e6);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(79,95,220,0.12)}
 
   /* Header */
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 4px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 2px}
   .brand{display:flex;flex-direction:column}
   .brand h1{margin:0;font-size:1rem;letter-spacing:0.01em}
   .brand p{margin:0;font-size:0.78rem;color:var(--muted)}
 
-  .icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--text);font-weight:700}
+  .top-actions{display:flex;gap:10px;align-items:center}
+  .icon-btn{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--text);font-weight:700}
   .icon-btn:active{transform:scale(0.98)}
 
-  /* Presets (compact) */
-  .presets-wrap{padding:8px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));box-shadow:var(--shadow)}
+  /* Presets */
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border-radius:14px;padding:10px;border:1px solid rgba(255,255,255,0.02);box-shadow:var(--shadow)}
   .presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between}
   .preset{flex:1 1 48%;min-width:44%;padding:12px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.02);cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
   .preset .name{font-weight:800;font-size:0.95rem}
   .preset .sub{font-size:0.78rem;color:var(--muted)}
-  .preset.active{box-shadow:0 10px 30px var(--ring);outline:2px solid rgba(255,255,255,0.02)}
+  .preset.active{box-shadow:0 12px 36px var(--ring-glow);outline:2px solid rgba(255,255,255,0.02)}
 
-  /* Timer (dominant) */
+  /* Timer */
   .main{display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px}
-  .timer-outer{width:86vw;max-width:360px;height:86vw;max-height:360px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--shadow);position:relative}
-  .timer-inner{width:72%;height:72%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px dashed rgba(255,255,255,0.02)}
+  .timer-wrap{width:86vw;max-width:360px;height:86vw;max-height:360px;border-radius:50%;display:grid;place-items:center;position:relative}
+  .timer-surface{width:92%;height:92%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));box-shadow:inset 0 6px 18px rgba(0,0,0,0.35)}
+  .timer-inner{width:74%;height:74%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#0b0b0f,#0f1114);border:1px solid rgba(255,255,255,0.02)}
   #time{font-size:2.8rem;font-weight:800;letter-spacing:0.02em}
-  .phase-pill{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:999px;background:var(--ring);color:var(--accent);font-weight:800;font-size:0.78rem}
+  .phase-pill{position:absolute;top:14px;left:14px;padding:6px 10px;border-radius:999px;background:var(--ring-glow);color:var(--accent);font-weight:800;font-size:0.78rem}
 
-  /* Controls (large circular) */
+  /* SVG ring */
+  .ring-svg{position:absolute;inset:0;display:block;pointer-events:none}
+  .ring-bg{stroke:rgba(255,255,255,0.03);stroke-width:10;fill:none}
+  .ring-fg{stroke:var(--accent);stroke-width:10;stroke-linecap:round;fill:none;filter:drop-shadow(0 8px 20px rgba(111,139,255,0.08))}
+
+  /* Controls */
   .controls{display:flex;gap:12px;align-items:center;justify-content:center}
   .btn{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--text);font-weight:800}
-  .btn.primary{width:92px;height:92px;background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 70%, black 10%));color:#fff;font-size:1.05rem}
+  .btn.primary{width:92px;height:92px;background:linear-gradient(180deg,var(--accent),#4a63e6);color:#fff;font-size:1.05rem}
   .btn:active{transform:scale(0.98)}
 
-  /* Floating home (visible in minimal) */
-  .home-floating{position:fixed;left:14px;top:14px;z-index:80;display:none}
+  /* Floating home */
+  .home-floating{position:fixed;left:14px;top:14px;z-index:90;display:none}
   .home-floating.show{display:grid}
 
-  /* Minimal mode hides extras but keeps header icon visible via home */
-  .minimal .presets-wrap{display:none}
+  /* Minimal mode */
+  .minimal .card:not(.main){display:none}
   .minimal header{display:none}
   .minimal footer{display:none}
 
   footer{display:flex;justify-content:center;color:var(--muted);font-size:0.78rem;padding:6px 0}
 
-  /* Accessibility & responsive */
   @media (max-width:420px){
     #time{font-size:2.2rem}
     .btn.primary{width:80px;height:80px}
-    .preset{padding:10px}
+    .preset .name{font-size:0.92rem}
   }
 </style>
 </head>
 <body>
-  <div class="wrap" id="app" aria-live="polite">
+  <!-- Splash -->
+  <div id="splash" class="splash-full" role="dialog" aria-modal="true">
+    <div class="splash-card" role="document" aria-labelledby="app-title">
+      <div class="logo-blob" aria-hidden="true">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8 40c8-12 16-12 24 0s16 12 24 0" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="32" cy="20" r="6" fill="white" opacity="0.95"/>
+        </svg>
+      </div>
+      <h2 id="app-title" style="margin:0;font-size:1.15rem;font-weight:700">Ultradian</h2>
+      <p style="margin:0;color:var(--muted);font-size:0.92rem">Your time to focus</p>
+      <button id="enter" class="enter-btn" aria-label="Open Ultradian">Open</button>
+    </div>
+  </div>
+
+  <div class="wrap" id="app" aria-hidden="true">
     <header>
       <div class="brand" aria-hidden="false">
-        <h1>Ultradian</h1>
-        <p>Reset your rhythm</p>
+        <h1 style="margin:0">Ultradian</h1>
+        <p style="margin:0;color:var(--muted);font-size:0.78rem">Reset your rhythm</p>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
+      <div class="top-actions">
         <div id="total" style="font-size:0.9rem;color:var(--muted)">0 min</div>
-        <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">☼</button>
-        <button id="minimalBtn" class="icon-btn" aria-label="Distraction free">•</button>
+        <button id="minimalBtn" class="icon-btn" aria-label="Distraction free">⌂</button>
       </div>
     </header>
 
-    <section class="presets-wrap card" aria-label="Paces">
+    <section class="card presets-wrap" aria-label="Paces">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <div style="font-size:0.85rem;color:var(--muted)">Paces</div>
-        <div id="ambientLabel" style="font-size:0.82rem;color:var(--muted)">Ambient</div>
+        <div id="ambientLabel" style="font-size:0.82rem;color:var(--muted)">♪</div>
       </div>
       <div class="presets" id="presets">
         <button class="preset" data-focus="10" data-break="5" aria-label="Low — Executive Warm‑Up">
@@ -118,126 +135,217 @@
       </div>
     </section>
 
-    <main class="main" role="main" aria-label="Timer">
-      <div class="timer-outer" role="timer" aria-live="polite" aria-atomic="true">
-        <div class="phase-pill" id="phase">Focus</div>
-        <div class="timer-inner">
-          <div id="time">25:00</div>
+    <main class="main card" id="main">
+      <div class="timer-wrap" role="timer" aria-live="polite" aria-atomic="true">
+        <!-- SVG ring -->
+        <svg class="ring-svg" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <circle class="ring-bg" cx="100" cy="100" r="86"></circle>
+          <circle id="ring" class="ring-fg" cx="100" cy="100" r="86" stroke-dasharray="540" stroke-dashoffset="540"></circle>
+        </svg>
+
+        <div class="timer-surface">
+          <div class="timer-inner">
+            <div class="phase-pill" id="phase">Focus</div>
+            <div id="time">25:00</div>
+          </div>
         </div>
       </div>
 
       <div class="controls" id="controls">
-        <button id="start" class="btn primary" aria-label="Start">Start</button>
-        <button id="pause" class="btn" aria-label="Pause">Pause</button>
-        <button id="reset" class="btn" aria-label="Reset">⟲</button>
-      </div>
+        <button id="start" class="btn primary" aria-label="Start">
+          <!-- Play icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3v18l15-9L5 3z" fill="currentColor"/></svg>
+        </button>
 
-      <div style="display:flex;gap:12px;align-items:center">
-        <div style="font-size:0.82rem;color:var(--muted)">Ambient</div>
-        <button id="ambient" class="btn" aria-label="Toggle ambient">♪</button>
+        <button id="pause" class="btn" aria-label="Pause">
+          <!-- Pause icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 5h3v14H6zM15 5h3v14h-3z" fill="currentColor"/></svg>
+        </button>
+
+        <button id="reset" class="btn" aria-label="Reset">
+          <!-- Reset icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v3l4-4-4-4v3C7.58 4 4 7.58 4 12s3.58 8 8 8 8-3.58 8-8h-2c0 3.31-2.69 6-6 6s-6-2.69-6-6 2.69-6 6-6z" fill="currentColor"/></svg>
+        </button>
       </div>
     </main>
 
-    <footer style="text-align:center;color:var(--muted);font-size:0.78rem">Ultradian — Your Time to Focus</footer>
+    <footer style="text-align:center;color:var(--muted);font-size:0.78rem">Ultradian</footer>
   </div>
 
   <button id="homeBtn" class="icon-btn home-floating" title="Home" aria-label="Home">⌂</button>
 
 <script>
-  // state
-  let focus = 25, rest = 5, isFocus = true, remaining = focus*60, timer = null;
-  let total = Number(localStorage.getItem('ultr_total')||0);
-  let theme = localStorage.getItem('ultr_theme') || 'dark';
+  // State
+  let focus = 25, rest = 5, isFocus = true, remaining = focus * 60, timer = null;
+  let total = Number(localStorage.getItem('ultr_total') || 0);
 
-  // elements
-  const app = document.getElementById('app');
+  // Elements
+  const splash = document.getElementById('splash'), app = document.getElementById('app');
   const timeEl = document.getElementById('time'), phaseEl = document.getElementById('phase'), totalEl = document.getElementById('total');
   const presets = document.getElementById('presets'), startBtn = document.getElementById('start'), pauseBtn = document.getElementById('pause'), resetBtn = document.getElementById('reset');
   const minimalBtn = document.getElementById('minimalBtn'), homeBtn = document.getElementById('homeBtn');
-  const themeBtn = document.getElementById('themeBtn'), ambientBtn = document.getElementById('ambient'), ambientLabel = document.getElementById('ambientLabel');
+  const ring = document.getElementById('ring'), ambientBtn = document.getElementById('ambient');
 
-  // apply theme
-  function applyTheme(t){
-    document.documentElement.setAttribute('data-theme', t==='light' ? 'light' : 'dark');
-    themeBtn.textContent = t==='light' ? '☾' : '☼';
-    localStorage.setItem('ultr_theme', t);
-  }
-  applyTheme(theme);
+  // Ring geometry
+  const R = 86;
+  const C = 2 * Math.PI * R;
+  ring.style.strokeDasharray = String(C);
+  ring.style.strokeDashoffset = String(C);
 
-  // presets
-  presets.querySelectorAll('.preset').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      presets.querySelectorAll('.preset').forEach(p=>p.classList.remove('active'));
+  // Splash enter
+  document.getElementById('enter').addEventListener('click', () => {
+    splash.style.display = 'none';
+    app.setAttribute('aria-hidden', 'false');
+  });
+
+  // Preset selection
+  presets.querySelectorAll('.preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      presets.querySelectorAll('.preset').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
-      focus = Number(btn.dataset.focus); rest = Number(btn.dataset.break);
-      remaining = focus*60; isFocus=true; updateDisplay(); updatePhase();
+      focus = Number(btn.dataset.focus);
+      rest = Number(btn.dataset.break);
+      remaining = focus * 60;
+      isFocus = true;
+      updateDisplay();
+      updatePhase();
       stopTimer();
+      updateRingImmediate();
     });
   });
 
-  // controls
+  // Controls
   startBtn.addEventListener('click', startTimer);
   pauseBtn.addEventListener('click', stopTimer);
-  resetBtn.addEventListener('click', ()=>{ stopTimer(); isFocus=true; remaining = focus*60; updateDisplay(); updatePhase(); });
+  resetBtn.addEventListener('click', () => {
+    stopTimer();
+    isFocus = true;
+    remaining = focus * 60;
+    updateDisplay();
+    updatePhase();
+    updateRingImmediate();
+  });
 
-  // minimal toggle
-  minimalBtn.addEventListener('click', ()=>{
-    const on = app.classList.toggle('minimal');
+  // Minimal toggle
+  minimalBtn.addEventListener('click', () => {
+    const on = document.body.classList.toggle('minimal');
     minimalBtn.setAttribute('aria-pressed', String(on));
     homeBtn.classList.toggle('show', on);
   });
 
-  // home button
-  homeBtn.addEventListener('click', ()=>{
-    app.classList.remove('minimal');
-    minimalBtn.setAttribute('aria-pressed','false');
+  // Home button
+  homeBtn.addEventListener('click', () => {
+    document.body.classList.remove('minimal');
+    minimalBtn.setAttribute('aria-pressed', 'false');
     homeBtn.classList.remove('show');
   });
 
-  // theme toggle
-  themeBtn.addEventListener('click', ()=>{
-    theme = (theme === 'light') ? 'dark' : 'light';
-    applyTheme(theme);
-  });
+  // Ambient placeholder (kept minimal)
+  let ambientOn = false;
+  if (ambientBtn) {
+    ambientBtn.addEventListener('click', () => {
+      ambientOn = !ambientOn;
+      ambientBtn.style.background = ambientOn ? 'linear-gradient(180deg,var(--accent),#4a63e6)' : '';
+      ambientBtn.style.color = ambientOn ? '#fff' : '';
+    });
+  }
 
-  // ambient placeholder
-  let ambientOn=false;
-  ambientBtn.addEventListener('click', ()=>{
-    ambientOn = !ambientOn;
-    ambientBtn.style.background = ambientOn ? 'linear-gradient(180deg,var(--accent),rgba(0,0,0,0.12))' : '';
-    ambientBtn.style.color = ambientOn ? '#fff' : '';
-    ambientLabel.textContent = ambientOn ? 'Ambient • On' : 'Ambient';
-    // hook: attach gentle offline audio here
-  });
+  // Timer functions
+  function updateDisplay() {
+    const m = Math.floor(remaining / 60), s = remaining % 60;
+    timeEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+  function updatePhase() {
+    phaseEl.textContent = isFocus ? 'Focus' : 'Rest';
+  }
 
-  // timer logic
-  function updateDisplay(){ const m=Math.floor(remaining/60), s=remaining%60; timeEl.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); }
-  function updatePhase(){ phaseEl.textContent = isFocus ? 'Focus' : 'Rest'; }
-  function tick(){
+  // Smooth ring animation using requestAnimationFrame
+  let lastTimestamp = null;
+  let animating = false;
+  function updateRingImmediate() {
+    const totalSeconds = (isFocus ? focus : rest) * 60;
+    const progress = 1 - (remaining / totalSeconds);
+    const offset = Math.max(0, Math.min(C, C * (1 - progress)));
+    ring.style.transition = 'none';
+    ring.style.strokeDashoffset = String(offset);
+  }
+
+  function animateRingFrame(timestamp) {
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    const dt = (timestamp - lastTimestamp) / 1000;
+    lastTimestamp = timestamp;
+
+    const totalSeconds = (isFocus ? focus : rest) * 60;
+    const progress = 1 - (remaining / totalSeconds);
+    const offset = Math.max(0, Math.min(C, C * (1 - progress)));
+    // Interpolate current dashoffset for smoothness
+    const current = parseFloat(ring.style.strokeDashoffset) || C;
+    const lerp = current + (offset - current) * Math.min(1, dt * 8); // smoothing factor
+    ring.style.strokeDashoffset = String(lerp);
+
+    if (animating) requestAnimationFrame(animateRingFrame);
+    else lastTimestamp = null;
+  }
+
+  function updateRing() {
+    // called each second to nudge the ring target
+    if (!animating) {
+      animating = true;
+      requestAnimationFrame(animateRingFrame);
+      // stop animating after a short while to save CPU
+      setTimeout(() => { animating = false; }, 700);
+    }
+  }
+
+  function tick() {
     remaining--;
-    if(isFocus){ total++; localStorage.setItem('ultr_total', total); totalEl.textContent = Math.floor(total/60) + ' min'; }
+    if (isFocus) {
+      total++;
+      localStorage.setItem('ultr_total', total);
+      totalEl.textContent = Math.floor(total / 60) + ' min';
+    }
     updateDisplay();
-    if(remaining<=0){
+    updateRing();
+    if (remaining <= 0) {
       stopTimer();
       isFocus = !isFocus;
       remaining = (isFocus ? focus : rest) * 60;
       updatePhase();
-      setTimeout(()=> startTimer(), 700);
+      updateRingImmediate();
+      setTimeout(() => startTimer(), 700);
     }
   }
-  function startTimer(){ if(timer) return; timer = setInterval(tick,1000); app.classList.add('minimal'); minimalBtn.setAttribute('aria-pressed','true'); homeBtn.classList.add('show'); }
-  function stopTimer(){ clearInterval(timer); timer=null; }
 
-  // init
-  updateDisplay(); updatePhase(); totalEl.textContent = Math.floor(total/60) + ' min';
+  function startTimer() {
+    if (timer) return;
+    timer = setInterval(tick, 1000);
+    document.body.classList.add('minimal');
+    minimalBtn.setAttribute('aria-pressed', 'true');
+    homeBtn.classList.add('show');
+    // start ring animation immediately
+    updateRing();
+  }
 
-  // keyboard shortcuts
-  document.addEventListener('keydown', (e)=>{
-    if(e.key===' '){ e.preventDefault(); timer ? stopTimer() : startTimer(); }
-    if(e.key==='r'){ resetBtn.click(); }
-    if(e.key==='h'){ homeBtn.click(); }
-    if(e.key==='t'){ themeBtn.click(); }
+  function stopTimer() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  // Init
+  updateDisplay();
+  updatePhase();
+  totalEl.textContent = Math.floor(total / 60) + ' min';
+  updateRingImmediate();
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === ' ') { e.preventDefault(); timer ? stopTimer() : startTimer(); }
+    if (e.key === 'r') { resetBtn.click(); }
+    if (e.key === 'h') { homeBtn.click(); }
   });
+
+  // Resize: ensure ring immediate update
+  window.addEventListener('resize', () => { updateRingImmediate(); });
 </script>
 </body>
 </html>
