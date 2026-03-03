@@ -6,145 +6,145 @@
 <title>Ultradian — Your Time to Focus</title>
 <style>
   :root{
-    --bg: #f5f7fb;
-    --card: #ffffff;
-    --ink: #0f1724;
-    --muted: #6b7280;
-    --accent-1: #3a5fcd;
-    --accent-2: #4cc7c1;
-    --glass: rgba(255,255,255,0.6);
-    --soft-1: rgba(58,95,205,0.12);
-    --radius: 999px;
-    --shadow-1: 0 18px 40px rgba(15,23,42,0.06);
-  }
-  :root[data-theme="dark"]{
-    --bg: #0b1020;
-    --card: linear-gradient(180deg,#071026,#0b1224);
-    --ink: #e6eefc;
-    --muted: #9aa6c7;
-    --accent-1: #6f8bff;
-    --accent-2: #5fe0d1;
+    --bg:#0b0b0c;           /* deep monochrome background */
+    --card:#0f1113;         /* card surface */
+    --ink:#e6eefc;          /* primary text */
+    --muted:#9aa6c7;        /* secondary text */
+    --accent:#6f8bff;       /* single calm accent */
     --glass: rgba(255,255,255,0.03);
-    --soft-1: rgba(111,139,255,0.12);
-    --shadow-1: 0 18px 40px rgba(2,6,23,0.6);
+    --radius:28px;
+    --soft-shadow: 0 18px 40px rgba(2,6,23,0.6);
+    --ring: rgba(111,139,255,0.12);
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --ink:#0f1724;
+    --muted:#6b7280;
+    --accent:#3a5fcd;
+    --glass: rgba(255,255,255,0.6);
+    --soft-shadow: 0 18px 40px rgba(15,23,42,0.06);
+    --ring: rgba(58,95,205,0.12);
   }
 
-  *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-  html,body{height:100%;margin:0;background:
-    radial-gradient(circle at 10% 10%, rgba(232,238,255,0.6) 0%, var(--bg) 40%, var(--bg) 100%);
-    color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+  /* base */
+  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
+  html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, rgba(111,139,255,0.04), var(--bg) 40%);color:var(--ink);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:520px;margin:0 auto;padding:18px;min-height:100vh;display:flex;flex-direction:column;gap:14px;}
 
-  .wrap{max-width:520px;margin:0 auto;padding:20px;display:flex;flex-direction:column;min-height:100vh;gap:18px;}
-  /* Splash */
-  .splash{height:100vh;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:40;background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(250,250,252,0.4));backdrop-filter:blur(6px);}
-  .splash-card{width:86%;max-width:420px;padding:28px;border-radius:20px;background:linear-gradient(180deg,var(--card),#f7fbff);box-shadow:var(--shadow-1);display:flex;flex-direction:column;align-items:center;gap:18px;}
-  .logo{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from 180deg at 50% 50%, var(--accent-1), var(--accent-2));box-shadow:0 8px 20px rgba(58,95,205,0.12);position:relative;overflow:hidden;}
-  .logo svg{width:56px;height:56px;filter:drop-shadow(0 6px 18px rgba(58,95,205,0.12));}
-  .splash h1{margin:0;font-size:1.25rem;letter-spacing:0.01em;}
-  .splash p{margin:0;color:var(--muted);font-size:0.95rem;}
-  .enter-btn{margin-top:6px;padding:10px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent-1),#2d4fb8);color:#fff;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(58,95,205,0.12);}
+  /* splash */
+  .splash{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.12));z-index:60}
+  .splash-card{width:88%;max-width:420px;padding:26px;border-radius:20px;background:linear-gradient(180deg,var(--card),rgba(0,0,0,0.02));box-shadow:var(--soft-shadow);display:flex;flex-direction:column;align-items:center;gap:12px}
+  .logo{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from 180deg at 50% 50%, rgba(255,255,255,0.06), var(--accent));animation:logoPulse 3.6s ease-in-out infinite}
+  @keyframes logoPulse{0%{transform:scale(0.98)}50%{transform:scale(1.03)}100%{transform:scale(0.98)}}
+  .enter{margin-top:6px;padding:10px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent),color-mix(in srgb, var(--accent) 70%, black 10%));color:#fff;font-weight:700;cursor:pointer}
 
-  /* Cards and layout */
-  .card{background:var(--card);border-radius:20px;padding:14px;border:1px solid rgba(15,23,42,0.04);box-shadow:var(--shadow-1);}
-  .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
-  .title h2{margin:0;font-size:1.05rem;}
-  .title p{margin:0;color:var(--muted);font-size:0.85rem;}
+  /* header */
+  .header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;flex-direction:column}
+  .brand h1{margin:0;font-size:1.05rem;letter-spacing:0.01em}
+  .brand p{margin:0;font-size:0.78rem;color:var(--muted)}
 
-  /* Presets */
-  .presets{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px;}
-  .preset{background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(245,247,255,0.9));border-radius:14px;padding:12px;border:1px solid rgba(15,23,42,0.04);cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:flex-start;}
-  .preset .name{font-weight:700;}
-  .preset .sub{font-size:0.78rem;color:var(--muted);}
-  .preset.active{outline:3px solid var(--soft-1);box-shadow:0 8px 18px rgba(58,95,205,0.06);border-color:rgba(58,95,205,0.12);}
+  .top-actions{display:flex;gap:10px;align-items:center}
+  .icon-btn{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--card);box-shadow:var(--soft-shadow);cursor:pointer;color:var(--ink);font-weight:700}
 
-  /* Timer */
-  .center{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px;}
-  .timer-ring{width:220px;height:220px;border-radius:50%;display:grid;place-items:center;background:
-    radial-gradient(circle at 30% 20%, #ffffff 0%, #eef4ff 45%, #e6ecff 100%);box-shadow:var(--shadow-1);position:relative;}
-  .timer-ring .inner{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#fff,#f7fbff);border:1px dashed rgba(15,23,42,0.06);}
-  #time{font-size:2.6rem;font-weight:700;letter-spacing:0.02em;}
-  .mode-pill{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:999px;background:var(--soft-1);color:var(--accent-1);font-weight:700;font-size:0.78rem;}
+  /* presets card */
+  .card{background:var(--card);border-radius:18px;padding:12px;border:1px solid rgba(255,255,255,0.02);box-shadow:var(--soft-shadow)}
+  .presets{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+  .preset{padding:12px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));cursor:pointer;border:1px solid rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:6px}
+  .preset .name{font-weight:800;font-size:0.95rem}
+  .preset .sub{font-size:0.78rem;color:var(--muted)}
+  .preset.active{box-shadow:0 10px 30px var(--ring);outline:2px solid rgba(255,255,255,0.02)}
 
-  /* Controls: round */
-  .controls{display:flex;gap:12px;align-items:center;}
-  .btn{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--card);box-shadow:var(--shadow-1);cursor:pointer;font-weight:700;color:var(--ink);font-size:0.95rem;}
-  .btn.primary{width:92px;height:92px;background:linear-gradient(180deg,var(--accent-1),#2d4fb8);color:#fff;font-size:1.05rem;box-shadow:0 18px 40px rgba(58,95,205,0.12);}
-  .small{font-size:0.82rem;color:var(--muted);}
+  /* main timer */
+  .main{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px;border-radius:20px}
+  .timer-outer{width:86vw;max-width:320px;height:86vw;max-height:320px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--soft-shadow);position:relative}
+  .timer-inner{width:74%;height:74%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px dashed rgba(255,255,255,0.02)}
+  #time{font-size:2.8rem;font-weight:800;letter-spacing:0.02em}
+  .phase-pill{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:999px;background:var(--ring);color:var(--accent);font-weight:800;font-size:0.78rem}
 
-  /* Home & theme buttons */
-  .top-actions{display:flex;gap:10px;align-items:center;}
-  .icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--card);box-shadow:var(--shadow-1);cursor:pointer;color:var(--ink);}
+  /* controls */
+  .controls{display:flex;gap:12px;align-items:center;justify-content:center}
+  .btn{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--card);box-shadow:var(--soft-shadow);cursor:pointer;color:var(--ink);font-weight:800}
+  .btn.primary{width:92px;height:92px;background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 70%, black 10%));color:#fff;font-size:1.05rem}
+  .small{font-size:0.82rem;color:var(--muted)}
 
-  /* Minimal mode */
-  .minimal .card:not(.main){display:none;}
-  .minimal .presets{display:none;}
-  .minimal .top-row{display:none;}
-  .home-visible{position:fixed;left:18px;top:18px;z-index:60;}
+  /* minimal (distraction free) */
+  .minimal .card:not(.main){display:none}
+  .minimal .header{display:none}
+  .home-floating{position:fixed;left:16px;top:16px;z-index:70;display:none}
+  .home-floating.show{display:grid}
 
-  /* Animations */
-  @keyframes pulse {0%{transform:scale(0.98);opacity:0.9}50%{transform:scale(1.03);opacity:1}100%{transform:scale(0.98);opacity:0.9}}
-  .logo{animation:pulse 3.6s ease-in-out infinite;}
-  .fade-in{animation:fadeIn 420ms ease both;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  /* footer */
+  footer{display:flex;justify-content:center;color:var(--muted);font-size:0.78rem;padding:6px 0}
 
-  /* Responsive */
+  /* responsive tweaks */
   @media (max-width:420px){
-    .timer-ring{width:180px;height:180px}
-    .timer-ring .inner{width:140px;height:140px}
+    .preset .name{font-size:0.9rem}
+    #time{font-size:2.2rem}
     .btn.primary{width:80px;height:80px}
   }
 </style>
 </head>
-<body>
+<body data-theme="dark">
   <!-- Splash -->
   <div id="splash" class="splash" role="dialog" aria-modal="true">
-    <div class="splash-card fade-in" role="document" aria-labelledby="app-title">
+    <div class="splash-card" role="document" aria-labelledby="app-title">
       <div class="logo" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M8 40c8-12 16-12 24 0s16 12 24 0" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="32" cy="20" r="6" fill="#fff" opacity="0.95"/>
+        <svg viewBox="0 0 64 64" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8 40c8-12 16-12 24 0s16 12 24 0" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="32" cy="20" r="6" fill="white" opacity="0.95"/>
         </svg>
       </div>
-      <h1 id="app-title">Ultradian</h1>
-      <p>Reset your rhythm</p>
-      <button id="enter" class="enter-btn" aria-label="Open Ultradian">Open</button>
+      <h1 id="app-title" style="margin:0;font-size:1.15rem">Ultradian</h1>
+      <p style="margin:0;color:var(--muted)">Your time to focus</p>
+      <button id="enter" class="enter">Open</button>
     </div>
   </div>
 
   <div class="wrap" id="app" aria-hidden="true">
-    <!-- Header -->
-    <div class="card top-row">
-      <div class="title">
-        <h2>Ultradian</h2>
-        <p class="small">Your time to focus</p>
+    <header class="header card">
+      <div class="brand">
+        <h1 style="margin:0;font-size:1rem">Ultradian</h1>
+        <p style="margin:0;font-size:0.78rem;color:var(--muted)">Reset your rhythm</p>
       </div>
       <div class="top-actions">
         <div id="total" class="small">0 min</div>
-        <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-pressed="false">☼</button>
-        <button id="minimal-toggle" class="icon-btn" title="Distraction free" aria-pressed="false">•</button>
+        <button id="themeToggle" class="icon-btn" title="Toggle theme" aria-pressed="false" aria-label="Toggle theme">☼</button>
+        <button id="minimalToggle" class="icon-btn" title="Distraction free" aria-pressed="false" aria-label="Distraction free">•</button>
       </div>
-    </div>
+    </header>
 
-    <!-- Presets -->
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div class="small">Choose pace</div>
-        <div class="small" id="ambient-ind">Ambient</div>
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="small">Paces</div>
+        <div id="ambientLabel" class="small">Ambient</div>
       </div>
       <div class="presets" id="presets">
-        <button class="preset" data-focus="10" data-break="5"><div class="name">Low</div><div class="sub">10 / 5</div></button>
-        <button class="preset active" data-focus="25" data-break="5"><div class="name">Medium</div><div class="sub">25 / 5</div></button>
-        <button class="preset" data-focus="45" data-break="15"><div class="name">High</div><div class="sub">45 / 15</div></button>
-        <button class="preset" data-focus="90" data-break="30"><div class="name">Deep</div><div class="sub">90 / 30</div></button>
+        <button class="preset" data-focus="10" data-break="5" aria-label="Low — Executive Warm‑Up">
+          <div class="name">Low</div>
+          <div class="sub">Executive Warm‑Up · 10 / 5</div>
+        </button>
+        <button class="preset active" data-focus="25" data-break="5" aria-label="Medium — Pomodoro Cycle">
+          <div class="name">Medium</div>
+          <div class="sub">Pomodoro Cycle · 25 / 5</div>
+        </button>
+        <button class="preset" data-focus="45" data-break="15" aria-label="High — Cognitive Load Cycle">
+          <div class="name">High</div>
+          <div class="sub">Cognitive Load Cycle · 45 / 15</div>
+        </button>
+        <button class="preset" data-focus="90" data-break="30" aria-label="Deep — Ultradian Rhythm">
+          <div class="name">Deep</div>
+          <div class="sub">Ultradian Rhythm · 90 / 30</div>
+        </button>
       </div>
-    </div>
+    </section>
 
-    <!-- Main Timer -->
-    <div class="card main" id="mainCard">
-      <div class="center">
-        <div class="timer-ring" role="timer" aria-live="polite">
-          <div class="mode-pill" id="phase">Focus</div>
-          <div class="inner">
+    <section class="card main" id="main">
+      <div class="main">
+        <div class="timer-outer" role="timer" aria-live="polite">
+          <div class="phase-pill" id="phase">Focus</div>
+          <div class="timer-inner">
             <div id="time">25:00</div>
           </div>
         </div>
@@ -155,48 +155,44 @@
           <button id="reset" class="btn" aria-label="Reset">⟲</button>
         </div>
 
-        <div style="display:flex;gap:12px;align-items:center;">
+        <div style="display:flex;gap:12px;align-items:center">
           <div class="small">Ambient</div>
-          <button id="ambient" class="btn" title="Toggle ambient">♪</button>
+          <button id="ambient" class="btn" aria-label="Toggle ambient">♪</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <footer class="small">Offline • No accounts</footer>
+    <footer class="small" style="text-align:center">Ultradian — Your Time to Focus</footer>
   </div>
 
-  <!-- Home button (visible in minimal mode) -->
-  <button id="homeBtn" class="icon-btn home-visible" title="Home" style="display:none;">⌂</button>
+  <button id="homeBtn" class="icon-btn home-floating" title="Home" aria-label="Home">⌂</button>
 
 <script>
-  // State
+  // state
   let focus = 25, rest = 5, isFocus = true, remaining = focus*60, timer = null;
   let total = Number(localStorage.getItem('ultr_total')||0);
-  let theme = localStorage.getItem('ultr_theme') || 'light';
+  let theme = localStorage.getItem('ultr_theme') || 'dark';
 
-  // Elements
+  // elements
   const splash = document.getElementById('splash'), app = document.getElementById('app');
   const timeEl = document.getElementById('time'), phaseEl = document.getElementById('phase'), totalEl = document.getElementById('total');
   const presets = document.getElementById('presets'), startBtn = document.getElementById('start'), pauseBtn = document.getElementById('pause'), resetBtn = document.getElementById('reset');
-  const minimalToggle = document.getElementById('minimal-toggle'), homeBtn = document.getElementById('homeBtn');
-  const themeToggle = document.getElementById('theme-toggle'), ambientBtn = document.getElementById('ambient'), ambientInd = document.getElementById('ambient-ind');
+  const minimalToggle = document.getElementById('minimalToggle'), homeBtn = document.getElementById('homeBtn');
+  const themeToggle = document.getElementById('themeToggle'), ambientBtn = document.getElementById('ambient'), ambientLabel = document.getElementById('ambientLabel');
 
-  // Apply saved theme
+  // theme
   function applyTheme(t){
-    document.documentElement.setAttribute('data-theme', t==='dark' ? 'dark' : 'light');
-    themeToggle.textContent = t==='dark' ? '☾' : '☼';
-    themeToggle.setAttribute('aria-pressed', String(t==='dark'));
+    document.documentElement.setAttribute('data-theme', t==='light' ? 'light' : 'dark');
+    themeToggle.textContent = t==='light' ? '☾' : '☼';
+    themeToggle.setAttribute('aria-pressed', String(t==='light'));
     localStorage.setItem('ultr_theme', t);
   }
   applyTheme(theme);
 
-  // Splash enter
-  document.getElementById('enter').addEventListener('click', ()=>{
-    splash.style.display='none';
-    app.setAttribute('aria-hidden','false');
-  });
+  // splash
+  document.getElementById('enter').addEventListener('click', ()=>{ splash.style.display='none'; app.setAttribute('aria-hidden','false'); });
 
-  // Preset selection
+  // presets
   presets.querySelectorAll('.preset').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       presets.querySelectorAll('.preset').forEach(p=>p.classList.remove('active'));
@@ -207,49 +203,43 @@
     });
   });
 
-  // Controls
+  // controls
   startBtn.addEventListener('click', startTimer);
   pauseBtn.addEventListener('click', stopTimer);
-  resetBtn.addEventListener('click', ()=>{
-    stopTimer(); isFocus=true; remaining = focus*60; updateDisplay(); updatePhase();
-  });
+  resetBtn.addEventListener('click', ()=>{ stopTimer(); isFocus=true; remaining = focus*60; updateDisplay(); updatePhase(); });
 
-  // Minimal toggle: hides extras but keeps timer state
+  // minimal toggle
   minimalToggle.addEventListener('click', ()=>{
     const on = app.classList.toggle('minimal');
     minimalToggle.setAttribute('aria-pressed', String(on));
-    // show home button when minimal
-    homeBtn.style.display = on ? 'grid' : 'none';
+    homeBtn.classList.toggle('show', on);
   });
 
-  // Home button: return to main menu while timer runs
+  // home button
   homeBtn.addEventListener('click', ()=>{
     app.classList.remove('minimal');
     minimalToggle.setAttribute('aria-pressed','false');
-    homeBtn.style.display = 'none';
+    homeBtn.classList.remove('show');
   });
 
-  // Theme toggle
+  // theme toggle
   themeToggle.addEventListener('click', ()=>{
-    theme = (theme === 'dark') ? 'light' : 'dark';
+    theme = (theme === 'light') ? 'dark' : 'light';
     applyTheme(theme);
   });
 
-  // Ambient placeholder
+  // ambient placeholder
   let ambientOn=false;
   ambientBtn.addEventListener('click', ()=>{
     ambientOn = !ambientOn;
-    ambientBtn.style.background = ambientOn ? 'linear-gradient(180deg,var(--accent-1),#2d4fb8)' : '';
+    ambientBtn.style.background = ambientOn ? 'linear-gradient(180deg,var(--accent),rgba(0,0,0,0.12))' : '';
     ambientBtn.style.color = ambientOn ? '#fff' : '';
-    ambientInd.textContent = ambientOn ? 'Ambient • On' : 'Ambient';
-    // Hook: start/stop gentle offline audio here
+    ambientLabel.textContent = ambientOn ? 'Ambient • On' : 'Ambient';
+    // hook: attach gentle offline audio here
   });
 
-  // Timer functions
-  function updateDisplay(){
-    const m = Math.floor(remaining/60), s = remaining%60;
-    timeEl.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-  }
+  // timer logic
+  function updateDisplay(){ const m=Math.floor(remaining/60), s=remaining%60; timeEl.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); }
   function updatePhase(){ phaseEl.textContent = isFocus ? 'Focus' : 'Rest'; }
   function tick(){
     remaining--;
@@ -260,23 +250,16 @@
       isFocus = !isFocus;
       remaining = (isFocus ? focus : rest) * 60;
       updatePhase();
-      setTimeout(()=>{ startTimer(); }, 700);
+      setTimeout(()=> startTimer(), 700);
     }
   }
-  function startTimer(){
-    if(timer) return;
-    timer = setInterval(tick,1000);
-    // enter distraction free when started but keep home visible
-    app.classList.add('minimal');
-    minimalToggle.setAttribute('aria-pressed','true');
-    homeBtn.style.display = 'grid';
-  }
+  function startTimer(){ if(timer) return; timer = setInterval(tick,1000); app.classList.add('minimal'); minimalToggle.setAttribute('aria-pressed','true'); homeBtn.classList.add('show'); }
   function stopTimer(){ clearInterval(timer); timer=null; }
 
-  // Init
+  // init
   updateDisplay(); updatePhase(); totalEl.textContent = Math.floor(total/60) + ' min';
 
-  // Accessibility: keyboard shortcuts
+  // keyboard shortcuts
   document.addEventListener('keydown', (e)=>{
     if(e.key===' '){ e.preventDefault(); timer ? stopTimer() : startTimer(); }
     if(e.key==='r'){ resetBtn.click(); }
