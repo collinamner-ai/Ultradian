@@ -1,351 +1,736 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ultradian — Your Time to Focus</title>
-<style>
-  :root{
-    --bg:#07070a;
-    --surface:#0f1114;
-    --text:#e9eefc;
-    --muted:#9aa6c7;
-    --accent:#6f8bff;
-    --ring-glow: rgba(111,139,255,0.12);
-    --card-radius:18px;
-    --shadow: 0 18px 40px rgba(2,6,23,0.6);
-    --tap:48px;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultradian — Your Time to Focus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
-  html,body{height:100%;margin:0;background:linear-gradient(180deg,#05050a 0%, #0b0b0f 60%);color:var(--text);-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:520px;margin:0 auto;padding:14px;min-height:100vh;display:flex;flex-direction:column;gap:12px;}
+        :root {
+            --bg-primary: #07070a;
+            --bg-surface: #0f1114;
+            --text-primary: #e9eefc;
+            --text-muted: #9aa6c7;
+            --accent: #6f8bff;
+            --accent-dark: #5575dd;
+        }
 
-  /* Splash (solid, centered) */
-  .splash-full{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#0b0b10,#07070a);z-index:80}
-  .splash-card{width:88%;max-width:420px;padding:28px;border-radius:22px;background:linear-gradient(180deg,#0f1114,#0b0b0f);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:12px;border:1px solid rgba(255,255,255,0.03)}
-  .logo-blob{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03), rgba(111,139,255,0.06));box-shadow:0 10px 30px rgba(111,139,255,0.06)}
-  .enter-btn{margin-top:6px;padding:10px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent),#4a63e6);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(79,95,220,0.12)}
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+        }
 
-  /* Header */
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 2px}
-  .brand{display:flex;flex-direction:column}
-  .brand h1{margin:0;font-size:1rem;letter-spacing:0.01em}
-  .brand p{margin:0;font-size:0.78rem;color:var(--muted)}
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-  .top-actions{display:flex;gap:10px;align-items:center}
-  .icon-btn{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--text);font-weight:700}
-  .icon-btn:active{transform:scale(0.98)}
+        .app {
+            width: 100%;
+            height: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+            position: relative;
+        }
 
-  /* Presets */
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border-radius:14px;padding:10px;border:1px solid rgba(255,255,255,0.02);box-shadow:var(--shadow)}
-  .presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between}
-  .preset{flex:1 1 48%;min-width:44%;padding:12px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.02);cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
-  .preset .name{font-weight:800;font-size:0.95rem}
-  .preset .sub{font-size:0.78rem;color:var(--muted)}
-  .preset.active{box-shadow:0 12px 36px var(--ring-glow);outline:2px solid rgba(255,255,255,0.02)}
+        /* SCREENS */
+        .screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
 
-  /* Timer */
-  .main{display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px}
-  .timer-wrap{width:86vw;max-width:360px;height:86vw;max-height:360px;border-radius:50%;display:grid;place-items:center;position:relative}
-  .timer-surface{width:92%;height:92%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));box-shadow:inset 0 6px 18px rgba(0,0,0,0.35)}
-  .timer-inner{width:74%;height:74%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#0b0b0f,#0f1114);border:1px solid rgba(255,255,255,0.02)}
-  #time{font-size:2.8rem;font-weight:800;letter-spacing:0.02em}
-  .phase-pill{position:absolute;top:14px;left:14px;padding:6px 10px;border-radius:999px;background:var(--ring-glow);color:var(--accent);font-weight:800;font-size:0.78rem}
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-  /* SVG ring */
-  .ring-svg{position:absolute;inset:0;display:block;pointer-events:none}
-  .ring-bg{stroke:rgba(255,255,255,0.03);stroke-width:10;fill:none}
-  .ring-fg{stroke:var(--accent);stroke-width:10;stroke-linecap:round;fill:none;filter:drop-shadow(0 8px 20px rgba(111,139,255,0.08))}
+        /* SPLASH SCREEN */
+        .splash-screen {
+            padding: 40px 24px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-surface) 100%);
+        }
 
-  /* Controls */
-  .controls{display:flex;gap:12px;align-items:center;justify-content:center}
-  .btn{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--text);font-weight:800}
-  .btn.primary{width:92px;height:92px;background:linear-gradient(180deg,var(--accent),#4a63e6);color:#fff;font-size:1.05rem}
-  .btn:active{transform:scale(0.98)}
+        .splash-logo {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-  /* Floating home */
-  .home-floating{position:fixed;left:14px;top:14px;z-index:90;display:none}
-  .home-floating.show{display:grid}
+        .splash-tagline {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
 
-  /* Minimal mode */
-  .minimal .card:not(.main){display:none}
-  .minimal header{display:none}
-  .minimal footer{display:none}
+        .splash-cta {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 28px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(111, 139, 255, 0.3);
+            min-width: 48px;
+            min-height: 48px;
+        }
 
-  footer{display:flex;justify-content:center;color:var(--muted);font-size:0.78rem;padding:6px 0}
+        .splash-cta:hover {
+            background: var(--accent-dark);
+            box-shadow: 0 12px 32px rgba(111, 139, 255, 0.4);
+            transform: translateY(-2px);
+        }
 
-  @media (max-width:420px){
-    #time{font-size:2.2rem}
-    .btn.primary{width:80px;height:80px}
-    .preset .name{font-size:0.92rem}
-  }
-</style>
+        .splash-cta:active {
+            transform: translateY(0);
+        }
+
+        /* PRESETS SCREEN */
+        .presets-screen {
+            padding: 60px 24px 40px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .presets-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .presets-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .presets-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .presets-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .preset-card {
+            padding: 20px;
+            background: var(--bg-surface);
+            border: 1px solid rgba(111, 139, 255, 0.1);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preset-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .preset-card:hover {
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .preset-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .preset-card.selected {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--bg-surface), rgba(111, 139, 255, 0.08));
+        }
+
+        .preset-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .preset-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .preset-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-width: 60px;
+        }
+
+        .preset-badge-time {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .preset-badge-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* TIMER SCREEN */
+        .timer-screen {
+            padding: 40px 24px;
+            position: relative;
+        }
+
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            gap: 24px;
+        }
+
+        .timer-phase {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .timer-phase.focus {
+            color: var(--accent);
+        }
+
+        .timer-ring-wrapper {
+            width: 240px;
+            height: 240px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .timer-ring {
+            width: 100%;
+            height: 100%;
+        }
+
+        .timer-circle-bg {
+            fill: none;
+            stroke: var(--bg-surface);
+            stroke-width: 8;
+        }
+
+        .timer-circle-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform-origin: 50% 50%;
+            transform: rotate(-90deg);
+            filter: drop-shadow(0 0 8px rgba(111, 139, 255, 0.4));
+            transition: stroke-dashoffset 0.05s linear;
+        }
+
+        .timer-display {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .timer-time {
+            font-size: 56px;
+            font-weight: 300;
+            letter-spacing: -1px;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .timer-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 22px;
+            min-width: 48px;
+            min-height: 48px;
+        }
+
+        .timer-btn-primary {
+            width: 68px;
+            height: 68px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--bg-primary);
+            box-shadow: 0 8px 24px rgba(111, 139, 255, 0.3);
+        }
+
+        .timer-btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px rgba(111, 139, 255, 0.4);
+        }
+
+        .timer-btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .timer-btn-secondary {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border: 1px solid rgba(111, 139, 255, 0.1);
+        }
+
+        .timer-btn-secondary:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .timer-btn-secondary:active {
+            transform: scale(0.98);
+        }
+
+        /* HOME BUTTON (minimal mode) */
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 1px solid rgba(111, 139, 255, 0.1);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .home-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .home-btn:hover {
+            border-color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .home-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ICONS */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+        }
+
+        /* ACCESSIBILITY */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-height: 600px) {
+            .splash-screen {
+                padding: 30px 24px;
+            }
+            .presets-screen {
+                padding: 40px 24px 30px;
+            }
+            .presets-header {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Splash -->
-  <div id="splash" class="splash-full" role="dialog" aria-modal="true">
-    <div class="splash-card" role="document" aria-labelledby="app-title">
-      <div class="logo-blob" aria-hidden="true">
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M8 40c8-12 16-12 24 0s16 12 24 0" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="32" cy="20" r="6" fill="white" opacity="0.95"/>
-        </svg>
-      </div>
-      <h2 id="app-title" style="margin:0;font-size:1.15rem;font-weight:700">Ultradian</h2>
-      <p style="margin:0;color:var(--muted);font-size:0.92rem">Your time to focus</p>
-      <button id="enter" class="enter-btn" aria-label="Open Ultradian">Open</button>
-    </div>
-  </div>
-
-  <div class="wrap" id="app" aria-hidden="true">
-    <header>
-      <div class="brand" aria-hidden="false">
-        <h1 style="margin:0">Ultradian</h1>
-        <p style="margin:0;color:var(--muted);font-size:0.78rem">Reset your rhythm</p>
-      </div>
-      <div class="top-actions">
-        <div id="total" style="font-size:0.9rem;color:var(--muted)">0 min</div>
-        <button id="minimalBtn" class="icon-btn" aria-label="Distraction free">⌂</button>
-      </div>
-    </header>
-
-    <section class="card presets-wrap" aria-label="Paces">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <div style="font-size:0.85rem;color:var(--muted)">Paces</div>
-        <div id="ambientLabel" style="font-size:0.82rem;color:var(--muted)">♪</div>
-      </div>
-      <div class="presets" id="presets">
-        <button class="preset" data-focus="10" data-break="5" aria-label="Low — Executive Warm‑Up">
-          <div class="name">Low</div>
-          <div class="sub">Executive Warm‑Up · 10 / 5</div>
-        </button>
-        <button class="preset active" data-focus="25" data-break="5" aria-label="Medium — Pomodoro Cycle">
-          <div class="name">Medium</div>
-          <div class="sub">Pomodoro Cycle · 25 / 5</div>
-        </button>
-        <button class="preset" data-focus="45" data-break="15" aria-label="High — Cognitive Load Cycle">
-          <div class="name">High</div>
-          <div class="sub">Cognitive Load Cycle · 45 / 15</div>
-        </button>
-        <button class="preset" data-focus="90" data-break="30" aria-label="Deep — Ultradian Rhythm">
-          <div class="name">Deep</div>
-          <div class="sub">Ultradian Rhythm · 90 / 30</div>
-        </button>
-      </div>
-    </section>
-
-    <main class="main card" id="main">
-      <div class="timer-wrap" role="timer" aria-live="polite" aria-atomic="true">
-        <!-- SVG ring -->
-        <svg class="ring-svg" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-          <circle class="ring-bg" cx="100" cy="100" r="86"></circle>
-          <circle id="ring" class="ring-fg" cx="100" cy="100" r="86" stroke-dasharray="540" stroke-dashoffset="540"></circle>
-        </svg>
-
-        <div class="timer-surface">
-          <div class="timer-inner">
-            <div class="phase-pill" id="phase">Focus</div>
-            <div id="time">25:00</div>
-          </div>
+    <div class="app">
+        <!-- SPLASH SCREEN -->
+        <div class="screen splash-screen active">
+            <div>
+                <div class="splash-logo">Ultradian</div>
+                <p class="splash-tagline">Your Time to Focus</p>
+            </div>
+            <button class="splash-cta" onclick="app.goToPresets()">Begin</button>
         </div>
-      </div>
 
-      <div class="controls" id="controls">
-        <button id="start" class="btn primary" aria-label="Start">
-          <!-- Play icon -->
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3v18l15-9L5 3z" fill="currentColor"/></svg>
-        </button>
+        <!-- PRESETS SCREEN -->
+        <div class="screen presets-screen">
+            <div class="presets-header">
+                <h1 class="presets-title">Choose Your Pace</h1>
+                <p class="presets-subtitle">Natural cycles for sustained focus</p>
+            </div>
+            <div class="presets-grid">
+                <div class="preset-card" onclick="app.selectPreset('low')" role="button" tabindex="0">
+                    <div class="preset-info">
+                        <h3>Executive Warm-Up</h3>
+                        <p>Quick focus burst</p>
+                    </div>
+                    <div class="preset-badge">
+                        <div class="preset-badge-time">10m</div>
+                        <div class="preset-badge-label">Focus</div>
+                    </div>
+                </div>
 
-        <button id="pause" class="btn" aria-label="Pause">
-          <!-- Pause icon -->
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 5h3v14H6zM15 5h3v14h-3z" fill="currentColor"/></svg>
-        </button>
+                <div class="preset-card" onclick="app.selectPreset('medium')" role="button" tabindex="0">
+                    <div class="preset-info">
+                        <h3>Pomodoro Cycle</h3>
+                        <p>Classic focus block</p>
+                    </div>
+                    <div class="preset-badge">
+                        <div class="preset-badge-time">25m</div>
+                        <div class="preset-badge-label">Focus</div>
+                    </div>
+                </div>
 
-        <button id="reset" class="btn" aria-label="Reset">
-          <!-- Reset icon -->
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v3l4-4-4-4v3C7.58 4 4 7.58 4 12s3.58 8 8 8 8-3.58 8-8h-2c0 3.31-2.69 6-6 6s-6-2.69-6-6 2.69-6 6-6z" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </main>
+                <div class="preset-card" onclick="app.selectPreset('high')" role="button" tabindex="0">
+                    <div class="preset-info">
+                        <h3>Cognitive Load Cycle</h3>
+                        <p>Deep work session</p>
+                    </div>
+                    <div class="preset-badge">
+                        <div class="preset-badge-time">45m</div>
+                        <div class="preset-badge-label">Focus</div>
+                    </div>
+                </div>
 
-    <footer style="text-align:center;color:var(--muted);font-size:0.78rem">Ultradian</footer>
-  </div>
+                <div class="preset-card" onclick="app.selectPreset('deep')" role="button" tabindex="0">
+                    <div class="preset-info">
+                        <h3>Ultradian Rhythm</h3>
+                        <p>Complete cycle</p>
+                    </div>
+                    <div class="preset-badge">
+                        <div class="preset-badge-time">90m</div>
+                        <div class="preset-badge-label">Focus</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <button id="homeBtn" class="icon-btn home-floating" title="Home" aria-label="Home">⌂</button>
+        <!-- TIMER SCREEN -->
+        <div class="screen timer-screen">
+            <button class="home-btn" onclick="app.returnToPresets()" title="Return to presets" aria-label="Return to presets">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </button>
 
-<script>
-  // State
-  let focus = 25, rest = 5, isFocus = true, remaining = focus * 60, timer = null;
-  let total = Number(localStorage.getItem('ultr_total') || 0);
+            <div class="timer-container">
+                <div class="timer-phase" id="phase-label">Focus</div>
 
-  // Elements
-  const splash = document.getElementById('splash'), app = document.getElementById('app');
-  const timeEl = document.getElementById('time'), phaseEl = document.getElementById('phase'), totalEl = document.getElementById('total');
-  const presets = document.getElementById('presets'), startBtn = document.getElementById('start'), pauseBtn = document.getElementById('pause'), resetBtn = document.getElementById('reset');
-  const minimalBtn = document.getElementById('minimalBtn'), homeBtn = document.getElementById('homeBtn');
-  const ring = document.getElementById('ring'), ambientBtn = document.getElementById('ambient');
+                <div class="timer-ring-wrapper">
+                    <svg class="timer-ring" viewBox="0 0 120 120">
+                        <circle class="timer-circle-bg" cx="60" cy="60" r="54"></circle>
+                        <circle class="timer-circle-progress" id="progress-ring" cx="60" cy="60" r="54"></circle>
+                    </svg>
+                    <div class="timer-display">
+                        <div class="timer-time" id="timer-display" role="timer" aria-live="polite" aria-atomic="true">00:00</div>
+                    </div>
+                </div>
 
-  // Ring geometry
-  const R = 86;
-  const C = 2 * Math.PI * R;
-  ring.style.strokeDasharray = String(C);
-  ring.style.strokeDashoffset = String(C);
+                <div class="timer-controls">
+                    <button class="timer-btn timer-btn-secondary" id="reset-btn" onclick="app.reset()" title="Reset" aria-label="Reset timer">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2-8.83"></path>
+                        </svg>
+                    </button>
 
-  // Splash enter
-  document.getElementById('enter').addEventListener('click', () => {
-    splash.style.display = 'none';
-    app.setAttribute('aria-hidden', 'false');
-  });
+                    <button class="timer-btn timer-btn-primary" id="play-btn" onclick="app.togglePlay()" title="Start" aria-label="Start timer">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="icon">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                    </button>
 
-  // Preset selection
-  presets.querySelectorAll('.preset').forEach(btn => {
-    btn.addEventListener('click', () => {
-      presets.querySelectorAll('.preset').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      focus = Number(btn.dataset.focus);
-      rest = Number(btn.dataset.break);
-      remaining = focus * 60;
-      isFocus = true;
-      updateDisplay();
-      updatePhase();
-      stopTimer();
-      updateRingImmediate();
-    });
-  });
+                    <button class="timer-btn timer-btn-secondary" id="menu-btn" style="visibility: hidden;"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  // Controls
-  startBtn.addEventListener('click', startTimer);
-  pauseBtn.addEventListener('click', stopTimer);
-  resetBtn.addEventListener('click', () => {
-    stopTimer();
-    isFocus = true;
-    remaining = focus * 60;
-    updateDisplay();
-    updatePhase();
-    updateRingImmediate();
-  });
+    <script>
+        const app = {
+            presets: {
+                low: { focus: 10 * 60, rest: 5 * 60 },
+                medium: { focus: 25 * 60, rest: 5 * 60 },
+                high: { focus: 45 * 60, rest: 15 * 60 },
+                deep: { focus: 90 * 60, rest: 30 * 60 }
+            },
 
-  // Minimal toggle
-  minimalBtn.addEventListener('click', () => {
-    const on = document.body.classList.toggle('minimal');
-    minimalBtn.setAttribute('aria-pressed', String(on));
-    homeBtn.classList.toggle('show', on);
-  });
+            state: {
+                screen: 'splash',
+                currentPreset: null,
+                isRunning: false,
+                isResting: false,
+                totalSeconds: 0,
+                remainingSeconds: 0,
+                totalFocusTime: 0
+            },
 
-  // Home button
-  homeBtn.addEventListener('click', () => {
-    document.body.classList.remove('minimal');
-    minimalBtn.setAttribute('aria-pressed', 'false');
-    homeBtn.classList.remove('show');
-  });
+            init() {
+                this.loadState();
+                this.setupRing();
+                this.setupKeyboard();
+                this.render();
+            },
 
-  // Ambient placeholder (kept minimal)
-  let ambientOn = false;
-  if (ambientBtn) {
-    ambientBtn.addEventListener('click', () => {
-      ambientOn = !ambientOn;
-      ambientBtn.style.background = ambientOn ? 'linear-gradient(180deg,var(--accent),#4a63e6)' : '';
-      ambientBtn.style.color = ambientOn ? '#fff' : '';
-    });
-  }
+            loadState() {
+                const saved = localStorage.getItem('ultr_state');
+                if (saved) {
+                    this.state = { ...this.state, ...JSON.parse(saved) };
+                }
+            },
 
-  // Timer functions
-  function updateDisplay() {
-    const m = Math.floor(remaining / 60), s = remaining % 60;
-    timeEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-  }
-  function updatePhase() {
-    phaseEl.textContent = isFocus ? 'Focus' : 'Rest';
-  }
+            saveState() {
+                localStorage.setItem('ultr_state', JSON.stringify(this.state));
+            },
 
-  // Smooth ring animation using requestAnimationFrame
-  let lastTimestamp = null;
-  let animating = false;
-  function updateRingImmediate() {
-    const totalSeconds = (isFocus ? focus : rest) * 60;
-    const progress = 1 - (remaining / totalSeconds);
-    const offset = Math.max(0, Math.min(C, C * (1 - progress)));
-    ring.style.transition = 'none';
-    ring.style.strokeDashoffset = String(offset);
-  }
+            setupRing() {
+                const ring = document.getElementById('progress-ring');
+                this.ringRadius = ring.r.baseVal.value;
+                this.ringCircumference = 2 * Math.PI * this.ringRadius;
+                ring.style.strokeDasharray = `${this.ringCircumference}`;
+                ring.style.strokeDashoffset = `${this.ringCircumference}`;
+            },
 
-  function animateRingFrame(timestamp) {
-    if (!lastTimestamp) lastTimestamp = timestamp;
-    const dt = (timestamp - lastTimestamp) / 1000;
-    lastTimestamp = timestamp;
+            updateRingProgress() {
+                const ring = document.getElementById('progress-ring');
+                const progress = this.state.remainingSeconds / this.state.totalSeconds;
+                const offset = this.ringCircumference * (1 - progress);
+                ring.style.strokeDashoffset = offset;
+            },
 
-    const totalSeconds = (isFocus ? focus : rest) * 60;
-    const progress = 1 - (remaining / totalSeconds);
-    const offset = Math.max(0, Math.min(C, C * (1 - progress)));
-    // Interpolate current dashoffset for smoothness
-    const current = parseFloat(ring.style.strokeDashoffset) || C;
-    const lerp = current + (offset - current) * Math.min(1, dt * 8); // smoothing factor
-    ring.style.strokeDashoffset = String(lerp);
+            goToPresets() {
+                this.state.screen = 'presets';
+                this.render();
+            },
 
-    if (animating) requestAnimationFrame(animateRingFrame);
-    else lastTimestamp = null;
-  }
+            selectPreset(preset) {
+                this.state.currentPreset = preset;
+                const presetData = this.presets[preset];
+                this.state.totalSeconds = presetData.focus;
+                this.state.remainingSeconds = presetData.focus;
+                this.state.isRunning = false;
+                this.state.isResting = false;
+                this.state.screen = 'timer';
+                this.saveState();
+                this.render();
+                this.updateRingProgress();
+            },
 
-  function updateRing() {
-    // called each second to nudge the ring target
-    if (!animating) {
-      animating = true;
-      requestAnimationFrame(animateRingFrame);
-      // stop animating after a short while to save CPU
-      setTimeout(() => { animating = false; }, 700);
-    }
-  }
+            togglePlay() {
+                this.state.isRunning = !this.state.isRunning;
+                this.saveState();
+                this.render();
+                if (this.state.isRunning) {
+                    this.startTimer();
+                }
+            },
 
-  function tick() {
-    remaining--;
-    if (isFocus) {
-      total++;
-      localStorage.setItem('ultr_total', total);
-      totalEl.textContent = Math.floor(total / 60) + ' min';
-    }
-    updateDisplay();
-    updateRing();
-    if (remaining <= 0) {
-      stopTimer();
-      isFocus = !isFocus;
-      remaining = (isFocus ? focus : rest) * 60;
-      updatePhase();
-      updateRingImmediate();
-      setTimeout(() => startTimer(), 700);
-    }
-  }
+            reset() {
+                if (this.state.currentPreset) {
+                    const presetData = this.presets[this.state.currentPreset];
+                    this.state.totalSeconds = this.state.isResting ? presetData.rest : presetData.focus;
+                    this.state.remainingSeconds = this.state.totalSeconds;
+                    this.state.isRunning = false;
+                    this.saveState();
+                    this.render();
+                    this.updateRingProgress();
+                }
+            },
 
-  function startTimer() {
-    if (timer) return;
-    timer = setInterval(tick, 1000);
-    document.body.classList.add('minimal');
-    minimalBtn.setAttribute('aria-pressed', 'true');
-    homeBtn.classList.add('show');
-    // start ring animation immediately
-    updateRing();
-  }
+            returnToPresets() {
+                this.state.screen = 'presets';
+                this.render();
+            },
 
-  function stopTimer() {
-    clearInterval(timer);
-    timer = null;
-  }
+            startTimer() {
+                const step = () => {
+                    if (!this.state.isRunning) return;
 
-  // Init
-  updateDisplay();
-  updatePhase();
-  totalEl.textContent = Math.floor(total / 60) + ' min';
-  updateRingImmediate();
+                    this.state.remainingSeconds--;
+                    if (!this.state.isResting) this.state.totalFocusTime++;
 
-  // Keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
-    if (e.key === ' ') { e.preventDefault(); timer ? stopTimer() : startTimer(); }
-    if (e.key === 'r') { resetBtn.click(); }
-    if (e.key === 'h') { homeBtn.click(); }
-  });
+                    if (this.state.remainingSeconds <= 0) {
+                        this.transitionPhase();
+                    } else {
+                        this.updateDisplay();
+                        this.updateRingProgress();
+                        this.saveState();
+                        requestAnimationFrame(step);
+                    }
+                };
+                requestAnimationFrame(step);
+            },
 
-  // Resize: ensure ring immediate update
-  window.addEventListener('resize', () => { updateRingImmediate(); });
-</script>
+            transitionPhase() {
+                const presetData = this.presets[this.state.currentPreset];
+                this.state.isResting = !this.state.isResting;
+
+                if (this.state.isResting) {
+                    this.state.totalSeconds = presetData.rest;
+                    this.state.remainingSeconds = presetData.rest;
+                } else {
+                    this.state.totalSeconds = presetData.focus;
+                    this.state.remainingSeconds = presetData.focus;
+                }
+
+                this.updateDisplay();
+                this.updateRingProgress();
+                this.saveState();
+                setTimeout(() => this.startTimer(), 500);
+            },
+
+            updateDisplay() {
+                const mins = Math.floor(this.state.remainingSeconds / 60);
+                const secs = this.state.remainingSeconds % 60;
+                document.getElementById('timer-display').textContent = 
+                    `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            },
+
+            render() {
+                // Update screens
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                document.querySelector(`.${this.state.screen}-screen`).classList.add('active');
+
+                // Update presets UI
+                if (this.state.screen === 'presets') {
+                    document.querySelectorAll('.preset-card').forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                    if (this.state.currentPreset) {
+                        const presets = ['low', 'medium', 'high', 'deep'];
+                        const index = presets.indexOf(this.state.currentPreset);
+                        document.querySelectorAll('.preset-card')[index].classList.add('selected');
+                    }
+                }
+
+                // Update timer UI
+                if (this.state.screen === 'timer') {
+                    // Update phase
+                    const phaseLabel = document.getElementById('phase-label');
+                    phaseLabel.textContent = this.state.isResting ? 'Rest' : 'Focus';
+                    phaseLabel.className = 'timer-phase' + (this.state.isResting ? '' : ' focus');
+
+                    // Update play button
+                    const playBtn = document.getElementById('play-btn');
+                    playBtn.innerHTML = this.state.isRunning ? 
+                        '<svg viewBox="0 0 24 24" fill="currentColor" class="icon"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' :
+                        '<svg viewBox="0 0 24 24" fill="currentColor" class="icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+                    
+                    playBtn.title = this.state.isRunning ? 'Pause' : 'Start';
+                    playBtn.setAttribute('aria-label', this.state.isRunning ? 'Pause timer' : 'Start timer');
+
+                    // Home button
+                    const homeBtn = document.querySelector('.home-btn');
+                    homeBtn.classList.toggle('visible', this.state.isRunning);
+
+                    this.updateDisplay();
+                    this.updateRingProgress();
+                }
+            },
+
+            setupKeyboard() {
+                document.addEventListener('keydown', (e) => {
+                    if (this.state.screen === 'timer') {
+                        if (e.code === 'Space') {
+                            e.preventDefault();
+                            this.togglePlay();
+                        } else if (e.code === 'KeyR') {
+                            e.preventDefault();
+                            this.reset();
+                        } else if (e.code === 'KeyH') {
+                            e.preventDefault();
+                            this.returnToPresets();
+                        }
+                    }
+                });
+
+                // Preset selection with keyboard
+                document.addEventListener('keydown', (e) => {
+                    if (this.state.screen === 'presets' && /^[1-4]$/.test(e.key)) {
+                        const presets = ['low', 'medium', 'high', 'deep'];
+                        this.selectPreset(presets[parseInt(e.key) - 1]);
+                    }
+                });
+            }
+        };
+
+        app.init();
+    </script>
 </body>
 </html>
