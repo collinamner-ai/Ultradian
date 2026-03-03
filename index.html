@@ -614,8 +614,8 @@
             <div class="presets-grid">
                 <div class="preset-card" onclick="app.selectPreset('low')" role="button" tabindex="0">
                     <div class="preset-info">
-                        <h3>Executive Warm-Up</h3>
-                        <p>Quick focus burst</p>
+                        <h3>Calm Focus</h3>
+                        <p>Burst</p>
                     </div>
                     <div class="preset-badge">
                         <div class="preset-badge-time">10m</div>
@@ -626,7 +626,7 @@
                 <div class="preset-card" onclick="app.selectPreset('medium')" role="button" tabindex="0">
                     <div class="preset-info">
                         <h3>Pomodoro Cycle</h3>
-                        <p>Classic focus block</p>
+                        <p>Classic</p>
                     </div>
                     <div class="preset-badge">
                         <div class="preset-badge-time">25m</div>
@@ -636,8 +636,8 @@
 
                 <div class="preset-card" onclick="app.selectPreset('high')" role="button" tabindex="0">
                     <div class="preset-info">
-                        <h3>Cognitive Load Cycle</h3>
-                        <p>Deep work session</p>
+                        <h3>Cognitive Cycle</h3>
+                        <p>Deep</p>
                     </div>
                     <div class="preset-badge">
                         <div class="preset-badge-time">45m</div>
@@ -648,7 +648,7 @@
                 <div class="preset-card" onclick="app.selectPreset('deep')" role="button" tabindex="0">
                     <div class="preset-info">
                         <h3>Ultradian Rhythm</h3>
-                        <p>Complete cycle</p>
+                        <p>Complete</p>
                     </div>
                     <div class="preset-badge">
                         <div class="preset-badge-time">90m</div>
@@ -848,12 +848,13 @@
             },
 
             returnToPresets() {
-                if (this.state.sessionStarted && !this.state.isResting && this.state.totalFocusTime > 0) {
+                if (this.state.sessionStarted && this.state.totalFocusTime > 0) {
                     this.recordSession();
                     this.state.completedSessions++;
                 }
                 this.state.screen = 'presets';
                 this.state.sessionStarted = false;
+                this.state.totalFocusTime = 0;
                 this.saveState();
                 this.render();
             },
@@ -1101,7 +1102,7 @@
                     playBtn.setAttribute('aria-label', this.state.isRunning ? 'Pause timer' : 'Start timer');
 
                     const homeBtn = document.querySelector('.home-btn');
-                    homeBtn.classList.toggle('visible', this.state.isRunning);
+                    homeBtn.classList.add('visible');
 
                     this.updateDisplay();
                     this.updateRingProgress();
