@@ -617,18 +617,30 @@
             },
 
             startTimer() {
+                let lastSecond = Math.floor(Date.now() / 1000);
+                
                 const step = () => {
                     if (!this.state.isRunning) return;
 
-                    this.state.remainingSeconds--;
-                    if (!this.state.isResting) this.state.totalFocusTime++;
+                    const currentSecond = Math.floor(Date.now() / 1000);
+                    
+                    // Only decrement once per actual second
+                    if (currentSecond > lastSecond) {
+                        this.state.remainingSeconds--;
+                        if (!this.state.isResting) this.state.totalFocusTime++;
+                        lastSecond = currentSecond;
 
-                    if (this.state.remainingSeconds <= 0) {
-                        this.transitionPhase();
-                    } else {
-                        this.updateDisplay();
-                        this.updateRingProgress();
-                        this.saveState();
+                        if (this.state.remainingSeconds <= 0) {
+                            this.transitionPhase();
+                            return;
+                        } else {
+                            this.updateDisplay();
+                            this.updateRingProgress();
+                            this.saveState();
+                        }
+                    }
+                    
+                    if (this.state.isRunning) {
                         requestAnimationFrame(step);
                     }
                 };
