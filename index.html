@@ -6,119 +6,97 @@
 <title>Ultradian — Your Time to Focus</title>
 <style>
   :root{
-    --bg:#0b0b0c;           /* deep monochrome background */
-    --card:#0f1113;         /* card surface */
-    --ink:#e6eefc;          /* primary text */
-    --muted:#9aa6c7;        /* secondary text */
-    --accent:#6f8bff;       /* single calm accent */
-    --glass: rgba(255,255,255,0.03);
-    --radius:28px;
-    --soft-shadow: 0 18px 40px rgba(2,6,23,0.6);
+    --bg:#0b0b0c;
+    --surface:#0f1113;
+    --text:#e6eefc;
+    --muted:#9aa6c7;
+    --accent:#6f8bff;
     --ring: rgba(111,139,255,0.12);
+    --radius:28px;
+    --shadow: 0 18px 40px rgba(2,6,23,0.6);
+    --tap:48px;
   }
   :root[data-theme="light"]{
     --bg:#f5f7fb;
-    --card:#ffffff;
-    --ink:#0f1724;
+    --surface:#ffffff;
+    --text:#0f1724;
     --muted:#6b7280;
     --accent:#3a5fcd;
-    --glass: rgba(255,255,255,0.6);
-    --soft-shadow: 0 18px 40px rgba(15,23,42,0.06);
     --ring: rgba(58,95,205,0.12);
+    --shadow: 0 18px 40px rgba(15,23,42,0.06);
   }
 
-  /* base */
   *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;}
-  html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, rgba(111,139,255,0.04), var(--bg) 40%);color:var(--ink);-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:520px;margin:0 auto;padding:18px;min-height:100vh;display:flex;flex-direction:column;gap:14px;}
+  html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, rgba(111,139,255,0.03), var(--bg) 40%);color:var(--text);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:520px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;gap:12px;}
 
-  /* splash */
-  .splash{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.12));z-index:60}
-  .splash-card{width:88%;max-width:420px;padding:26px;border-radius:20px;background:linear-gradient(180deg,var(--card),rgba(0,0,0,0.02));box-shadow:var(--soft-shadow);display:flex;flex-direction:column;align-items:center;gap:12px}
-  .logo{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from 180deg at 50% 50%, rgba(255,255,255,0.06), var(--accent));animation:logoPulse 3.6s ease-in-out infinite}
-  @keyframes logoPulse{0%{transform:scale(0.98)}50%{transform:scale(1.03)}100%{transform:scale(0.98)}}
-  .enter{margin-top:6px;padding:10px 18px;border-radius:999px;border:none;background:linear-gradient(180deg,var(--accent),color-mix(in srgb, var(--accent) 70%, black 10%));color:#fff;font-weight:700;cursor:pointer}
-
-  /* header */
-  .header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  /* Header */
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 4px}
   .brand{display:flex;flex-direction:column}
-  .brand h1{margin:0;font-size:1.05rem;letter-spacing:0.01em}
+  .brand h1{margin:0;font-size:1rem;letter-spacing:0.01em}
   .brand p{margin:0;font-size:0.78rem;color:var(--muted)}
 
-  .top-actions{display:flex;gap:10px;align-items:center}
-  .icon-btn{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--card);box-shadow:var(--soft-shadow);cursor:pointer;color:var(--ink);font-weight:700}
+  .icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--text);font-weight:700}
+  .icon-btn:active{transform:scale(0.98)}
 
-  /* presets card */
-  .card{background:var(--card);border-radius:18px;padding:12px;border:1px solid rgba(255,255,255,0.02);box-shadow:var(--soft-shadow)}
-  .presets{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
-  .preset{padding:12px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));cursor:pointer;border:1px solid rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:6px}
+  /* Presets (compact) */
+  .presets-wrap{padding:8px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));box-shadow:var(--shadow)}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between}
+  .preset{flex:1 1 48%;min-width:44%;padding:12px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.02);cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
   .preset .name{font-weight:800;font-size:0.95rem}
   .preset .sub{font-size:0.78rem;color:var(--muted)}
   .preset.active{box-shadow:0 10px 30px var(--ring);outline:2px solid rgba(255,255,255,0.02)}
 
-  /* main timer */
-  .main{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px;border-radius:20px}
-  .timer-outer{width:86vw;max-width:320px;height:86vw;max-height:320px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--soft-shadow);position:relative}
-  .timer-inner{width:74%;height:74%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px dashed rgba(255,255,255,0.02)}
+  /* Timer (dominant) */
+  .main{display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px}
+  .timer-outer{width:86vw;max-width:360px;height:86vw;max-height:360px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--shadow);position:relative}
+  .timer-inner{width:72%;height:72%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px dashed rgba(255,255,255,0.02)}
   #time{font-size:2.8rem;font-weight:800;letter-spacing:0.02em}
   .phase-pill{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:999px;background:var(--ring);color:var(--accent);font-weight:800;font-size:0.78rem}
 
-  /* controls */
+  /* Controls (large circular) */
   .controls{display:flex;gap:12px;align-items:center;justify-content:center}
-  .btn{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--card);box-shadow:var(--soft-shadow);cursor:pointer;color:var(--ink);font-weight:800}
+  .btn{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:none;background:var(--surface);box-shadow:var(--shadow);cursor:pointer;color:var(--text);font-weight:800}
   .btn.primary{width:92px;height:92px;background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 70%, black 10%));color:#fff;font-size:1.05rem}
-  .small{font-size:0.82rem;color:var(--muted)}
+  .btn:active{transform:scale(0.98)}
 
-  /* minimal (distraction free) */
-  .minimal .card:not(.main){display:none}
-  .minimal .header{display:none}
-  .home-floating{position:fixed;left:16px;top:16px;z-index:70;display:none}
+  /* Floating home (visible in minimal) */
+  .home-floating{position:fixed;left:14px;top:14px;z-index:80;display:none}
   .home-floating.show{display:grid}
 
-  /* footer */
+  /* Minimal mode hides extras but keeps header icon visible via home */
+  .minimal .presets-wrap{display:none}
+  .minimal header{display:none}
+  .minimal footer{display:none}
+
   footer{display:flex;justify-content:center;color:var(--muted);font-size:0.78rem;padding:6px 0}
 
-  /* responsive tweaks */
+  /* Accessibility & responsive */
   @media (max-width:420px){
-    .preset .name{font-size:0.9rem}
     #time{font-size:2.2rem}
     .btn.primary{width:80px;height:80px}
+    .preset{padding:10px}
   }
 </style>
 </head>
-<body data-theme="dark">
-  <!-- Splash -->
-  <div id="splash" class="splash" role="dialog" aria-modal="true">
-    <div class="splash-card" role="document" aria-labelledby="app-title">
-      <div class="logo" aria-hidden="true">
-        <svg viewBox="0 0 64 64" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M8 40c8-12 16-12 24 0s16 12 24 0" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="32" cy="20" r="6" fill="white" opacity="0.95"/>
-        </svg>
+<body>
+  <div class="wrap" id="app" aria-live="polite">
+    <header>
+      <div class="brand" aria-hidden="false">
+        <h1>Ultradian</h1>
+        <p>Reset your rhythm</p>
       </div>
-      <h1 id="app-title" style="margin:0;font-size:1.15rem">Ultradian</h1>
-      <p style="margin:0;color:var(--muted)">Your time to focus</p>
-      <button id="enter" class="enter">Open</button>
-    </div>
-  </div>
-
-  <div class="wrap" id="app" aria-hidden="true">
-    <header class="header card">
-      <div class="brand">
-        <h1 style="margin:0;font-size:1rem">Ultradian</h1>
-        <p style="margin:0;font-size:0.78rem;color:var(--muted)">Reset your rhythm</p>
-      </div>
-      <div class="top-actions">
-        <div id="total" class="small">0 min</div>
-        <button id="themeToggle" class="icon-btn" title="Toggle theme" aria-pressed="false" aria-label="Toggle theme">☼</button>
-        <button id="minimalToggle" class="icon-btn" title="Distraction free" aria-pressed="false" aria-label="Distraction free">•</button>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div id="total" style="font-size:0.9rem;color:var(--muted)">0 min</div>
+        <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">☼</button>
+        <button id="minimalBtn" class="icon-btn" aria-label="Distraction free">•</button>
       </div>
     </header>
 
-    <section class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="small">Paces</div>
-        <div id="ambientLabel" class="small">Ambient</div>
+    <section class="presets-wrap card" aria-label="Paces">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-size:0.85rem;color:var(--muted)">Paces</div>
+        <div id="ambientLabel" style="font-size:0.82rem;color:var(--muted)">Ambient</div>
       </div>
       <div class="presets" id="presets">
         <button class="preset" data-focus="10" data-break="5" aria-label="Low — Executive Warm‑Up">
@@ -140,29 +118,27 @@
       </div>
     </section>
 
-    <section class="card main" id="main">
-      <div class="main">
-        <div class="timer-outer" role="timer" aria-live="polite">
-          <div class="phase-pill" id="phase">Focus</div>
-          <div class="timer-inner">
-            <div id="time">25:00</div>
-          </div>
-        </div>
-
-        <div class="controls" id="controls">
-          <button id="start" class="btn primary" aria-label="Start">Start</button>
-          <button id="pause" class="btn" aria-label="Pause">Pause</button>
-          <button id="reset" class="btn" aria-label="Reset">⟲</button>
-        </div>
-
-        <div style="display:flex;gap:12px;align-items:center">
-          <div class="small">Ambient</div>
-          <button id="ambient" class="btn" aria-label="Toggle ambient">♪</button>
+    <main class="main" role="main" aria-label="Timer">
+      <div class="timer-outer" role="timer" aria-live="polite" aria-atomic="true">
+        <div class="phase-pill" id="phase">Focus</div>
+        <div class="timer-inner">
+          <div id="time">25:00</div>
         </div>
       </div>
-    </section>
 
-    <footer class="small" style="text-align:center">Ultradian — Your Time to Focus</footer>
+      <div class="controls" id="controls">
+        <button id="start" class="btn primary" aria-label="Start">Start</button>
+        <button id="pause" class="btn" aria-label="Pause">Pause</button>
+        <button id="reset" class="btn" aria-label="Reset">⟲</button>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="font-size:0.82rem;color:var(--muted)">Ambient</div>
+        <button id="ambient" class="btn" aria-label="Toggle ambient">♪</button>
+      </div>
+    </main>
+
+    <footer style="text-align:center;color:var(--muted);font-size:0.78rem">Ultradian — Your Time to Focus</footer>
   </div>
 
   <button id="homeBtn" class="icon-btn home-floating" title="Home" aria-label="Home">⌂</button>
@@ -174,23 +150,19 @@
   let theme = localStorage.getItem('ultr_theme') || 'dark';
 
   // elements
-  const splash = document.getElementById('splash'), app = document.getElementById('app');
+  const app = document.getElementById('app');
   const timeEl = document.getElementById('time'), phaseEl = document.getElementById('phase'), totalEl = document.getElementById('total');
   const presets = document.getElementById('presets'), startBtn = document.getElementById('start'), pauseBtn = document.getElementById('pause'), resetBtn = document.getElementById('reset');
-  const minimalToggle = document.getElementById('minimalToggle'), homeBtn = document.getElementById('homeBtn');
-  const themeToggle = document.getElementById('themeToggle'), ambientBtn = document.getElementById('ambient'), ambientLabel = document.getElementById('ambientLabel');
+  const minimalBtn = document.getElementById('minimalBtn'), homeBtn = document.getElementById('homeBtn');
+  const themeBtn = document.getElementById('themeBtn'), ambientBtn = document.getElementById('ambient'), ambientLabel = document.getElementById('ambientLabel');
 
-  // theme
+  // apply theme
   function applyTheme(t){
     document.documentElement.setAttribute('data-theme', t==='light' ? 'light' : 'dark');
-    themeToggle.textContent = t==='light' ? '☾' : '☼';
-    themeToggle.setAttribute('aria-pressed', String(t==='light'));
+    themeBtn.textContent = t==='light' ? '☾' : '☼';
     localStorage.setItem('ultr_theme', t);
   }
   applyTheme(theme);
-
-  // splash
-  document.getElementById('enter').addEventListener('click', ()=>{ splash.style.display='none'; app.setAttribute('aria-hidden','false'); });
 
   // presets
   presets.querySelectorAll('.preset').forEach(btn=>{
@@ -209,21 +181,21 @@
   resetBtn.addEventListener('click', ()=>{ stopTimer(); isFocus=true; remaining = focus*60; updateDisplay(); updatePhase(); });
 
   // minimal toggle
-  minimalToggle.addEventListener('click', ()=>{
+  minimalBtn.addEventListener('click', ()=>{
     const on = app.classList.toggle('minimal');
-    minimalToggle.setAttribute('aria-pressed', String(on));
+    minimalBtn.setAttribute('aria-pressed', String(on));
     homeBtn.classList.toggle('show', on);
   });
 
   // home button
   homeBtn.addEventListener('click', ()=>{
     app.classList.remove('minimal');
-    minimalToggle.setAttribute('aria-pressed','false');
+    minimalBtn.setAttribute('aria-pressed','false');
     homeBtn.classList.remove('show');
   });
 
   // theme toggle
-  themeToggle.addEventListener('click', ()=>{
+  themeBtn.addEventListener('click', ()=>{
     theme = (theme === 'light') ? 'dark' : 'light';
     applyTheme(theme);
   });
@@ -253,7 +225,7 @@
       setTimeout(()=> startTimer(), 700);
     }
   }
-  function startTimer(){ if(timer) return; timer = setInterval(tick,1000); app.classList.add('minimal'); minimalToggle.setAttribute('aria-pressed','true'); homeBtn.classList.add('show'); }
+  function startTimer(){ if(timer) return; timer = setInterval(tick,1000); app.classList.add('minimal'); minimalBtn.setAttribute('aria-pressed','true'); homeBtn.classList.add('show'); }
   function stopTimer(){ clearInterval(timer); timer=null; }
 
   // init
@@ -264,7 +236,7 @@
     if(e.key===' '){ e.preventDefault(); timer ? stopTimer() : startTimer(); }
     if(e.key==='r'){ resetBtn.click(); }
     if(e.key==='h'){ homeBtn.click(); }
-    if(e.key==='t'){ themeToggle.click(); }
+    if(e.key==='t'){ themeBtn.click(); }
   });
 </script>
 </body>
