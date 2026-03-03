@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultradian — Your Time to Focus</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -18,6 +19,9 @@
             --text-muted: #9aa6c7;
             --accent: #6f8bff;
             --accent-dark: #5575dd;
+            --accent-light: #8da3ff;
+            --success: #4ade80;
+            --warning: #fbbf24;
         }
 
         html, body {
@@ -59,6 +63,8 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .screen.active {
@@ -120,13 +126,11 @@
         /* PRESETS SCREEN */
         .presets-screen {
             padding: 60px 24px 40px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .presets-header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 32px;
         }
 
         .presets-title {
@@ -138,6 +142,34 @@
         .presets-subtitle {
             font-size: 14px;
             color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        .stats-btn {
+            padding: 12px 32px;
+            margin: 32px auto 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border: none;
+            color: var(--bg-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 28px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(111, 139, 255, 0.3);
+        }
+
+        .stats-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(111, 139, 255, 0.4);
+        }
+
+        .stats-btn:active {
+            transform: translateY(0);
         }
 
         .presets-grid {
@@ -220,6 +252,156 @@
             letter-spacing: 0.5px;
         }
 
+        /* STATS SCREEN */
+        .stats-screen {
+            padding: 40px 24px;
+        }
+
+        .stats-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .stats-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 1px solid rgba(111, 139, 255, 0.1);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            border-color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .stats-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            background: var(--bg-surface);
+            border: 1px solid rgba(111, 139, 255, 0.15);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .chart-container {
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(111, 139, 255, 0.05), rgba(111, 139, 255, 0.02));
+            border: 1px solid rgba(111, 139, 255, 0.15);
+            border-radius: 16px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .chart-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        #focusChart {
+            max-width: 100%;
+            max-height: 240px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--bg-surface);
+            border: 1px solid rgba(111, 139, 255, 0.2);
+            color: var(--text-primary);
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-danger {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .btn-danger:active {
+            transform: scale(0.98);
+        }
+
         /* TIMER SCREEN */
         .timer-screen {
             padding: 40px 24px;
@@ -262,13 +444,13 @@
         .timer-circle-bg {
             fill: none;
             stroke: var(--bg-surface);
-            stroke-width: 8;
+            stroke-width: 2;
         }
 
         .timer-circle-progress {
             fill: none;
             stroke: var(--accent);
-            stroke-width: 8;
+            stroke-width: 2;
             stroke-linecap: round;
             transform-origin: 50% 50%;
             transform: rotate(-90deg);
@@ -348,7 +530,7 @@
             transform: scale(0.98);
         }
 
-        /* HOME BUTTON (minimal mode) */
+        /* HOME BUTTON */
         .home-btn {
             position: absolute;
             top: 20px;
@@ -408,9 +590,6 @@
             .presets-screen {
                 padding: 40px 24px 30px;
             }
-            .presets-header {
-                margin-bottom: 30px;
-            }
         }
     </style>
 </head>
@@ -431,6 +610,7 @@
                 <h1 class="presets-title">Choose Your Pace</h1>
                 <p class="presets-subtitle">Natural cycles for sustained focus</p>
             </div>
+
             <div class="presets-grid">
                 <div class="preset-card" onclick="app.selectPreset('low')" role="button" tabindex="0">
                     <div class="preset-info">
@@ -474,6 +654,46 @@
                         <div class="preset-badge-time">90m</div>
                         <div class="preset-badge-label">Focus</div>
                     </div>
+                </div>
+            </div>
+
+            <button class="stats-btn" onclick="app.goToStats()" title="View Statistics" aria-label="View Statistics">
+                Stats
+            </button>
+        </div>
+
+        <!-- STATS SCREEN -->
+        <div class="screen stats-screen">
+            <div class="stats-header">
+                <h1>Statistics</h1>
+                <button class="close-btn" onclick="app.goToPresets()" title="Close" aria-label="Close stats">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="stats-container">
+                <div class="stats-summary">
+                    <div class="stat-card">
+                        <span class="stat-label">Sessions</span>
+                        <div class="stat-value" id="sessions-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Total Focus</span>
+                        <div class="stat-value" id="total-focus">0m</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Focus Time Trend (Last 7 Days)</div>
+                    <canvas id="focusChart"></canvas>
+                </div>
+
+                <div class="actions">
+                    <button class="btn-secondary" onclick="app.exportStats()">Export</button>
+                    <button class="btn-danger" onclick="app.resetStats()">Reset All</button>
                 </div>
             </div>
         </div>
@@ -536,7 +756,10 @@
                 isResting: false,
                 totalSeconds: 0,
                 remainingSeconds: 0,
-                totalFocusTime: 0
+                totalFocusTime: 0,
+                completedSessions: 0,
+                sessionStarted: false,
+                dailyStats: [] // Array of {date, minutes}
             },
 
             init() {
@@ -550,11 +773,9 @@
                 const saved = localStorage.getItem('ultr_state');
                 if (saved) {
                     const savedState = JSON.parse(saved);
-                    // Don't restore the screen state - always start at splash
                     delete savedState.screen;
                     this.state = { ...this.state, ...savedState };
                 }
-                // Always start at splash screen
                 this.state.screen = 'splash';
             },
 
@@ -582,6 +803,12 @@
                 this.render();
             },
 
+            goToStats() {
+                this.state.screen = 'stats';
+                this.render();
+                setTimeout(() => this.renderChart(), 100);
+            },
+
             selectPreset(preset) {
                 this.state.currentPreset = preset;
                 const presetData = this.presets[preset];
@@ -589,13 +816,17 @@
                 this.state.remainingSeconds = presetData.focus;
                 this.state.isRunning = false;
                 this.state.isResting = false;
-                this.state.screen = 'timer';
+                this.state.sessionStarted = false;
                 this.saveState();
+                this.state.screen = 'timer';
                 this.render();
                 this.updateRingProgress();
             },
 
             togglePlay() {
+                if (!this.state.sessionStarted && !this.state.isRunning) {
+                    this.state.sessionStarted = true;
+                }
                 this.state.isRunning = !this.state.isRunning;
                 this.saveState();
                 this.render();
@@ -617,8 +848,27 @@
             },
 
             returnToPresets() {
+                if (this.state.sessionStarted && !this.state.isResting && this.state.totalFocusTime > 0) {
+                    this.recordSession();
+                    this.state.completedSessions++;
+                }
                 this.state.screen = 'presets';
+                this.state.sessionStarted = false;
+                this.saveState();
                 this.render();
+            },
+
+            recordSession() {
+                const today = new Date().toISOString().split('T')[0];
+                const focusMinutes = Math.floor(this.state.totalFocusTime / 60);
+                
+                let todayRecord = this.state.dailyStats.find(s => s.date === today);
+                if (todayRecord) {
+                    todayRecord.minutes += focusMinutes;
+                } else {
+                    this.state.dailyStats.push({ date: today, minutes: focusMinutes });
+                }
+                this.state.dailyStats = this.state.dailyStats.slice(-30); // Keep last 30 days
             },
 
             startTimer() {
@@ -629,7 +879,6 @@
 
                     const currentSecond = Math.floor(Date.now() / 1000);
                     
-                    // Only decrement once per actual second
                     if (currentSecond > lastSecond) {
                         this.state.remainingSeconds--;
                         if (!this.state.isResting) this.state.totalFocusTime++;
@@ -677,14 +926,152 @@
                     `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             },
 
+            updateStatsDisplay() {
+                const sessionsEl = document.getElementById('sessions-count');
+                const focusEl = document.getElementById('total-focus');
+                
+                if (sessionsEl) sessionsEl.textContent = this.state.completedSessions;
+                
+                if (focusEl) {
+                    const minutes = Math.floor(this.state.totalFocusTime / 60);
+                    const hours = Math.floor(minutes / 60);
+                    if (hours > 0) {
+                        focusEl.textContent = `${hours}h ${minutes % 60}m`;
+                    } else {
+                        focusEl.textContent = `${minutes}m`;
+                    }
+                }
+            },
+
+            renderChart() {
+                const canvas = document.getElementById('focusChart');
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                
+                // Generate last 7 days
+                const days = [];
+                const data = [];
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+                    const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+                    days.push(dayName);
+                    
+                    const record = this.state.dailyStats.find(s => s.date === dateStr);
+                    data.push(record ? record.minutes : 0);
+                }
+
+                if (this.chart) {
+                    this.chart.destroy();
+                }
+
+                this.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: days,
+                        datasets: [{
+                            label: 'Focus Minutes',
+                            data: data,
+                            borderColor: '#6f8bff',
+                            backgroundColor: 'rgba(111, 139, 255, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#6f8bff',
+                            pointBorderColor: '#0f1114',
+                            pointBorderWidth: 2,
+                            pointHoverRadius: 7,
+                            pointHoverBackgroundColor: '#8da3ff',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(15, 17, 20, 0.9)',
+                                titleColor: '#e9eefc',
+                                bodyColor: '#9aa6c7',
+                                borderColor: '#6f8bff',
+                                borderWidth: 1,
+                                padding: 10,
+                                displayColors: false,
+                                callbacks: {
+                                    label: (context) => `${context.parsed.y}m`
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: Math.max(120, Math.max(...data) + 20),
+                                grid: {
+                                    color: 'rgba(111, 139, 255, 0.1)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: '#9aa6c7',
+                                    font: { size: 12 },
+                                    callback: (value) => `${value}m`
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#9aa6c7',
+                                    font: { size: 12 }
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+
+            resetStats() {
+                if (confirm('Reset all statistics? This cannot be undone.')) {
+                    this.state.completedSessions = 0;
+                    this.state.totalFocusTime = 0;
+                    this.state.dailyStats = [];
+                    this.saveState();
+                    this.updateStatsDisplay();
+                    if (this.state.screen === 'stats') {
+                        setTimeout(() => this.renderChart(), 100);
+                    }
+                }
+            },
+
+            exportStats() {
+                const data = {
+                    exported: new Date().toISOString(),
+                    sessions: this.state.completedSessions,
+                    totalFocusMinutes: Math.floor(this.state.totalFocusTime / 60),
+                    dailyStats: this.state.dailyStats
+                };
+                
+                const json = JSON.stringify(data, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ultradian-stats-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            },
+
             render() {
-                // Update screens
                 document.querySelectorAll('.screen').forEach(screen => {
                     screen.classList.remove('active');
                 });
                 document.querySelector(`.${this.state.screen}-screen`).classList.add('active');
 
-                // Update presets UI
                 if (this.state.screen === 'presets') {
                     document.querySelectorAll('.preset-card').forEach(card => {
                         card.classList.remove('selected');
@@ -696,14 +1083,15 @@
                     }
                 }
 
-                // Update timer UI
+                if (this.state.screen === 'stats') {
+                    this.updateStatsDisplay();
+                }
+
                 if (this.state.screen === 'timer') {
-                    // Update phase
                     const phaseLabel = document.getElementById('phase-label');
                     phaseLabel.textContent = this.state.isResting ? 'Rest' : 'Focus';
                     phaseLabel.className = 'timer-phase' + (this.state.isResting ? '' : ' focus');
 
-                    // Update play button
                     const playBtn = document.getElementById('play-btn');
                     playBtn.innerHTML = this.state.isRunning ? 
                         '<svg viewBox="0 0 24 24" fill="currentColor" class="icon"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' :
@@ -712,7 +1100,6 @@
                     playBtn.title = this.state.isRunning ? 'Pause' : 'Start';
                     playBtn.setAttribute('aria-label', this.state.isRunning ? 'Pause timer' : 'Start timer');
 
-                    // Home button
                     const homeBtn = document.querySelector('.home-btn');
                     homeBtn.classList.toggle('visible', this.state.isRunning);
 
@@ -737,7 +1124,6 @@
                     }
                 });
 
-                // Preset selection with keyboard
                 document.addEventListener('keydown', (e) => {
                     if (this.state.screen === 'presets' && /^[1-4]$/.test(e.key)) {
                         const presets = ['low', 'medium', 'high', 'deep'];
