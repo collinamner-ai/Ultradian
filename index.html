@@ -311,6 +311,10 @@
       animation:fadeIn .3s ease;
     }
     .category-card.open{box-shadow:var(--shadow-md);}
+    .category-card.unsorted-items {
+      border: 2px solid #FFA500;
+      background: rgba(255, 165, 0, 0.05);
+    }
     .cat-header{
       display:flex;
       justify-content:space-between;
@@ -320,6 +324,9 @@
       cursor:pointer;
       user-select:none;
       transition:all .2s ease;
+    }
+    .category-card.unsorted-items .cat-header {
+      background: linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%);
     }
     .category-card.open .cat-header{
       background:linear-gradient(135deg,var(--primary) 0%, var(--primary-dark) 100%);
@@ -332,6 +339,9 @@
       color:var(--primary);
       flex:1;
     }
+    .category-card.unsorted-items .cat-title {
+      color: #FF8C00;
+    }
     .category-card.open .cat-title{color:#fff;}
     .cat-count{
       font-size:12px;
@@ -342,6 +352,10 @@
       border-radius:12px;
       min-width:32px;
       text-align:center;
+    }
+    .category-card.unsorted-items .cat-count {
+      background: #FFA500;
+      color: #fff;
     }
     .category-card.open .cat-count{background:rgba(255,255,255,0.3);}
     .cat-toggle-icon{
@@ -359,6 +373,26 @@
       transition:max-height .3s ease;
     }
     .category-card.open .cat-content{display:block;max-height:10000px;}
+
+    .unsorted-warning {
+      background: rgba(255, 165, 0, 0.15);
+      border-left: 4px solid #FFA500;
+      padding: 10px 12px;
+      margin: 0 0 8px 0;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #CC8400;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .unsorted-warning::before {
+      content: "⚠";
+      font-size: 14px;
+      flex-shrink: 0;
+    }
 
     .item-row{
       display:flex;
@@ -1075,7 +1109,7 @@
 
     .export-buttons {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
       margin-bottom: 16px;
     }
@@ -1606,7 +1640,7 @@
         <button class="cart-btn" onclick="openShoppingList()" aria-label="Shopping list">
           <svg class="cart-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
-          </svg>
+            </svg>
           <span class="cart-badge hidden" id="cartBadge">0</span>
         </button>
       </div>
@@ -1716,7 +1750,6 @@
         <div class="export-buttons">
           <button class="data-btn" onclick="exportAsCSV()">CSV</button>
           <button class="data-btn" onclick="exportAsTSV()">TSV</button>
-          <button class="data-btn" onclick="exportAsXLS()">XLS</button>
         </div>
         <div class="data-info">Export your pantry data as a spreadsheet file. You can edit it offline and import it back.</div>
       </div>
@@ -1724,10 +1757,10 @@
       <div class="data-section import-section">
         <div class="data-section-title">Import Pantry Data</div>
         <div class="file-input-wrapper">
-          <input type="file" id="dataFileInput" accept=".csv,.tsv,.xlsx,.xls" onchange="handleFileImport(event)">
-          <label for="dataFileInput" class="file-input-label">Click to select file (CSV, TSV, or XLS)</label>
+          <input type="file" id="dataFileInput" accept=".csv,.tsv" onchange="handleFileImport(event)">
+          <label for="dataFileInput" class="file-input-label">Click to select file (CSV or TSV)</label>
         </div>
-        <div class="data-info">Supported formats: CSV, TSV, XLS/XLSX. Must have headers: Item, Category, Store, Location, Storage, Quantity, Expiry, Notes</div>
+        <div class="data-info">Supported formats: CSV, TSV. Must have headers: Item, Category, Store, Location, Storage, Quantity, Expiry, Notes</div>
       </div>
 
       <button class="data-close" onclick="closeDataManager()">✕</button>
@@ -1745,6 +1778,14 @@
           </svg>
           <span class="help-menu-btn-text">User Guide</span>
         </button>
+        <button class="help-menu-btn export-btn" onclick="openDataManager()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Import/Export">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span class="help-menu-btn-text">Import/Export</span>
+        </button>
         <button class="help-menu-btn about-btn" onclick="openAbout()">
           <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -1753,14 +1794,6 @@
             <line x1="9" y1="16" x2="15" y2="16"></line>
           </svg>
           <span class="help-menu-btn-text">About</span>
-        </button>
-        <button class="help-menu-btn export-btn" onclick="openDataManager()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Import/Export">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span class="help-menu-btn-text">Import/Export</span>
         </button>
       </div>
     </div>
@@ -2471,6 +2504,16 @@
       return best;
     }
 
+    function isItemIncomplete(item){
+      // Check if item has required information
+      const hasItem = item.item && String(item.item).trim();
+      const hasStore = item.store && String(item.store).trim();
+      const hasLocation = item.location && String(item.location).trim();
+      const hasStorage = item.storage && String(item.storage).trim();
+      
+      return !hasItem || !hasStore || !hasLocation || !hasStorage;
+    }
+
     function getCategory(item){
       if (item.category && String(item.category).trim()) return String(item.category).trim();
       return detectCategoryAuto(item);
@@ -2624,6 +2667,7 @@
       const sel = document.getElementById('f_category');
       let html = `<option value="">Auto (recommended)</option>`;
       CATEGORIES.forEach(c => html += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`);
+      html += `<option value="Unsorted Items">${escapeHtml('Unsorted Items')}</option>`;
       sel.innerHTML = html;
     }
 
@@ -2815,14 +2859,29 @@
         return;
       }
 
-      const allCats = [...new Set([...CATEGORIES, ...filtered.map(i => getCategory(i) || 'Uncategorised')])];
+      // Separate unsorted items from the rest
+      const unsortedItems = filtered.filter(i => isItemIncomplete(i));
+      const sortedItems = filtered.filter(i => !isItemIncomplete(i));
+
+      const allCats = [...new Set([...CATEGORIES, ...sortedItems.map(i => getCategory(i) || 'Uncategorised')])];
+      
+      // Put "Unsorted Items" at the top if there are any
+      if (unsortedItems.length > 0) {
+        allCats.unshift("Unsorted Items");
+      }
 
       allCats.forEach(cat => {
-        const items = filtered.filter(i => (getCategory(i) || 'Uncategorised') === cat);
+        let items;
+        if (cat === "Unsorted Items") {
+          items = unsortedItems;
+        } else {
+          items = sortedItems.filter(i => (getCategory(i) || 'Uncategorised') === cat);
+        }
+        
         if (items.length === 0) return;
 
         const block = document.createElement('div');
-        block.className = `category-card ${openCats.has(cat) ? 'open' : ''}`;
+        block.className = `category-card ${openCats.has(cat) ? 'open' : ''} ${cat === 'Unsorted Items' ? 'unsorted-items' : ''}`;
 
         const catHeader = document.createElement('div');
         catHeader.className = 'cat-header';
@@ -2838,6 +2897,14 @@
 
         const content = document.createElement('div');
         content.className = 'cat-content';
+
+        // Add warning for unsorted items
+        if (cat === 'Unsorted Items') {
+          const warning = document.createElement('div');
+          warning.className = 'unsorted-warning';
+          warning.textContent = 'These items need additional information.';
+          content.appendChild(warning);
+        }
 
         items.sort((a,b) => (b.quantity || 0) - (a.quantity || 0)).forEach(i => {
           const isInCart = shoppingList.some(x => x.rowNumber === i.rowNumber);
@@ -3006,27 +3073,6 @@
       toast('Pantry exported as TSV');
     }
 
-    function exportAsXLS(){
-      const headers = ['Item', 'Category', 'Store', 'Location', 'Storage', 'Quantity', 'Expiry', 'Notes'];
-      const data = getDataAsArray();
-      
-      let html = '<table border="1"><tr>';
-      headers.forEach(h => html += `<th>${escapeHtml(h)}</th>`);
-      html += '</tr>';
-      
-      data.forEach(row => {
-        html += '<tr>';
-        row.forEach(cell => html += `<td>${escapeHtml(cell)}</td>`);
-        html += '</tr>';
-      });
-      
-      html += '</table>';
-      
-      const blob = new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-      downloadFile(blob, `pantry_backup_${new Date().toISOString().split('T')[0]}.xls`);
-      toast('Pantry exported as XLS');
-    }
-
     function downloadFile(blob, filename){
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
@@ -3054,22 +3100,27 @@
             rows = parseCSV(content);
           } else if (fileExtension === 'tsv') {
             rows = parseTSV(content);
-          } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
-            rows = parseHTML(content);
           } else {
-            toast('Unsupported file format');
+            toast('Unsupported file format. Please use CSV or TSV.');
+            event.target.value = '';
             return;
           }
           
           if (rows.length === 0) {
             toast('No data found in file');
+            event.target.value = '';
             return;
           }
           
+          // Auto-close the data manager
+          closeDataManager();
+          
+          // Show confirmation with the import data
           importData(rows);
         } catch (error) {
           toast('Error reading file: ' + error.message);
           console.error(error);
+          event.target.value = '';
         }
       };
       
@@ -3145,33 +3196,6 @@
       return rows;
     }
 
-    function parseHTML(content){
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(content, 'text/html');
-      const rows = [];
-      
-      const headerRow = doc.querySelector('tr');
-      if (!headerRow) return rows;
-      
-      const headers = Array.from(headerRow.querySelectorAll('th')).map(th => 
-        th.textContent.trim().toLowerCase()
-      );
-      
-      const dataRows = doc.querySelectorAll('tr');
-      for (let i = 1; i < dataRows.length; i++) {
-        const cells = Array.from(dataRows[i].querySelectorAll('td')).map(td => td.textContent.trim());
-        if (cells.length === 0) continue;
-        
-        const row = {};
-        headers.forEach((header, idx) => {
-          row[header] = cells[idx] || '';
-        });
-        rows.push(row);
-      }
-      
-      return rows;
-    }
-
     function importData(rows){
       if (rows.length === 0) {
         toast('No valid data to import');
@@ -3210,7 +3234,6 @@
           reconcileShoppingListWithInventory();
           updateCartBadge();
           render();
-          closeDataManager();
           toast(`Successfully imported ${newInventory.length} items`);
           
           // Reset file input
