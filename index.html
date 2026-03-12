@@ -940,6 +940,180 @@
       opacity: 1;
     }
 
+    /* Help Menu Styles */
+    .help-menu-container {
+      width: min(380px, 90vw);
+      background: var(--surface);
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      padding: 32px 24px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+    }
+
+    .help-menu-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text-primary);
+      margin: 0 0 24px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .help-menu-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .help-menu-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 16px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 900;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      text-align: center;
+    }
+
+    .help-menu-btn-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      stroke: currentColor;
+      color: currentColor;
+    }
+
+    .help-menu-btn-text {
+      color: #fff;
+    }
+
+    .help-menu-btn.user-guide-btn {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff;
+    }
+
+    .help-menu-btn.user-guide-btn svg {
+      stroke: #fff;
+      color: #fff;
+    }
+
+    .help-menu-btn.user-guide-btn:active {
+      transform: scale(0.95);
+      box-shadow: var(--shadow-md);
+    }
+
+    .help-menu-btn.about-btn {
+      background: rgba(45, 122, 79, 0.12);
+      color: var(--primary);
+    }
+
+    .help-menu-btn.about-btn svg {
+      stroke: var(--primary);
+      color: var(--primary);
+    }
+
+    .help-menu-btn.about-btn .help-menu-btn-text {
+      color: var(--primary);
+    }
+
+    .help-menu-btn.about-btn:active {
+      transform: scale(0.95);
+      background: rgba(45, 122, 79, 0.2);
+    }
+
+    .help-menu-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--bg);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .help-menu-close:active {
+      transform: scale(0.9);
+    }
+
+    /* About View Styles */
+    .about-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .about-card {
+      background: rgba(45, 122, 79, 0.08);
+      border: 1px solid rgba(45, 122, 79, 0.2);
+      border-radius: 14px;
+      padding: 16px;
+      color: #E8F5E9;
+    }
+
+    .about-card-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .about-card-text::before {
+      content: "✓";
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .about-version {
+      background: rgba(45, 122, 79, 0.08);
+      border: 1px solid rgba(45, 122, 79, 0.2);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .about-version-item {
+      font-size: 13px;
+      color: #E8F5E9;
+      margin: 8px 0;
+      display: flex;
+      gap: 12px;
+    }
+
+    .about-version-item strong {
+      color: #fff;
+      font-weight: 900;
+    }
+
     .coach-mark-container {
       width: min(480px, 90vw);
       max-height: 70vh;
@@ -1069,7 +1243,7 @@
     .coach-mark-footer {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       padding: 16px 32px;
       border-top: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(0, 0, 0, 0.1);
@@ -1092,12 +1266,10 @@
 
     .coach-mark-dot.active {
       background: #fff;
-      width: 24px;
-      border-radius: 4px;
     }
 
     .coach-mark-nav {
-      display: flex;
+      display: none;
       gap: 8px;
     }
 
@@ -1248,7 +1420,7 @@
               </div>
             </div>
           </div>
-          <button class="help-btn" onclick="openCoachMarks(false)" aria-label="Help">?</button>
+          <button class="help-btn" onclick="openHelpMenu()" aria-label="Help">?</button>
         </div>
       </div>
 
@@ -1389,6 +1561,30 @@
     </div>
   </div>
 
+  <div class="coach-mark-overlay" id="helpMenuOverlay" onclick="closeHelpMenu(event)" role="dialog" aria-modal="true" aria-labelledby="helpMenuTitle">
+    <div class="help-menu-container" onclick="event.stopPropagation()">
+      <h2 id="helpMenuTitle" class="help-menu-title">How can we help?</h2>
+      <div class="help-menu-buttons">
+        <button class="help-menu-btn user-guide-btn" onclick="openUserGuide()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="User Guide">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span class="help-menu-btn-text">User Guide</span>
+        </button>
+        <button class="help-menu-btn about-btn" onclick="openAbout()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span class="help-menu-btn-text">About</span>
+        </button>
+      </div>
+      <button class="help-menu-close" onclick="closeHelpMenu()">✕</button>
+    </div>
+  </div>
+
   <div class="coach-mark-overlay" id="coachMarkOverlay" onclick="closeCoachMarks(event)" role="dialog" aria-modal="true" aria-labelledby="coachMarkTitle" aria-describedby="coachMarkDescription">
     <div class="coach-mark-container" onclick="event.stopPropagation()">
       <div class="coach-mark-content" id="coachMarkContent" role="main">
@@ -1459,11 +1655,12 @@
 
     const COACH_MARKS = [
       {
-        title: "Welcome to JemsPantry",
-        text: "Organize and manage your pantry with ease. Track items, plan your shopping, and never run out of essentials.",
+        title: "JemsPantry",
+        text: "Our Mission\n\nOur goal is to make food organisation simple and help households waste less food while saving time and money.",
         icon: null,
         iconClass: "green",
-        buttonText: "Next"
+        buttonText: "Next",
+        isMission: true
       },
       {
         title: "Add Items",
@@ -1633,11 +1830,20 @@
 
       const content = document.getElementById('coachMarkContent');
       const isWelcome = currentCoachMarkStep === 0;
+      const isMission = step.isMission || false;
+      
+      let textHTML = '';
+      if (isMission) {
+        const textParts = step.text.split('\n\n');
+        textHTML = textParts.map(part => `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(part)}</p>`).join('');
+      } else {
+        textHTML = `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(step.text)}</p>`;
+      }
       
       content.innerHTML = `
         ${iconHTML}
         <h2 class="coach-mark-title ${isWelcome ? 'welcome' : ''}">${escapeHtml(step.title)}</h2>
-        <p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(step.text)}</p>
+        ${textHTML}
         <button class="coach-mark-button" onclick="handleCoachMarkAction()" aria-label="${escapeHtml(step.buttonText)} - Step ${currentCoachMarkStep + 1} of ${COACH_MARKS.length}">${escapeHtml(step.buttonText)}</button>
       `;
 
@@ -1661,6 +1867,50 @@
       nextBtn.disabled = currentCoachMarkStep === COACH_MARKS.length - 1;
       prevBtn.setAttribute('aria-label', `Previous step - Step ${currentCoachMarkStep} of ${COACH_MARKS.length}`);
       nextBtn.setAttribute('aria-label', `Next step - Step ${currentCoachMarkStep + 2} of ${COACH_MARKS.length}`);
+    }
+
+    function openHelpMenu(){
+      const overlay = document.getElementById('helpMenuOverlay');
+      overlay.classList.add('active');
+    }
+
+    function closeHelpMenu(event){
+      if (event && event.target !== document.getElementById('helpMenuOverlay')) return;
+      document.getElementById('helpMenuOverlay').classList.remove('active');
+    }
+
+    function openUserGuide(){
+      closeHelpMenu();
+      openCoachMarks(false);
+    }
+
+    function openAbout(){
+      closeHelpMenu();
+      const overlay = document.getElementById('coachMarkOverlay');
+      const contentDiv = document.getElementById('coachMarkContent');
+      const footerDiv = document.querySelector('.coach-mark-footer');
+      const prefDiv = document.getElementById('coachMarkStartupPref');
+      
+      contentDiv.innerHTML = `
+        <h2 class="coach-mark-title" style="font-size: 26px; margin-bottom: 28px; color: #fff;">About JemsPantry</h2>
+        <div class="about-container">
+          <div class="about-card"><p class="about-card-text">Track pantry, fridge, and freezer items</p></div>
+          <div class="about-card"><p class="about-card-text">Expiry date reminders</p></div>
+          <div class="about-card"><p class="about-card-text">Quick item search</p></div>
+          <div class="about-card"><p class="about-card-text">Meal planning with available ingredients</p></div>
+          <div class="about-card"><p class="about-card-text">Reduce food waste and save money</p></div>
+          <div class="about-version">
+            <div class="about-version-item"><strong>Version:</strong> 1.0.0</div>
+            <div class="about-version-item"><strong>Last Updated:</strong> March 2026</div>
+          </div>
+        </div>
+      `;
+      
+      footerDiv.innerHTML = `<button class="coach-mark-button" onclick="closeCoachMarks()" style="background: #fff; color: var(--primary); width: auto; padding: 12px 32px;">Close</button>`;
+      footerDiv.style.justifyContent = 'center';
+      prefDiv.style.display = 'none';
+      
+      overlay.classList.add('active');
     }
 
     function openCoachMarks(isStartup = false){
@@ -2481,6 +2731,7 @@
         closeItemEditor();
         closeConfirm();
         closeCoachMarks();
+        closeHelpMenu();
         const selector = document.getElementById("regionSelector");
         if (selector) selector.classList.remove("active");
       }
