@@ -600,18 +600,6 @@
     .modal-close:active{transform:scale(.9);}
     .modal-body{padding:16px;}
 
-    #itemModal .modal-content::before{
-      content:"";
-      position:absolute;
-      left:10px;
-      top:74px;
-      bottom:18px;
-      width:3px;
-      border-radius:4px;
-      background: rgba(45,122,79,0.22);
-      pointer-events:none;
-    }
-
     .shopping-list-empty{text-align:center;padding:40px 20px;color:var(--text-secondary);}
     .shopping-list-empty-icon{font-size:48px;margin-bottom:12px;}
     .shopping-list-grouped{margin-bottom:20px;}
@@ -769,7 +757,6 @@
     }
     .fab:active{transform:scale(.92);}
 
-    /* full-height delete confirmation sheet */
     .confirm-sheet{
       position:absolute;
       left:0;
@@ -977,7 +964,7 @@
     /* Help Menu Styles */
     .help-menu-container {
       width: min(340px, 95vw);
-      background: var(--surface);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       border-radius: 20px;
       box-shadow: var(--shadow-lg);
       padding: 28px 20px;
@@ -988,7 +975,7 @@
     .help-menu-title {
       font-size: 20px;
       font-weight: 900;
-      color: var(--text-primary);
+      color: #fff;
       margin: 0 0 20px;
       text-align: center;
       letter-spacing: -0.3px;
@@ -1007,7 +994,7 @@
       align-items: center;
       gap: 10px;
       padding: 16px 14px;
-      border: none;
+      border: 2px solid rgba(255, 255, 255, 0.5);
       border-radius: 14px;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -1016,7 +1003,7 @@
       text-transform: uppercase;
       letter-spacing: 0.3px;
       text-align: center;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      background: transparent;
       color: #fff;
     }
 
@@ -1039,10 +1026,11 @@
     .help-menu-btn:active {
       transform: scale(0.95);
       box-shadow: var(--shadow-md);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .help-menu-btn.user-guide-btn {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff;
     }
 
@@ -1052,7 +1040,6 @@
     }
 
     .help-menu-btn.about-btn {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff;
     }
 
@@ -1062,7 +1049,6 @@
     }
 
     .help-menu-btn.export-btn {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff;
     }
 
@@ -1115,9 +1101,9 @@
     }
 
     .data-btn {
-      padding: 10px 8px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.15);
+      padding: 12px 10px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: transparent;
       border-radius: 10px;
       cursor: pointer;
       font-weight: 800;
@@ -1130,7 +1116,8 @@
 
     .data-btn:active {
       transform: scale(0.95);
-      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .import-section {
@@ -1151,8 +1138,8 @@
     .file-input-label {
       display: block;
       padding: 12px 14px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 2px dashed rgba(255, 255, 255, 0.4);
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.5);
       border-radius: 10px;
       text-align: center;
       cursor: pointer;
@@ -1166,18 +1153,18 @@
 
     .file-input-label:active {
       transform: scale(0.98);
-      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .data-info {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      padding: 12px;
       font-size: 12px;
       color: #E8F5E9;
-      line-height: 1.4;
+      line-height: 1.5;
       margin-top: 12px;
+      padding: 0;
+      border: none;
+      background: transparent;
     }
 
     .data-close {
@@ -1201,6 +1188,8 @@
     .data-close:active {
       transform: scale(0.9);
     }
+
+    .help-menu-close {
       position: absolute;
       top: 12px;
       right: 12px;
@@ -1498,6 +1487,148 @@
       line-height: 1.3;
     }
 
+    /* Import Options Panel */
+    .import-options-container {
+      width: min(380px, 95vw);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .import-options-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .import-options-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .import-option-btn {
+      padding: 14px 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #fff;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .import-option-btn:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .import-option-title {
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .import-option-desc {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.9;
+      line-height: 1.3;
+    }
+
+    /* Import Summary Panel */
+    .import-summary-container {
+      width: min(380px, 95vw);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .import-summary-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .import-summary-item {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .import-summary-number {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      min-width: 40px;
+    }
+
+    .import-summary-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #E8F5E9;
+      line-height: 1.3;
+    }
+
+    .import-summary-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .import-summary-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .import-summary-btn.yes {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .import-summary-btn.yes:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
     @keyframes slideUpToast{
       from{opacity:0;transform:translateX(-50%) translateY(20px);}
       to{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -1788,10 +1919,9 @@
         </button>
         <button class="help-menu-btn about-btn" onclick="openAbout()">
           <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="12" y1="19" x2="12" y2="13"></line>
-            <line x1="9" y1="16" x2="15" y2="16"></line>
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="8" r="0.8" fill="currentColor"></circle>
+            <line x1="12" y1="11" x2="12" y2="16"></line>
           </svg>
           <span class="help-menu-btn-text">About</span>
         </button>
@@ -1817,6 +1947,36 @@
         <input type="checkbox" id="coachMarkDontShow" onchange="setCoachMarkPreference(this.checked)" aria-label="Do not show this onboarding guide again on startup">
         <label for="coachMarkDontShow">Don't show this again</label>
       </div>
+    </div>
+  </div>
+
+  <div class="coach-mark-overlay" id="importOptionsOverlay" onclick="closeImportOptions(event)" role="dialog" aria-modal="true">
+    <div class="import-options-container" onclick="event.stopPropagation()">
+      <h2 class="import-options-title">How do you want to import?</h2>
+      <div class="import-options-buttons">
+        <button class="import-option-btn" onclick="proceedWithImport('replace')">
+          <span class="import-option-title">Replace All Data</span>
+          <span class="import-option-desc">Remove all current items and use uploaded file</span>
+        </button>
+        <button class="import-option-btn" onclick="proceedWithImport('merge')">
+          <span class="import-option-title">Merge Quantities</span>
+          <span class="import-option-desc">Add quantities to matching items</span>
+        </button>
+      </div>
+      <button class="data-close" onclick="closeImportOptions()" style="top: 12px; right: 12px;">✕</button>
+    </div>
+  </div>
+
+  <div class="coach-mark-overlay" id="importSummaryOverlay" onclick="closeImportSummary(event)" role="dialog" aria-modal="true">
+    <div class="import-summary-container" onclick="event.stopPropagation()">
+      <h2 class="import-summary-title">Import Summary</h2>
+      <div id="importSummaryContent">
+        <!-- Populated by JavaScript -->
+      </div>
+      <div class="import-summary-actions">
+        <button class="import-summary-btn yes" onclick="closeImportSummary()">Done</button>
+      </div>
+      <button class="data-close" onclick="closeImportSummary()" style="top: 12px; right: 12px;">✕</button>
     </div>
   </div>
 
@@ -1851,6 +2011,8 @@
     let editingId = null;
     let currentCoachMarkStep = 0;
     let isStartupCoachMark = false;
+    let pendingImportData = null;
+    let pendingImportMode = null;
 
     const CATEGORIES = [
       "Fruit & Veg",
@@ -1902,6 +2064,20 @@
         text: "When items run low (qty ≤ 2), add them to your shopping list. Check items off as you buy them.",
         icon: "cart",
         iconClass: "blue",
+        buttonText: "Next"
+      },
+      {
+        title: "Import / Export Your Items",
+        text: "Import or export your pantry list as a CSV or TSV file so you can back up your items data offline anytime.",
+        icon: "document",
+        iconClass: "primary",
+        buttonText: "Next"
+      },
+      {
+        title: "100% Privacy",
+        text: "All your pantry data is stored locally on your device. Nothing is uploaded to external servers.",
+        icon: "shield",
+        iconClass: "success",
         buttonText: "Done"
       }
     ];
@@ -2002,7 +2178,6 @@
 
       let iconHTML = '';
       if (step.icon === null) {
-        // No icon for welcome step - just empty space
         iconHTML = '';
       } else if (step.icon === 'plus') {
         iconHTML = `
@@ -2040,6 +2215,26 @@
             </svg>
           </div>
         `;
+      } else if (step.icon === 'document') {
+        iconHTML = `
+          <div class="coach-mark-icon ${step.iconClass}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Document with arrow">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+              <polyline points="13 2 13 9 20 9"></polyline>
+              <path d="M12 17v-4"></path>
+              <path d="M10 15l2-2 2 2"></path>
+            </svg>
+          </div>
+        `;
+      } else if (step.icon === 'shield') {
+        iconHTML = `
+          <div class="coach-mark-icon ${step.iconClass}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Shield lock">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+          </div>
+        `;
       }
 
       const content = document.getElementById('coachMarkContent');
@@ -2049,14 +2244,20 @@
       let textHTML = '';
       if (isMission) {
         const textParts = step.text.split('\n\n');
-        textHTML = textParts.map(part => `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(part)}</p>`).join('');
+        textHTML = textParts.map((part, idx) => {
+          if (idx === 0) {
+            return `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}" style="font-weight: 900; margin-bottom: 8px;">${escapeHtml(part)}</p>`;
+          } else {
+            return `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(part)}</p>`;
+          }
+        }).join('');
       } else {
         textHTML = `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(step.text)}</p>`;
       }
       
       content.innerHTML = `
         ${iconHTML}
-        <h2 class="coach-mark-title ${isWelcome ? 'welcome' : ''}">${escapeHtml(step.title)}</h2>
+        <h2 class="coach-mark-title ${isWelcome ? 'welcome' : ''}" style="${isWelcome ? 'font-size: 28px;' : ''}">${escapeHtml(step.title)}</h2>
         ${textHTML}
         <button class="coach-mark-button" onclick="handleCoachMarkAction()" aria-label="${escapeHtml(step.buttonText)} - Step ${currentCoachMarkStep + 1} of ${COACH_MARKS.length}">${escapeHtml(step.buttonText)}</button>
       `;
@@ -2100,7 +2301,7 @@
       }
       setTimeout(() => {
         openCoachMarks(false);
-      }, 50);
+      }, 350);
     }
 
     function openAbout(){
@@ -2138,7 +2339,7 @@
         prefDiv.style.display = 'none';
         
         overlay.classList.add('active');
-      }, 50);
+      }, 350);
     }
 
     function openCoachMarks(isStartup = false){
@@ -2270,7 +2471,6 @@
     }
 
     function toggleCategory(cat){
-      // Close all other categories, then toggle this one
       openCats.forEach(c => {
         if (c !== cat) openCats.delete(c);
       });
@@ -2505,7 +2705,6 @@
     }
 
     function isItemIncomplete(item){
-      // Check if item has required information
       const hasItem = item.item && String(item.item).trim();
       const hasStore = item.store && String(item.store).trim();
       const hasLocation = item.location && String(item.location).trim();
@@ -2667,7 +2866,6 @@
       const sel = document.getElementById('f_category');
       let html = `<option value="">Auto (recommended)</option>`;
       CATEGORIES.forEach(c => html += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`);
-      html += `<option value="Unsorted Items">${escapeHtml('Unsorted Items')}</option>`;
       sel.innerHTML = html;
     }
 
@@ -2694,7 +2892,6 @@
         document.getElementById('f_location').value = "Kitchen";
         document.getElementById('f_storage').value = "Cupboard";
         
-        // Auto-populate category from currently open accordion
         const openCategory = getOpenCategory();
         document.getElementById('f_category').value = openCategory || "";
         
@@ -2859,13 +3056,11 @@
         return;
       }
 
-      // Separate unsorted items from the rest
       const unsortedItems = filtered.filter(i => isItemIncomplete(i));
       const sortedItems = filtered.filter(i => !isItemIncomplete(i));
 
       const allCats = [...new Set([...CATEGORIES, ...sortedItems.map(i => getCategory(i) || 'Uncategorised')])];
       
-      // Put "Unsorted Items" at the top if there are any
       if (unsortedItems.length > 0) {
         allCats.unshift("Unsorted Items");
       }
@@ -2898,7 +3093,6 @@
         const content = document.createElement('div');
         content.className = 'cat-content';
 
-        // Add warning for unsorted items
         if (cat === 'Unsorted Items') {
           const warning = document.createElement('div');
           warning.className = 'unsorted-warning';
@@ -2995,6 +3189,8 @@
         closeCoachMarks();
         closeHelpMenu();
         closeDataManager();
+        closeImportOptions();
+        closeImportSummary();
         const selector = document.getElementById("regionSelector");
         if (selector) selector.classList.remove("active");
       }
@@ -3016,6 +3212,16 @@
     function closeDataManager(event){
       if (event && event.target !== document.getElementById('dataManagerOverlay')) return;
       document.getElementById('dataManagerOverlay').classList.remove('active');
+    }
+
+    function closeImportOptions(event){
+      if (event && event.target !== document.getElementById('importOptionsOverlay')) return;
+      document.getElementById('importOptionsOverlay').classList.remove('active');
+    }
+
+    function closeImportSummary(event){
+      if (event && event.target !== document.getElementById('importSummaryOverlay')) return;
+      document.getElementById('importSummaryOverlay').classList.remove('active');
     }
 
     function getDataAsArray(){
@@ -3112,11 +3318,8 @@
             return;
           }
           
-          // Auto-close the data manager
-          closeDataManager();
-          
-          // Show confirmation with the import data
-          importData(rows);
+          pendingImportData = rows;
+          showImportOptions();
         } catch (error) {
           toast('Error reading file: ' + error.message);
           console.error(error);
@@ -3125,6 +3328,21 @@
       };
       
       reader.readAsText(file);
+    }
+
+    function showImportOptions(){
+      closeDataManager();
+      setTimeout(() => {
+        document.getElementById('importOptionsOverlay').classList.add('active');
+      }, 50);
+    }
+
+    function proceedWithImport(mode){
+      pendingImportMode = mode;
+      closeImportOptions();
+      setTimeout(() => {
+        performImport();
+      }, 50);
     }
 
     function parseCSV(content){
@@ -3196,7 +3414,10 @@
       return rows;
     }
 
-    function importData(rows){
+    function performImport(){
+      const rows = pendingImportData;
+      const mode = pendingImportMode;
+      
       if (rows.length === 0) {
         toast('No valid data to import');
         return;
@@ -3211,35 +3432,86 @@
         return;
       }
       
-      showConfirm({
-        title: 'Import Pantry Data?',
-        message: `This will replace your current pantry with ${rows.length} items. Continue?`,
-        yesText: 'Import',
-        noText: 'Cancel',
-        onYes: () => {
-          const newInventory = rows.map((row, index) => ({
-            rowNumber: Date.now() + index,
-            item: row.item || '',
-            category: row.category || '',
-            store: row.store || '',
-            location: row.location || 'Kitchen',
-            storage: row.storage || 'Cupboard',
-            quantity: parseInt(row.quantity || 0) || 0,
-            expiry: row.expiry || '',
-            notes: row.notes || ''
-          }));
+      let summary = {
+        matched: 0,
+        created: 0,
+        ignored: 0
+      };
+
+      if (mode === 'replace') {
+        const newInventory = rows.map((row, index) => ({
+          rowNumber: Date.now() + index,
+          item: row.item || '',
+          category: row.category || '',
+          store: row.store || '',
+          location: row.location || 'Kitchen',
+          storage: row.storage || 'Cupboard',
+          quantity: parseInt(row.quantity || 0) || 0,
+          expiry: row.expiry || '',
+          notes: row.notes || ''
+        }));
+        
+        inventory = newInventory;
+        summary.created = newInventory.length;
+      } else if (mode === 'merge') {
+        const existingItems = new Map(inventory.map(i => [normalizeText(i.item), i]));
+        
+        rows.forEach(row => {
+          const itemName = row.item || '';
+          const normalizedName = normalizeText(itemName);
+          const uploadedQty = parseInt(row.quantity || 0) || 0;
           
-          inventory = newInventory;
-          saveInventoryToStorage();
-          reconcileShoppingListWithInventory();
-          updateCartBadge();
-          render();
-          toast(`Successfully imported ${newInventory.length} items`);
-          
-          // Reset file input
-          document.getElementById('dataFileInput').value = '';
-        }
-      });
+          if (existingItems.has(normalizedName)) {
+            const existing = existingItems.get(normalizedName);
+            existing.quantity = (existing.quantity || 0) + uploadedQty;
+            summary.matched++;
+          } else {
+            inventory.push({
+              rowNumber: Date.now() + Math.random() * 1000,
+              item: itemName,
+              category: row.category || '',
+              store: row.store || '',
+              location: row.location || 'Kitchen',
+              storage: row.storage || 'Cupboard',
+              quantity: uploadedQty,
+              expiry: row.expiry || '',
+              notes: row.notes || ''
+            });
+            summary.created++;
+          }
+        });
+      }
+      
+      saveInventoryToStorage();
+      reconcileShoppingListWithInventory();
+      updateCartBadge();
+      render();
+      
+      showImportSummary(summary);
+      
+      pendingImportData = null;
+      pendingImportMode = null;
+      document.getElementById('dataFileInput').value = '';
+    }
+
+    function showImportSummary(summary){
+      const overlay = document.getElementById('importSummaryOverlay');
+      const content = document.getElementById('importSummaryContent');
+      
+      content.innerHTML = `
+        <div class="import-summary-item">
+          <div class="import-summary-number">${summary.matched}</div>
+          <div class="import-summary-label">Items Matched &<br>Updated</div>
+        </div>
+        <div class="import-summary-item">
+          <div class="import-summary-number">${summary.created}</div>
+          <div class="import-summary-label">New Items<br>Created</div>
+        </div>
+      `;
+      
+      overlay.classList.add('active');
+      
+      toast(`Successfully imported ${summary.matched + summary.created} items`);
     }
   </script>
 </body>
