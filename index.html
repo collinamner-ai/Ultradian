@@ -2100,31 +2100,47 @@
     const REGION_BRANDS = {
       UK: {
         dairy: ["cathedral city","arla","muller","müller","oatly","alpro","lurpak","kerrygold","anchor","philadelphia"],
-        bakery: ["warburtons","kingsmill","hovis","allinsons","allinson's","jacksons","jackson's","roberts","sunblest"],
-        canned: ["heinz","branston","baxters","princes","john west","napolina","mutti","cirio"],
-        snacks: ["walkers","mcvities","cadbury","tunnocks","foxs","fox's","tyrrells","kettle","pringles","doritos"],
-        beverages: ["coca cola","coca-cola","pepsi","ribena","lucozade","vimto","tango","robinsons","irn bru","irn-bru"]
+        bakery: ["warburtons","kingsmill","hovis","allinsons","allinson's","jacksons","jackson's","roberts","sunblest","soreen","genius"],
+        breakfast: ["weetabix","alpen","jordans","dorset cereals","ready brek","shreddies","special k"],
+        herbsSpices: ["schwartz","bart","rajah","east end","trs"],
+        canned: ["heinz","branston","baxters","princes","john west","napolina","mutti","cirio","campbell's"],
+        frozen: ["birds eye","birdseye","mccain","goodfella's","goodfellas","chicago town","aunt bessie's","aunt bessies","iceland"],
+        snacks: ["walkers","mcvities","cadbury","tunnocks","foxs","fox's","tyrrells","kettle","pringles","doritos","haribo"],
+        beverages: ["coca cola","coca-cola","pepsi","ribena","lucozade","vimto","tango","robinsons","irn bru","irn-bru","twinings","pg tips","tetley"],
+        personalCare: ["boots","nurofen","gaviscon","colgate","sensodyne","dove","nivea","sure","lynx"]
       },
       US: {
         dairy: ["kraft","philadelphia","land o'lakes","daisy","chobani","yoplait","dannon","horizon","silk","oatly"],
         bakery: ["wonder","pepperidge farm","sara lee","nature's own","entennmann's","martin's","bimbo","oroweat","ball park","thomas'"],
+        breakfast: ["kellogg's","quaker","cheerios","special k","general mills","kashi","grape nuts"],
+        herbsSpices: ["mccormick","spice islands","simply organic","frontier"],
         canned: ["campbell's","progresso","hunts","del monte","libby's","hormel","stagg","goya","bush's","heinz"],
-        snacks: ["lays","doritos","cheetos","ritz","oreo","hershey's","reese's","kellogg's","quaker","nature valley"],
-        beverages: ["gatorade","powerade","coke","coca-cola","pepsi","dr pepper","mountain dew","snapple","arizona"]
+        frozen: ["birds eye","ore-ida","mccain","digiorno","totino's","ben & jerry's","haagen-dazs","breyer's"],
+        snacks: ["lays","doritos","cheetos","ritz","oreo","hershey's","reese's","nature valley","pringles","haribo"],
+        beverages: ["gatorade","powerade","coke","coca-cola","pepsi","dr pepper","mountain dew","snapple","arizona","twinings","starbucks"],
+        personalCare: ["tylenol","crest","colgate","oral-b","old spice","secret","degree","aveeno","cetaphil","dove"]
       },
       EU: {
         dairy: ["danone","nestle","muller","müller","arla","president","président","galbani","valio","kerrygold"],
-        bakery: ["barilla","mulino bianco","wasa","jacquet","bonduelle"],
+        bakery: ["wasa","jacquet","mulino bianco","biona"],
+        breakfast: ["alpen","special k","nestle cereals","cheerios","jordans"],
+        herbsSpices: ["ducros","santa maria","fuchs","knorr"],
         canned: ["mutti","cirio","bonduelle","rio mare","ortiz","knorr","heinz"],
+        frozen: ["findus","dr oetker","ben & jerry's","haagen-dazs","mccain"],
         snacks: ["haribo","milka","ritter sport","lays","pringles","kinder","ferrero","nutella","oreo","jacobs"],
-        beverages: ["coca-cola","pepsi","fanta","sprite","san pellegrino","lavazza","nescafe","nespresso"]
+        beverages: ["coca-cola","pepsi","fanta","sprite","san pellegrino","lavazza","nescafe","nespresso","perrier"],
+        personalCare: ["nivea","dove","colgate","sensodyne","oral-b","garnier","schwarzkopf"]
       },
       Global: {
         dairy: ["danone","nestle","oatly","alpro","arla","philadelphia","yoplait","muller","müller","kerrygold"],
-        bakery: ["bimbo","barilla","warburtons","hovis","pepperidge farm","sara lee","wasa"],
+        bakery: ["bimbo","warburtons","hovis","pepperidge farm","sara lee","wasa","genius"],
+        breakfast: ["weetabix","kellogg's","quaker","cheerios","special k","alpen"],
+        herbsSpices: ["schwartz","mccormick","simply organic","spice islands","frontier"],
         canned: ["heinz","campbell's","mutti","cirio","del monte","libby's","princes","john west","goya","knorr"],
-        snacks: ["pringles","oreo","doritos","lays","kettle","walkers","haribo","kinder","cadbury","mcvities"],
-        beverages: ["coca-cola","pepsi","fanta","sprite","nescafe","nespresso","lavazza"]
+        frozen: ["birds eye","findus","mccain","goodfella's","ben & jerry's","haagen-dazs","dr oetker"],
+        snacks: ["pringles","oreo","doritos","lays","kettle","walkers","haribo","kinder","cadbury","mcvities","nature valley"],
+        beverages: ["coca-cola","pepsi","fanta","sprite","nescafe","nespresso","lavazza","twinings","gatorade"],
+        personalCare: ["colgate","sensodyne","oral-b","dove","nivea","pantene","head & shoulders","aveeno"]
       }
     };
 
@@ -2666,35 +2682,82 @@
       const has = (k) => name.includes(normalizeText(k));
 
       const BRAND = {
-        produce: ["dole","fyffes","pink lady","chiquita"],
-        bakery: ["warburtons","kingsmill","hovis","allinson's","allinsons","jackson's","jacksons","roberts"],
-        dairy: ["cathedral city","arla","lactofree","lacto free","yazoo","actimel","danone","yoplait","muller","müller","oatly","alpro","flora","clover","lurpak","kerrygold","anchor","philadelphia"],
-        meat: ["heck","richmond","bernard matthews"],
-        fish: ["young's","youngs","birds eye","birdseye","princes","john west","mowi"],
-        dry: ["uncle ben's","uncle bens","ben's original","bens original","dolmio","barilla","napolina","sharwood's","sharwoods","patak's","pataks","bachelor's","bachelors","super noodles","pot noodle","blue dragon","schwartz","colman's","colmans"],
-        canned: ["heinz","branston","princes","napolina","mutti","cirio","john west"],
-        condiments: ["heinz","hp","hellmann's","hellmanns","colman's","colmans","tabasco","kikkoman","encona"],
-        cleaning: ["fairy","persil","bold","ariel","lenor","comfort","flash","cif","domestos","dettol","andrex","cushelle"],
-        meds: ["calpol","nurofen","benylin","strepsils","lemsip","gaviscon","panadol","sudafed"]
+        produce: ["dole","fyffes","pink lady","chiquita","zespri","zespri gold","sungold"],
+        bakery: ["warburtons","kingsmill","hovis","allinson's","allinsons","jackson's","jacksons","roberts","sunblest","soreen","genius","biona","doves farm","pepperidge farm","sara lee","nature's own","wasa"],
+        dairy: ["cathedral city","arla","cravendale","lacto free","lactofree","actimel","activia","danone","dannon","fage","muller","müller","skyr","oatly","alpro","flora plant","silk","minor figures","lurpak","kerrygold","anchor","philadelphia","galbani","président","president","leerdammer","jarlsberg"],
+        meat: ["heck","richmond","bernard matthews","hormel","spam","primo","wall's sausages","walls sausages","bowyer"],
+        fish: ["young's","youngs","mowi","john west","princes","findus","ortiz","rio mare"],
+        dry: ["uncle ben's","uncle bens","ben's original","bens original","tilda","sunwhite","barilla","dolmio","napolina","de cecco","buitoni","delverde","blue dragon","sharwood's","sharwoods","patak's","pataks","amoy","maggi","super noodles","pot noodle","bachelor's","bachelors","tate & lyle","lyle's golden syrup","truvia","splenda","stevia"],
+        herbs_spices: ["schwartz","mccormick","bart","rajah","east end","trs","ducros","santa maria","fuchs","simply organic","frontier","spice islands"],
+        cereals: ["weetabix","kellogg's","kelloggs","quaker","alpen","jordans","jordan's","dorset cereals","ready brek","readybrek","cheerios","special k","oatibix","nestle cereals","general mills","kashi","grape nuts"],
+        canned: ["heinz","baxters","campbell's","progresso","branston","princes","napolina","mutti","cirio","del monte","libby's","goya","bush's","stagg","crosse & blackwell","loyd grossman","ragu"],
+        frozen: ["birds eye","birdseye","findus","mccain","ore-ida","goodfella's","goodfellas","chicago town","pizza express","dr oetker","aunt bessie's","aunt bessies","ben & jerry's","haagen-dazs","häagen-dazs","breyer's","breyers","cornetto","magnum","walls","wall's","iceland"],
+        snacks: ["mcvities","mcvitie's","cadbury","jacobs","jacob's","ritz","oreo","lotus","walkers","doritos","cheetos","lays","pringles","kettle","tyrrells","seabrook","skips","quavers","lindt","milka","ritter sport","ferrero","kinder","mars","snickers","twix","m&m","smarties","haribo","rowntree's","rowntrees","toblerone","nature valley","graze","nakd"],
+        beverages: ["coca-cola","coca cola","coke","pepsi","fanta","sprite","7up","mountain dew","schweppes","fever-tree","britvic","appletiser","ribena","vimto","tropicana","innocent","twinings","pg tips","barry's","barrys","lyons","lipton","tetley","nescafe","nespresso","lavazza","illy","starbucks","maxwell house","douwe egberts","horlicks","ovaltine","guinness","stella","peroni","corona","san pellegrino","perrier","evian","volvic","gatorade","powerade"],
+        condiments: ["hellmann's","hellmanns","best foods","duke's","homepride","sabra","hp sauce","lea & perrins","kikkoman","red boat","megachef","lee kum kee","tabasco","frank's redhot","franks redhot","amoy","sharwood's","sharwoods","blue dragon","patak's","pataks","encona"],
+        cleaning: ["persil","ariel","bold","daz","fairy","lenor","comfort","downy","flash","cif","cillit bang","mr clean","ajax","domestos","dettol","lysol","toilet duck","harpic","air wick","febreze","andrex","cushelle","scott","kleenex","bounty","plenty"],
+        meds: ["paracetamol","ibuprofen","nurofen","aspirin","disprin","panadol","tylenol","codeine","optrex","sudafed","benylin","lemsip","strepsils","piriton","piriteze","cetirizine","gaviscon","tums","rennie","buscopan","imodium","immodium","centrum","berocca","sanatogen","solgar","olay","nivea","aveeno","cetaphil","eucerin","palmolive","dove","sudocrem","bepanthen","head & shoulders","head and shoulders","pantene","herbal essences","garnier fructis","schwarzkopf","wella","tresemme","carex","sure","mitchum","degree","secret","old spice","lynx","axe","sanex","colgate","crest","aquafresh","sensodyne","corsodyl","oral-b","oral b"]
       };
 
-      if (BRAND.produce.some(has)) add("Fruit & Veg", 6);
-      if (BRAND.bakery.some(has)) add("Bakery & Bread", 7);
-      if (BRAND.dairy.some(has)) add("Dairy & Refrigerated", 8);
-      if (BRAND.meat.some(has)) add("Meat, Poultry & Seafood", 6);
-      if (BRAND.fish.some(has)) add("Meat, Poultry & Seafood", 7);
-      if (BRAND.dry.some(has)) add("Pantry & Dry Goods", 5);
-      if (BRAND.canned.some(has)) add("Canned Goods & Sauces", 6);
-      if (BRAND.condiments.some(has)) add("Condiments & Oils", 6);
-      if (BRAND.cleaning.some(has)) add("Household & Cleaning", 8);
-      if (BRAND.meds.some(has)) add("Personal Care & Pharmacy", 10);
+      const CATEGORY_MAP = {
+        produce: "Fruit & Veg",
+        bakery: "Bakery & Bread",
+        dairy: "Dairy & Refrigerated",
+        meat: "Meat, Poultry & Seafood",
+        fish: "Meat, Poultry & Seafood",
+        dry: "Pantry & Dry Goods",
+        herbs_spices: "Herbs & Spices",
+        cereals: "Cereals & Breakfast",
+        canned: "Canned Goods & Sauces",
+        frozen: "Frozen Foods",
+        snacks: "Snacks",
+        beverages: "Beverages",
+        condiments: "Condiments & Oils",
+        cleaning: "Household & Cleaning",
+        meds: "Personal Care & Pharmacy"
+      };
+
+      Object.entries(BRAND).forEach(([key, brands]) => {
+        const categoryName = CATEGORY_MAP[key];
+        if (categoryName && brands.some(has)) add(categoryName, 6);
+      });
+
+      const AMBIGUOUS_BRANDS = [
+        { terms: ["heinz"], boosts: { "Canned Goods & Sauces": 6, "Condiments & Oils": 4 } },
+        { terms: ["nestle","nestlé"], boosts: { "Snacks": 4, "Cereals & Breakfast": 4, "Beverages": 3 } },
+        { terms: ["quaker"], boosts: { "Cereals & Breakfast": 6, "Pantry & Dry Goods": 3 } },
+        { terms: ["knorr"], boosts: { "Canned Goods & Sauces": 5, "Condiments & Oils": 4, "Herbs & Spices": 3 } },
+        { terms: ["maggi"], boosts: { "Pantry & Dry Goods": 5, "Condiments & Oils": 4, "Canned Goods & Sauces": 3 } },
+        { terms: ["colman's","colmans"], boosts: { "Condiments & Oils": 5, "Herbs & Spices": 4 } },
+        { terms: ["schwartz"], boosts: { "Herbs & Spices": 6, "Pantry & Dry Goods": 2 } },
+        { terms: ["birds eye","birdseye"], boosts: { "Frozen Foods": 6, "Meat, Poultry & Seafood": 3, "Fruit & Veg": 2 } },
+        { terms: ["patak's","pataks","sharwood's","sharwoods"], boosts: { "Canned Goods & Sauces": 5, "Condiments & Oils": 5, "Pantry & Dry Goods": 3 } },
+        { terms: ["blue dragon","amoy"], boosts: { "Condiments & Oils": 5, "Pantry & Dry Goods": 4, "Canned Goods & Sauces": 3 } }
+      ];
+
+      AMBIGUOUS_BRANDS.forEach(entry => {
+        if (entry.terms.some(has)) {
+          Object.entries(entry.boosts).forEach(([category, pts]) => add(category, pts));
+        }
+      });
 
       const pack = REGION_BRANDS[region] || REGION_BRANDS.Global;
       if (pack?.dairy?.some(has)) add("Dairy & Refrigerated", 3);
       if (pack?.bakery?.some(has)) add("Bakery & Bread", 3);
+      if (pack?.breakfast?.some(has)) add("Cereals & Breakfast", 3);
+      if (pack?.herbsSpices?.some(has)) add("Herbs & Spices", 3);
       if (pack?.canned?.some(has)) add("Canned Goods & Sauces", 3);
+      if (pack?.frozen?.some(has)) add("Frozen Foods", 3);
       if (pack?.snacks?.some(has)) add("Snacks", 2);
       if (pack?.beverages?.some(has)) add("Beverages", 2);
+      if (pack?.personalCare?.some(has)) add("Personal Care & Pharmacy", 2);
+
+      if (has("black pepper") || has("white pepper") || has("peppercorn") || has("mustard powder")) add("Herbs & Spices", 12);
+      if (has("bell pepper") || has("red pepper") || has("green pepper") || has("yellow pepper")) add("Fruit & Veg", 12);
+      if (has("corn flakes") || has("cornflakes")) add("Cereals & Breakfast", 12);
+      if (has("flake bar") || has("chocolate flakes")) add("Snacks", 12);
+      if (has("oven chips") || has("frozen chips") || has("hash browns")) add("Frozen Foods", 12);
+      if (has("potato chips") || has("tortilla chips")) add("Snacks", 12);
 
       const KEYWORDS = {
         "Fruit & Veg": [
