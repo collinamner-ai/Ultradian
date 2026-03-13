@@ -715,6 +715,18 @@
       background:#fff;
       border-color: rgba(45,122,79,0.45);
     }
+    .field.error input,
+    .field.error select,
+    .field.error textarea {
+      border-color: #EF4444;
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .field.error input:focus,
+    .field.error select:focus,
+    .field.error textarea:focus {
+      background: #fff;
+      border-color: #EF4444;
+    }
     .field textarea{min-height:76px;resize:vertical;}
     .form-actions{display:flex;gap:10px;margin-top:8px;}
     .btn-wide{
@@ -2876,8 +2888,14 @@
       if (body) body.scrollTop = 0;
     }
 
+    function clearFieldErrors(){
+      const fields = document.querySelectorAll('.field');
+      fields.forEach(field => field.classList.remove('error'));
+    }
+
     function openItemEditor(rowNumber){
       populateCategoryDropdown();
+      clearFieldErrors();
       const modal = document.getElementById('itemModal');
       const title = document.getElementById('itemModalTitle');
       const delRow = document.getElementById('deleteRow');
@@ -2932,10 +2950,67 @@
       editingId = null;
     }
 
+    function validateUnsortedItem(){
+      // Only validate if editing an unsorted item
+      if (!editingId) return true;
+      
+      const item = inventory.find(x => x.rowNumber === editingId);
+      if (!item || !isItemIncomplete(item)) return true;
+      
+      // This is an unsorted item, so validate required fields
+      const f_item = document.getElementById('f_item');
+      const f_store = document.getElementById('f_store');
+      const f_location = document.getElementById('f_location');
+      const f_storage = document.getElementById('f_storage');
+      
+      // Get parent field containers
+      const itemField = f_item.closest('.field');
+      const storeField = f_store.closest('.field');
+      const locationField = f_location.closest('.field');
+      const storageField = f_storage.closest('.field');
+      
+      // Reset all error states
+      [itemField, storeField, locationField, storageField].forEach(f => {
+        if (f) f.classList.remove('error');
+      });
+      
+      const missingFields = [];
+      
+      // Check each required field
+      if (!f_item.value.trim()) {
+        itemField.classList.add('error');
+        missingFields.push('Item Name');
+      }
+      if (!f_store.value.trim()) {
+        storeField.classList.add('error');
+        missingFields.push('Store');
+      }
+      if (!f_location.value.trim()) {
+        locationField.classList.add('error');
+        missingFields.push('Location');
+      }
+      if (!f_storage.value.trim()) {
+        storageField.classList.add('error');
+        missingFields.push('Storage Type');
+      }
+      
+      if (missingFields.length > 0) {
+        toast(`Required: ${missingFields.join(', ')}`);
+        return false;
+      }
+      
+      return true;
+    }
+
     function saveItemFromModal(){
       const itemName = document.getElementById('f_item').value.trim();
       if (!itemName){
         toast("Item name required");
+        return;
+      }
+
+      // Validate unsorted items for required fields
+      if (!validateUnsortedItem()){
         return;
       }
 
@@ -3145,6 +3220,27 @@
       });
     }
 
+    function setupFieldErrorListeners(){
+      const requiredFields = ['f_item', 'f_store', 'f_location', 'f_storage'];
+      requiredFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+          field.addEventListener('input', () => {
+            const fieldContainer = field.closest('.field');
+            if (fieldContainer) {
+              fieldContainer.classList.remove('error');
+            }
+          });
+          field.addEventListener('change', () => {
+            const fieldContainer = field.closest('.field');
+            if (fieldContainer) {
+              fieldContainer.classList.remove('error');
+            }
+          });
+        }
+      });
+    }
+
     function load(){
       openCats = loadOpenCatsFromStorage();
       inventory = loadInventoryFromStorage();
@@ -3167,6 +3263,7 @@
       updateCartBadge();
       render();
       updateHeaderHeight();
+      setupFieldErrorListeners();
     }
 
     window.addEventListener('load', () => {
