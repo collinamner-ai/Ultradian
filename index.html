@@ -1205,7 +1205,7 @@
       padding: 28px 20px 22px;
       position: relative;
       animation: coachMarkIn 0.4s ease;
-      max-height: 80vh;
+      max-height: 60vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -1304,15 +1304,28 @@
       color: #E8F5E9;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
 
-    .settings-section-desc {
+    .settings-section-title-with-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .settings-section-title-with-toggle span {
       font-size: 12px;
-      font-weight: 600;
-      color: #B5E7A0;
-      line-height: 1.4;
-      margin-bottom: 12px;
+      font-weight: 900;
+      color: #E8F5E9;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .settings-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+      margin: 12px 0;
     }
 
     .settings-toggle-field {
@@ -1331,8 +1344,8 @@
     .toggle-switch {
       position: relative;
       display: inline-block;
-      width: 50px;
-      height: 28px;
+      width: 48px;
+      height: 26px;
     }
 
     .toggle-checkbox {
@@ -1350,15 +1363,15 @@
       bottom: 0;
       background-color: rgba(255, 255, 255, 0.2);
       transition: 0.3s;
-      border-radius: 28px;
+      border-radius: 26px;
       border: 2px solid rgba(255, 255, 255, 0.3);
     }
 
     .toggle-slider:before {
       position: absolute;
       content: "";
-      height: 22px;
-      width: 22px;
+      height: 20px;
+      width: 20px;
       left: 2px;
       bottom: 2px;
       background-color: #fff;
@@ -1372,7 +1385,7 @@
     }
 
     .toggle-checkbox:checked + .toggle-slider:before {
-      transform: translateX(22px);
+      transform: translateX(20px);
     }
 
     .settings-field {
@@ -1453,15 +1466,7 @@
     }
 
     .settings-expiry-field {
-      margin-bottom: 12px;
-    }
-
-    .settings-expiry-field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #E8F5E9;
-      margin-bottom: 10px;
+      margin-bottom: 0;
     }
 
     .expiry-number-control {
@@ -1504,20 +1509,6 @@
       color: #fff;
       min-width: 50px;
       text-align: center;
-    }
-
-    .reset-btn {
-      background: #EF4444 !important;
-      color: #fff !important;
-      border: none !important;
-    }
-
-    .reset-btn:hover {
-      background: #DC2626 !important;
-    }
-
-    .reset-btn:active {
-      background: #B91C1C !important;
     }
 
     .settings-actions {
@@ -2470,9 +2461,10 @@
     <div class="settings-container" onclick="event.stopPropagation()">
     <h2 id="settingsTitle" class="settings-title">Settings</h2>
       
+    <h2 id="settingsTitle" class="settings-title">Settings</h2>
+      
       <div class="settings-section">
-        <div class="settings-section-title">Region Select</div>
-        <div class="settings-section-desc">Select your region to help with smart sorting:</div>
+        <div class="settings-section-title">Region</div>
         <div class="settings-region-buttons">
           <button class="settings-region-btn" data-region="UK" onclick="selectRegionFromSettings('UK')">UK</button>
           <button class="settings-region-btn" data-region="US" onclick="selectRegionFromSettings('US')">US</button>
@@ -2481,9 +2473,10 @@
         </div>
       </div>
 
+      <div class="settings-divider"></div>
+
       <div class="settings-section">
-        <div class="settings-section-title">Choose Date Format</div>
-        <div class="settings-section-desc">Select how you like the data shown:</div>
+        <div class="settings-section-title">Date</div>
         <div class="settings-field">
           <select id="settingDateFormat" onchange="updateDateFormatFromSettings()">
             <option value="UK">DD-MM-YYYY</option>
@@ -2493,32 +2486,23 @@
         </div>
       </div>
 
+      <div class="settings-divider"></div>
+
       <div class="settings-section">
-        <div class="settings-section-title">Expiry Alerts</div>
-        <div class="settings-section-desc">Add in a toggle on / off - On shows alert badge on ACCORDIAN HEADER</div>
-        <div class="settings-toggle-field">
-          <label for="expiryToggle">Enable Expiry Alerts</label>
+        <div class="settings-section-title-with-toggle">
+          <span>Expiry</span>
           <div class="toggle-switch">
             <input type="checkbox" id="expiryToggle" class="toggle-checkbox" onchange="toggleExpiryAlerts()">
             <span class="toggle-slider"></span>
           </div>
         </div>
-      </div>
-
-      <div class="settings-section" id="expiryAlertDaysSection">
-        <div class="settings-section-title">Expiry Date Alerts</div>
-        <div class="settings-section-desc">Confirm how many days notice you would like:</div>
-        <div class="settings-expiry-field">
+        <div class="settings-expiry-field" id="expiryAlertDaysSection">
           <div class="expiry-number-control">
             <button class="expiry-btn minus-btn" onclick="decreaseExpiryAlert()">−</button>
             <div class="expiry-display" id="expiryDisplay">3</div>
             <button class="expiry-btn plus-btn" onclick="increaseExpiryAlert()">+</button>
           </div>
         </div>
-      </div>
-
-      <div class="settings-actions">
-        <button class="settings-btn reset-btn" onclick="resetSettings()">Reset to Defaults</button>
       </div>
 
       <button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
@@ -2554,14 +2538,6 @@
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
           <span class="help-menu-btn-text">Data Import/Export</span>
-        </button>
-        <button class="help-menu-btn about-btn" onclick="openAbout()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
-            <circle cx="12" cy="12" r="10"></circle>
-            <circle cx="12" cy="8" r="0.8" fill="currentColor"></circle>
-            <line x1="12" y1="11" x2="12" y2="16"></line>
-          </svg>
-          <span class="help-menu-btn-text">About</span>
         </button>
       </div>
 
