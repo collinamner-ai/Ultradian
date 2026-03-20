@@ -426,10 +426,6 @@
       min-width:32px;
       text-align:center;
     }
-    .category-card.open .cat-expiry-badge{
-      background:rgba(255,255,255,0.3);
-      color:#fff;
-    }
     .cat-count{
       font-size:12px;
       font-weight:900;
@@ -2310,11 +2306,14 @@
         <button class="modal-close" onclick="closeItemEditor()" aria-label="Close item editor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
       </div>
       <div class="modal-body" id="itemModalBody">
-        <input id="f_store" type="hidden" value="">
-
-        <div class="field">
+                <div class="field">
           <label>Item Name</label>
           <input id="f_item" type="text" placeholder="e.g. Milk, Chicken Breast" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label>Store</label>
+          <input id="f_store" type="text" placeholder="e.g. Tesco, Aldi, Costco" autocomplete="off">
         </div>
 
         <div class="form-row-2">
@@ -2453,7 +2452,7 @@
           </svg>
           <span class="help-menu-btn-text">User Guide</span>
         </button>
-        <button type="button" class="help-menu-btn settings-btn" onclick="openSettings()">
+        <button type="button" class="help-menu-btn" onclick="openSettings()">
           <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
             <line x1="3" y1="5" x2="21" y2="5"></line>
             <circle cx="15" cy="5" r="2.5"></circle>
