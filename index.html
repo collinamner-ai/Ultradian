@@ -33,276 +33,2078 @@
       --surface-strong:rgba(255,255,255,0.94);
       --outline-soft:rgba(255,255,255,0.22);
       --field-shadow:0 0 0 4px rgba(45,122,79,0.10);
+      --fab-bottom: max(28px, env(safe-area-inset-bottom));
       --fab-bottom: max(40px, calc(env(safe-area-inset-bottom) + 40px));
       --field-idle-bg: rgba(45,122,79,0.10);
     }
 
-    body.splash-showing {overflow: hidden;position: fixed;width: 100%;height: 100%;}
+    body.splash-showing {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+    }
+
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-    html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:radial-gradient(circle at top, rgba(45,122,79,0.12), transparent 34%),linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);color:var(--text-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;height:100vh;overflow:hidden;overscroll-behavior:none;}
-    .header{position:fixed;top:0;left:0;right:0;z-index:1000;background:radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 28%),linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;padding:18px 0 14px;box-shadow:var(--shadow-lg);border-bottom-left-radius:24px;border-bottom-right-radius:24px;padding-top:max(18px, env(safe-area-inset-top));overflow:hidden;}
-    .header::after{content:"";position:absolute;inset:auto 18px 0 18px;height:1px;background:rgba(255,255,255,0.14);}
+    html,body{
+      margin:0;padding:0;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(45,122,79,0.12), transparent 34%),
+        linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);
+      color:var(--text-primary);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      height:100vh;
+      overflow:hidden;
+      overscroll-behavior: none;
+    }
+
+    .header{
+      position:fixed;top:0;left:0;right:0;
+      z-index:1000;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 28%),
+        linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
+      color:#fff;
+      padding:18px 0 14px;
+      box-shadow:var(--shadow-lg);
+      border-bottom-left-radius:24px;
+      border-bottom-right-radius:24px;
+      padding-top:max(18px, env(safe-area-inset-top));
+      position:fixed;
+      overflow:hidden;
+    }
+    .header::after{
+      content:"";
+      position:absolute;
+      inset:auto 18px 0 18px;
+      height:1px;
+      background:rgba(255,255,255,0.14);
+    }
     .header-content{padding:0 16px 2px;}
-    .header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
-    .header h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-0.5px;}
-    .header-actions{display:flex;gap:10px;align-items:center;}
-    .help-btn{width:42px;height:42px;border:none;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.22);border-radius:999px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:1000;font-size:18px;line-height:1;transition:all .2s ease;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.1);}
+    .header-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .header h1{
+      margin:0;
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:-0.5px;
+    }
+
+    .header-actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .help-btn{
+      width:42px;height:42px;
+      border:none;
+      background:rgba(255,255,255,0.18);
+      border:1px solid rgba(255,255,255,0.22);
+      border-radius:999px;
+      color:#fff;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:1000;
+      font-size:18px;
+      line-height:1;
+      transition:all .2s ease;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
     .help-btn:hover{background:rgba(255,255,255,0.24);transform:translateY(-1px);}
     .help-btn:active{transform:scale(.92);background:rgba(255,255,255,0.3);}
-    .undo-btn, .redo-btn {width:42px;height:42px;border:1px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0.18);border-radius:14px;color:#fff;cursor:pointer;transition:all 0.2s ease;display:inline-flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 12px rgba(0,0,0,0.08);padding:0;}
-    .undo-btn svg, .redo-btn svg {width:22px;height:22px;display:block;overflow:visible;}
-    .undo-btn:hover:not(:disabled), .redo-btn:hover:not(:disabled) {background:rgba(255,255,255,0.3);transform:translateY(-1px);}
-    .undo-btn:disabled, .redo-btn:disabled {opacity:0.4;cursor:not-allowed;box-shadow:none;}
-    .undo-btn:active, .redo-btn:active {transform:scale(0.9);}
-    .help-region-row{display:flex;gap:10px;justify-content:center;margin-top:6px;}
-    .help-region-btn{width:44px;height:44px;border-radius:999px;border:2px solid rgba(255,255,255,0.6);background:var(--primary);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;transition:all .2s ease;flex-shrink:0;box-shadow:var(--shadow-sm);}
-    .help-region-btn svg{width:18px;height:18px;display:block;stroke:currentColor;}
-    .help-region-btn.active{background:#fff;color:#111111;border-color:#fff;}
-    .help-region-btn:active{transform:scale(.94);}
+    .undo-btn, .redo-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.18);
+      border-radius: 14px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 0;
+    }
+    .undo-btn svg, .redo-btn svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      overflow: visible;
+    }
+    .undo-btn:hover:not(:disabled), .redo-btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+    .undo-btn:disabled, .redo-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .undo-btn:active, .redo-btn:active {
+      transform: scale(0.9);
+    }
+    .help-region-row{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin-top:6px;
+    }
+
+    .help-region-btn{
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,0.6);
+      background:var(--primary);
+      color:#fff;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      font-size:13px;
+      transition:all .2s ease;
+      flex-shrink:0;
+      box-shadow:var(--shadow-sm);
+    }
+
+    .help-region-btn svg{
+      width:18px;
+      height:18px;
+      display:block;
+      stroke:currentColor;
+    }
+
+    .help-region-btn.active{
+      background:#fff;
+      color:#111111;
+      border-color:#fff;
+    }
+
+    .help-region-btn:active{
+      transform:scale(.94);
+    }
+
     .filter-group{margin-bottom:10px;}
-    .filter-label{font-size:11px;font-weight:900;letter-spacing:0.8px;text-transform:uppercase;color:rgba(255,255,255,0.85);display:block;margin-bottom:6px;}
-    .filter-chips{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+    .filter-label{
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:0.8px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.85);
+      display:block;
+      margin-bottom:6px;
+    }
+    .filter-chips{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      padding-bottom:2px;
+    }
     .filter-chips::-webkit-scrollbar{display:none;}
-    .chip{padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.12);color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s ease;user-select:none;}
+    .chip{
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.35);
+      background:rgba(255,255,255,0.12);
+      color:#fff;
+      font-size:13px;
+      font-weight:700;
+      cursor:pointer;
+      white-space:nowrap;
+      flex-shrink:0;
+      transition:all .2s ease;
+      user-select:none;
+    }
     .chip:active{transform:scale(.95);}
-    .chip.active{background:rgba(255,255,255,0.95);color:var(--primary);border-color:rgba(255,255,255,0.95);}
-    .search-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
-    .search-container{flex:1;min-width:0;margin-right:14px;}
-    .search-input-wrapper{display:flex;align-items:center;background:var(--surface-strong);border:1px solid rgba(255,255,255,0.55);border-radius:999px;padding:2px 10px;gap:10px;box-shadow:var(--shadow-md);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+    .chip.active{
+      background:rgba(255,255,255,0.95);
+      color:var(--primary);
+      border-color:rgba(255,255,255,0.95);
+    }
+
+    .search-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:4px;
+    }
+    .search-container{
+      flex:1;
+      min-width:0;
+      margin-right:14px;
+    }
+    .search-input-wrapper{
+      display:flex;
+      align-items:center;
+      background:var(--surface-strong);
+      border:1px solid rgba(255,255,255,0.55);
+      border-radius:999px;
+      padding:2px 10px;
+      gap:10px;
+      box-shadow:var(--shadow-md);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
     .search-icon{width:20px;height:20px;flex-shrink:0;color:var(--primary);}
-    #search{flex:1;border:none;background:transparent;padding:11px 4px;font-size:16px;outline:none;color:var(--text-primary);appearance:none;-webkit-appearance:none;min-width:0;}
-    .search-clear{width:30px;height:30px;border:none;background:none;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0;visibility:hidden;pointer-events:none;}
-    .search-clear.active{opacity:1;visibility:visible;pointer-events:auto;}
-    .cart-btn{position:relative;width:44px;height:44px;border:none;background:rgba(255,255,255,0.2);border-radius:12px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;backdrop-filter:blur(10px);flex-shrink:0;}
+    #search{
+      flex:1;
+      border:none;
+      background:transparent;
+      padding:11px 4px;
+      font-size:16px;
+      outline:none;
+      color:var(--text-primary);
+      appearance: none;
+      -webkit-appearance:none;
+      min-width:0;
+    }
+    .search-clear{
+      width:30px;height:30px;
+      border:none;
+      background:none;
+      color:var(--text-secondary);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .search-clear.active{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+    }
+    .cart-btn{
+      position:relative;
+      width:44px;height:44px;
+      border:none;
+      background:rgba(255,255,255,0.2);
+      border-radius:12px;
+      color:#fff;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:all .2s ease;
+      backdrop-filter: blur(10px);
+      flex-shrink:0;
+    }
     .cart-btn:active{transform:scale(.9);background:rgba(255,255,255,0.3);}
     .cart-icon{width:22px;height:22px;}
-    .cart-badge{position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;border:2px solid #fff;}
+    .cart-badge{
+      position:absolute;
+      top:-4px;
+      right:-4px;
+      background:var(--danger);
+      color:#fff;
+      border-radius:50%;
+      width:20px;height:20px;
+      font-size:11px;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:2px solid #fff;
+    }
     .cart-badge.hidden{display:none;}
-    .content-wrapper{position:absolute;top:0;left:0;right:0;bottom:0;padding-top:calc(var(--header-height, 200px) + 4px);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:max(92px, env(safe-area-inset-bottom));}
+
+    .content-wrapper{
+      position:absolute;
+      top:0;left:0;right:0;bottom:0;
+      padding-top:calc(var(--header-height, 200px) + 4px);
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      padding-bottom:max(92px, env(safe-area-inset-bottom));
+      overscroll-behavior: contain;
+    }
     .container{padding:14px 14px 24px;max-width:880px;margin:0 auto;}
+
     .empty-state{text-align:center;padding:60px 20px;color:var(--text-secondary);}
     .empty-icon{font-size:64px;margin-bottom:16px;opacity:.5;}
     .empty-state h2{margin:0 0 8px;font-size:16px;color:var(--text-primary);}
     .empty-state p{margin:0;font-size:14px;}
-    .clear-filters-btn {background:var(--primary-light);color:var(--primary);border:none;border-radius:10px;padding:10px 20px;font-weight:900;font-size:13px;cursor:pointer;transition:all 0.2s ease;text-transform:uppercase;letter-spacing:0.3px;margin-top:14px;}
-    .clear-filters-btn:active {transform:scale(0.95);background:var(--primary);color:#fff;}
-    .category-card{background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82));border-radius:20px;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow-md);border:1px solid rgba(255,255,255,0.72);transition:all .2s ease;animation:fadeIn .3s ease;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+
+    .clear-filters-btn {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-weight: 900;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-top: 14px;
+    }
+
+    .clear-filters-btn:active {
+      transform: scale(0.95);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .category-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82));
+      border-radius:20px;
+      margin-bottom:14px;
+      overflow:hidden;
+      box-shadow:var(--shadow-md);
+      border:1px solid rgba(255,255,255,0.72);
+      transition:all .2s ease;
+      animation:fadeIn .3s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
     .category-card.open{box-shadow:var(--shadow-lg);transform:translateY(-1px);}
-    .category-card.unsorted-items {border:2px solid #FFA500;background:rgba(255, 165, 0, 0.05);}
-    .cat-header{display:flex;justify-content:space-between;align-items:center;padding:16px 16px;background:linear-gradient(135deg, rgba(45,122,79,0.10) 0%, rgba(45,122,79,0.03) 100%);cursor:pointer;user-select:none;transition:all .2s ease;gap:8px;}
-    .category-card.unsorted-items .cat-header {background:linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%);}
-    .category-card.open .cat-header{background:linear-gradient(135deg,var(--primary) 0%, var(--primary-dark) 100%);color:#fff;}
-    .cat-title{margin:0;font-size:16px;font-weight:800;color:var(--primary);flex:1;}
-    .category-card.unsorted-items .cat-title {color:#FF8C00;}
+    .category-card.unsorted-items {
+      border: 2px solid #FFA500;
+      background: rgba(255, 165, 0, 0.05);
+    }
+    .cat-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 16px;
+      background:linear-gradient(135deg, rgba(45,122,79,0.10) 0%, rgba(45,122,79,0.03) 100%);
+      cursor:pointer;
+      user-select:none;
+      transition:all .2s ease;
+    }
+    .category-card.unsorted-items .cat-header {
+      background: linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%);
+    }
+    .category-card.open .cat-header{
+      background:linear-gradient(135deg,var(--primary) 0%, var(--primary-dark) 100%);
+      color:#fff;
+    }
+    .cat-title{
+      margin:0;
+      font-size:16px;
+      font-weight:800;
+      color:var(--primary);
+      flex:1;
+    }
+    .category-card.unsorted-items .cat-title {
+      color: #FF8C00;
+    }
     .category-card.open .cat-title{color:#fff;}
-    .cat-expiry-alert{font-size:12px;font-weight:900;color:#fff;background:var(--expiring-soon);padding:6px 10px;border-radius:999px;min-width:32px;text-align:center;flex-shrink:0;}
-    .cat-count{font-size:12px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--primary) 0%, var(--primary-dark) 100%);padding:6px 10px;border-radius:999px;min-width:32px;text-align:center;}
-    .category-card.unsorted-items .cat-count {background:#FFA500;color:#fff;}
+    .cat-badges{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .cat-expiry-badge{
+      font-size:11px;
+      font-weight:900;
+      color:#000;
+      background:var(--expiring-soon);
+      padding:6px 10px;
+      border-radius:999px;
+      min-width:32px;
+      text-align:center;
+    }
+    .category-card.open .cat-expiry-badge{
+      background:rgba(255,255,255,0.3);
+      color:#fff;
+    }
+    .cat-count{
+      font-size:12px;
+      font-weight:900;
+      color:#fff;
+      background:linear-gradient(135deg,var(--primary) 0%, var(--primary-dark) 100%);
+      padding:6px 10px;
+      border-radius:999px;
+      min-width:32px;
+      text-align:center;
+    }
+    .category-card.unsorted-items .cat-count {
+      background: #FFA500;
+      color: #fff;
+    }
     .category-card.open .cat-count{background:rgba(255,255,255,0.3);}
-    .category-card.open .cat-expiry-alert{background:rgba(255,255,255,0.4);}
-    .cat-toggle-icon{width:20px;height:20px;margin-left:0;flex-shrink:0;transition:transform .3s ease;}
+    .cat-toggle-icon{
+      width:20px;height:20px;
+      margin-left:8px;
+      flex-shrink:0;
+      transition:transform .3s ease;
+    }
     .category-card.open .cat-toggle-icon{transform:rotate(180deg);}
-    .cat-content{display:none;padding:10px 10px 12px;max-height:0;overflow:hidden;transition:max-height .3s ease;}
+    .cat-content{
+      display:none;
+      padding:10px 10px 12px;
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .3s ease;
+    }
     .category-card.open .cat-content{display:block;max-height:10000px;}
-    .unsorted-warning {background:rgba(255, 165, 0, 0.15);border-left:4px solid #FFA500;padding:10px 12px;margin:0 0 8px 0;border-radius:6px;font-size:12px;font-weight:700;color:#CC8400;display:flex;align-items:center;gap:8px;}
-    .unsorted-warning::before {content:"⚠";font-size:14px;flex-shrink:0;}
-    .item-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 12px;gap:12px;border-radius:18px;transition:all .15s ease;margin-bottom:12px;box-shadow:var(--shadow-sm);border:1px solid rgba(15,23,42,0.05);}
+
+    .unsorted-warning {
+      background: rgba(255, 165, 0, 0.15);
+      border-left: 4px solid #FFA500;
+      padding: 10px 12px;
+      margin: 0 0 8px 0;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #CC8400;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .unsorted-warning::before {
+      content: "⚠";
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .item-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      padding:12px 12px;
+      gap:12px;
+      border-radius:18px;
+      transition:all .15s ease;
+      margin-bottom:12px;
+      box-shadow:var(--shadow-sm);
+      border:1px solid rgba(15,23,42,0.05);
+    }
     .item-row:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
     .cat-content .item-row:last-of-type{margin-bottom:0;}
     .item-row.fridge{background:linear-gradient(180deg,#ffffff 0%, #f9fbfa 100%);border:1px solid #E5E7EB;}
     .item-row.cupboard{background:linear-gradient(180deg,#FFF7E8 0%, #FFF0D2 100%);}
     .item-row.freezer{background:linear-gradient(180deg,#E7FBFF 0%, #D7F3FB 100%);}
-    .item-row.expired {border-left:4px solid var(--expired);background:rgba(220, 38, 38, 0.08) !important;}
-    .item-row.expiring-soon {background:rgba(251, 191, 36, 0.08) !important;}
-    .expiry-badge {display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.3px;margin-top:4px;}
-    .expiry-badge.expired {background:var(--expired);color:#fff;}
-    .expiry-badge.expiring-soon {background:var(--expiring-soon);color:#000;}
+    .item-row.expired {
+      border-left: 4px solid var(--expired);
+      background: rgba(220, 38, 38, 0.08) !important;
+    }
+
+    .item-row.expiring-soon {
+      background: rgba(251, 191, 36, 0.08) !important;
+    }
+
+    .expiry-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-top: 4px;
+    }
+
+    .expiry-badge.expired {
+      background: var(--expired);
+      color: #fff;
+    }
+
+    .expiry-badge.expiring-soon {
+      background: var(--expiring-soon);
+      color: #000;
+    }
+
     .item-row.out-of-stock{opacity:.55;}
     .item-row.out-of-stock .item-label{text-decoration:line-through;}
-    .item-row.out-of-stock .delete-btn{opacity:1;filter:none;box-shadow:var(--shadow-sm);background:var(--danger) !important;color:#fff !important;font-weight:900 !important;}
+    .item-row.out-of-stock .delete-btn{
+      opacity:1;
+      filter:none;
+      box-shadow:var(--shadow-sm);
+    }
     .item-info{flex:1;min-width:0;}
-    .item-label{display:block;font-size:16px;font-weight:900;color:var(--text-primary);margin-bottom:2px;word-break:break-word;line-height:1.15;}
-    .item-meta{font-size:10px;color:var(--text-secondary);text-transform:uppercase;font-weight:700;letter-spacing:.3px;line-height:1.2;}
-    .item-cat{margin-top:2px;font-size:10px;color:var(--text-secondary);text-transform:uppercase;font-weight:900;letter-spacing:.3px;line-height:1.2;}
-    .item-submeta{margin-top:4px;font-size:12px;color:var(--text-secondary);font-weight:600;line-height:1.25;word-break:break-word;}
-    .item-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0;width:136px;}
+    .item-label{
+      display:block;
+      font-size:16px;
+      font-weight:900;
+      color:var(--text-primary);
+      margin-bottom:2px;
+      word-break:break-word;
+      line-height:1.15;
+    }
+    .item-meta{
+      font-size:10px;
+      color:var(--text-secondary);
+      text-transform:uppercase;
+      font-weight:700;
+      letter-spacing:.3px;
+      line-height:1.2;
+    }
+    .item-cat{
+      margin-top:2px;
+      font-size:10px;
+      color:var(--text-secondary);
+      text-transform:uppercase;
+      font-weight:900;
+      letter-spacing:.3px;
+      line-height:1.2;
+    }
+    .item-submeta{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--text-secondary);
+      font-weight:600;
+      line-height:1.25;
+      word-break:break-word;
+    }
+    .item-actions{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:10px;
+      flex-shrink:0;
+      width:136px;
+    }
     .item-controls{display:flex;flex-direction:column;gap:8px;width:100%;}
-    .add-to-shop{display:none;align-items:center;justify-content:center;gap:6px;padding:9px 12px;background:rgba(45,122,79,0.12);border:1px solid rgba(45,122,79,0.12);border-radius:14px;cursor:pointer;font-size:12px;font-weight:900;color:var(--primary);transition:all .2s ease;width:100%;}
+    .add-to-shop{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:9px 12px;
+      background:rgba(45,122,79,0.12);
+      border:1px solid rgba(45,122,79,0.12);
+      border-radius:14px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:900;
+      color:var(--primary);
+      transition:all .2s ease;
+      width:100%;
+    }
     .add-to-shop.show{display:flex;}
     .add-to-shop.in-cart{background:var(--success);color:#fff;}
     .add-to-shop:active{transform:scale(.95);}
     .add-to-shop-icon{width:14px;height:14px;}
-    .qty-control{display:flex;align-items:center;background:rgba(255,255,255,0.6);border:1px solid rgba(15,23,42,0.05);border-radius:16px;padding:4px;gap:3px;box-shadow:var(--shadow-sm);width:100%;justify-content:space-between;}
-    .qty-btn{width:34px;height:34px;border:none;border-radius:12px;color:#fff;font-weight:900;font-size:18px;cursor:pointer;transition:all .15s ease;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);flex-shrink:0;background:#fff;}
+    .qty-control{
+      display:flex;
+      align-items:center;
+      background:rgba(255,255,255,0.6);
+      border:1px solid rgba(15,23,42,0.05);
+      border-radius:16px;
+      padding:4px;
+      gap:3px;
+      box-shadow:var(--shadow-sm);
+      width:100%;
+      justify-content:space-between;
+    }
+    .qty-btn{
+      width:34px;height:34px;
+      border:none;
+      border-radius:12px;
+      color:#fff;
+      font-weight:900;
+      font-size:18px;
+      cursor:pointer;
+      transition:all .15s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow-sm);
+      flex-shrink:0;
+      background:#fff;
+    }
     .qty-btn.plus{background:#3B82F6;}
     .qty-btn.minus{background:var(--danger);}
     .qty-btn:active{transform:scale(.88);}
-    .qty-display{width:44px;text-align:center;font-weight:900;font-size:14px;color:var(--text-primary);}
+    .qty-display{
+      width:44px;
+      text-align:center;
+      font-weight:900;
+      font-size:14px;
+      color:var(--text-primary);
+    }
     .item-footer-actions{display:flex;gap:8px;width:100%;}
-    .edit-btn{width:46px;height:38px;border:none;border-radius:14px;background:rgba(45,122,79,0.12);border:1px solid rgba(45,122,79,0.12);color:var(--primary);font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);transition:all .2s ease;flex-shrink:0;}
+    .edit-btn{
+      width:46px;height:38px;
+      border:none;
+      border-radius:14px;
+      background:rgba(45,122,79,0.12);
+      border:1px solid rgba(45,122,79,0.12);
+      color:var(--primary);
+      font-weight:900;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow-sm);
+      transition:all .2s ease;
+      flex-shrink:0;
+    }
     .edit-btn:active{transform:scale(.92);}
-    .delete-btn{display:none;flex:1;height:38px;border:none;border-radius:14px;padding:0 10px;background:var(--danger);color:#fff;font-size:12px;font-weight:900;cursor:pointer;text-transform:uppercase;letter-spacing:.4px;}
-    .delete-btn:active{transform:scale(.96);opacity:.95;}
-    .item-row.out-of-stock .item-footer-actions .delete-btn{display:block;}
-    .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.26);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:1500;display:none;opacity:0;transition:opacity .2s ease;}
+    .delete-btn{
+      display:none;
+      flex:1;
+      height:38px;
+      border:none;
+      border-radius:14px;
+      padding:0 10px;
+      background:var(--danger);
+      color:#fff;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
+    .delete-btn:active{transform:scale(.96);}
+    .item-row.out-of-stock .item-footer-actions .delete-btn{display:block;opacity:1;}
+
+    .modal-overlay{
+      position:fixed;top:0;left:0;right:0;bottom:0;
+      background:rgba(15,23,42,0.26);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index:1500;
+      display:none;
+      opacity:0;
+      transition:opacity .2s ease;
+    }
     .modal-overlay.active{display:flex;opacity:1;}
-    .modal-content{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg, rgba(255,255,255,0.985), rgba(255,255,255,0.95));border-radius:28px 28px 0 0;border:1px solid rgba(255,255,255,0.74);box-shadow:0 -24px 72px rgba(15,23,42,0.22);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:1501;animation:slideUpModal .44s cubic-bezier(.16,1,.3,1);transform-origin:bottom center;will-change:transform, opacity;padding-bottom:max(20px, env(safe-area-inset-bottom));}
+    .modal-content{
+      position:absolute;
+      bottom:0;left:0;right:0;
+      background:linear-gradient(180deg, rgba(255,255,255,0.985), rgba(255,255,255,0.95));
+      border-radius:28px 28px 0 0;
+      border:1px solid rgba(255,255,255,0.74);
+      box-shadow:0 -24px 72px rgba(15,23,42,0.22);
+      max-height:90vh;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      z-index:1501;
+      animation:slideUpModal .44s cubic-bezier(.16,1,.3,1);
+      transform-origin:bottom center;
+      will-change:transform, opacity;
+      padding-bottom:max(20px, env(safe-area-inset-bottom));
+      overscroll-behavior: contain;
+    }
     .modal-content::before{display:none;}
-    #shoppingModal .modal-content{max-height:90vh;height:auto;min-height:0;padding-bottom:max(20px, env(safe-area-inset-bottom));animation:none;transform:none;}
-    .modal-header{position:sticky;top:0;touch-action:none;user-select:none;background:radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 28%),linear-gradient(135deg,var(--primary) 0%, var(--primary-dark) 100%);color:#fff;padding:18px 18px;border-radius:28px 28px 0 0;display:flex;justify-content:space-between;align-items:center;z-index:1502;}
-    .modal-header::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:42px;height:4px;border-radius:999px;background:rgba(255,255,255,0.28);pointer-events:none;}
+
+    #shoppingModal .modal-content{
+      max-height:90vh;
+      height:auto;
+      min-height:0;
+      padding-bottom:max(20px, env(safe-area-inset-bottom));
+      animation:none;
+      transform:none;
+    }
+    .modal-header{
+      position:sticky;top:0;
+      touch-action:none;
+      user-select:none;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 28%),
+        linear-gradient(135deg,var(--primary) 0%, var(--primary-dark) 100%);
+      color:#fff;
+      padding:18px 18px;
+      border-radius:28px 28px 0 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      z-index:1502;
+    }
+    .modal-header::before{
+      content:"";
+      position:absolute;
+      top:8px;
+      left:50%;
+      transform:translateX(-50%);
+      width:42px;
+      height:4px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.28);
+      pointer-events:none;
+    }
     .modal-header h2{margin:0;font-size:18px;font-weight:900;}
-    .modal-close{width:32px;height:32px;border:none;background:rgba(255,255,255,0.2);border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s ease;padding:0;line-height:0;}
+    .modal-close{
+      width:32px;height:32px;
+      border:none;
+      background:rgba(255,255,255,0.2);
+      border-radius:8px;
+      color:#fff;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:all .2s ease;
+      padding:0;
+      line-height:0;
+    }
     .modal-close svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
     .modal-close:active{transform:scale(.9);}
     .modal-body{padding:16px;}
+
     .shopping-list-empty{text-align:center;padding:40px 20px;color:var(--text-secondary);}
     .shopping-list-empty-icon{font-size:48px;margin-bottom:12px;}
     .shopping-list-grouped{margin-bottom:20px;}
-    .shopping-store-header{font-size:13px;font-weight:900;color:#fff;padding:10px 12px;border-radius:10px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
-    .shopping-list-item{background:rgba(255,255,255,0.78);border:1px solid rgba(15,23,42,0.05);border-radius:16px;padding:12px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;}
-    .shopping-item-checkbox{width:20px;height:20px;margin-top:2px;cursor:pointer;accent-color:var(--primary);flex-shrink:0;}
+    .shopping-store-header{
+      font-size:13px;
+      font-weight:900;
+      color:#fff;
+      padding:10px 12px;
+      border-radius:10px;
+      margin-bottom:10px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+    .shopping-list-item{
+      background:rgba(255,255,255,0.78);
+      border:1px solid rgba(15,23,42,0.05);
+      border-radius:16px;
+      padding:12px;
+      margin-bottom:10px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .shopping-item-checkbox{
+      width:20px;height:20px;
+      margin-top:2px;
+      cursor:pointer;
+      accent-color:var(--primary);
+      flex-shrink:0;
+    }
     .shopping-item-info{flex:1;min-width:0;}
-    .shopping-item-name{display:block;font-size:14px;font-weight:800;color:var(--text-primary);margin-bottom:4px;}
-    .shopping-item-remove{width:28px;height:28px;border:none;background:var(--danger);color:#fff;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .2s ease;}
+    .shopping-item-name{
+      display:block;
+      font-size:14px;
+      font-weight:800;
+      color:var(--text-primary);
+      margin-bottom:4px;
+    }
+    .shopping-item-remove{
+      width:28px;height:28px;
+      border:none;
+      background:var(--danger);
+      color:#fff;
+      border-radius:8px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      flex-shrink:0;
+      transition:all .2s ease;
+      line-height:1;
+      padding:0;
+    }
     .shopping-item-remove:active{transform:scale(.9);}
     .shopping-list-item.checked{opacity:.6;background:rgba(16,185,129,0.1);}
-    .shopping-list-item.checked .shopping-item-name{text-decoration:line-through;color:var(--text-secondary);}
-    .shopping-actions{display:flex;gap:8px;padding:16px;background:var(--bg);border-radius:10px;margin-top:16px;}
-    .btn-action{flex:1;padding:10px;border:none;border-radius:10px;font-weight:900;cursor:pointer;transition:all .2s ease;font-size:13px;text-transform:uppercase;letter-spacing:.4px;}
+    .shopping-list-item.checked .shopping-item-name{
+      text-decoration:line-through;
+      color:var(--text-secondary);
+    }
+    .shopping-actions{
+      display:flex;
+      gap:8px;
+      padding:16px;
+      background:var(--bg);
+      border-radius:10px;
+      margin-top:16px;
+    }
+    .btn-action{
+      flex:1;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      font-weight:900;
+      cursor:pointer;
+      transition:all .2s ease;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
     .btn-action.primary{background:var(--primary-light);color:var(--primary);}
     .btn-action.primary:active{transform:scale(.95);background:var(--primary);color:#fff;}
     .btn-action.danger{background:var(--danger);color:#fff;}
     .btn-action.danger:active{transform:scale(.95);opacity:.9;}
-    .shopping-list-count{font-size:12px;color:var(--text-secondary);text-align:center;padding:12px 0;border-top:1px solid var(--border);margin-top:16px;}
+    .shopping-list-count{
+      font-size:12px;
+      color:var(--text-secondary);
+      text-align:center;
+      padding:12px 0;
+      border-top:1px solid var(--border);
+      margin-top:16px;
+    }
+
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
     .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .form-row-expiry-qty{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
-    .field label{font-size:12px;font-weight:900;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.4px;}
-    .field input,.field select,.field textarea{width:100%;border:1px solid rgba(15,23,42,0.08);border-radius:16px;padding:12px 12px;font-size:14px;outline:none;background:var(--field-idle-bg);color:var(--text-primary);transition:background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,0.3);}
-    .field input:focus,.field select:focus,.field textarea:focus{background:#fff;border-color:rgba(45,122,79,0.45);box-shadow:var(--field-shadow);transform:translateY(-1px);}
-    .field.item-completed input {border-color:#10B981;box-shadow:0 0 0 2px rgba(16, 185, 129, 0.2);}
-    .field.error input,.field.error select,.field.error textarea {border-color:#EF4444;background:rgba(239, 68, 68, 0.08);}
-    .field.error input:focus,.field.error select:focus,.field.error textarea:focus {background:#fff;border-color:#EF4444;}
-    .field input[type="date"]::-webkit-calendar-picker-indicator {display:none;}
+    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;position:relative;}
+    .field label{
+      font-size:12px;
+      font-weight:900;
+      color:var(--text-secondary);
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
+    .field input,.field select,.field textarea{
+      width:100%;
+      border:1px solid rgba(15,23,42,0.08);
+      border-radius:16px;
+      padding:12px 12px;
+      font-size:14px;
+      outline:none;
+      background:var(--field-idle-bg);
+      color:var(--text-primary);
+      transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .field input[type="date"]{
+      background:rgba(251,191,36,0.15);
+      border-color:rgba(251,191,36,0.3);
+    }
+    .field input[type="date"]:focus{
+      background:#fff;
+      border-color:rgba(251,191,36,0.6);
+      box-shadow: 0 0 0 4px rgba(251,191,36,0.15);
+    }
+    .field input::-webkit-calendar-picker-indicator{
+      display:none;
+    }
+    .field input::-webkit-outer-spin-button,
+    .field input::-webkit-inner-spin-button{
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .field input[type="number"]{
+      -moz-appearance: textfield;
+    }
+    .field input:focus,.field select:focus,.field textarea:focus{
+      background:#fff;
+      border-color: rgba(45,122,79,0.45);
+      box-shadow: var(--field-shadow);
+      transform: translateY(-1px);
+    }
+    .field.valid input,
+    .field.valid select {
+      background: #fff;
+      border-color: rgba(16,185,129,0.4);
+    }
+    .field.valid::after {
+      content: "✓";
+      position: absolute;
+      right: 12px;
+      top: 42px;
+      color: var(--success);
+      font-weight: 900;
+      font-size: 16px;
+      pointer-events: none;
+    }
+    .field.error input,
+    .field.error select,
+    .field.error textarea {
+      border-color: #EF4444;
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .field.error input:focus,
+    .field.error select:focus,
+    .field.error textarea:focus {
+      background: #fff;
+      border-color: #EF4444;
+    }
     .field textarea{min-height:54px;resize:vertical;}
     #deleteRow{justify-content:center;}
     #deleteRow .btn-wide{width:100%;max-width:100%;margin:0 auto;display:block;}
     .form-actions{display:flex;gap:10px;margin-top:8px;}
-    .btn-wide{flex:1;border:none;border-radius:16px;padding:13px 14px;font-weight:900;cursor:pointer;transition:all .2s ease;text-transform:uppercase;letter-spacing:.4px;font-size:13px;}
+    .btn-wide{
+      flex:1;
+      border:none;
+      border-radius:16px;
+      padding:13px 14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:all .2s ease;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      font-size:13px;
+    }
     .btn-wide.primary{background:var(--primary);color:#fff;}
     .btn-wide.primary:active{transform:scale(.97);background:var(--primary-dark);}
     .btn-wide.secondary{background:rgba(107,114,128,0.15);color:var(--text-primary);}
     .btn-wide.secondary:active{transform:scale(.97);opacity:.9;}
     .btn-wide.danger{background:var(--danger);color:#fff;}
     .btn-wide.danger:active{transform:scale(.97);opacity:.9;}
-    .fab{position:fixed;right:16px;bottom:var(--fab-bottom);z-index:1200;width:58px;height:58px;border-radius:20px;border:none;cursor:pointer;background:linear-gradient(135deg,#34D399 0%, #2D7A4F 100%);color:#fff;box-shadow:0 20px 40px rgba(45,122,79,0.32), inset 0 1px 0 rgba(255,255,255,0.22);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;transition:transform .15s ease;}
+
+    .fab{
+      position:fixed;
+      right:16px;
+      bottom:var(--fab-bottom);
+      z-index:1200;
+      width:58px;height:58px;
+      border-radius:20px;
+      border:none;
+      cursor:pointer;
+      background:linear-gradient(135deg,#34D399 0%, #2D7A4F 100%);
+      color:#fff;
+      box-shadow:0 20px 40px rgba(45,122,79,0.32), inset 0 1px 0 rgba(255,255,255,0.22);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:28px;
+      font-weight:900;
+      transition:transform .15s ease;
+    }
     .fab:active{transform:scale(.92);}
-    .confirm-sheet{position:absolute;left:12px;right:12px;bottom:max(20px, calc(env(safe-area-inset-bottom) + 12px));min-height:198px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));border-radius:24px;border:1px solid rgba(255,255,255,0.8);box-shadow:var(--shadow-lg);padding:20px 16px 18px;animation:slideUpModal .22s ease;display:flex;flex-direction:column;}
-    .confirm-title{margin:0 0 6px;font-size:16px;font-weight:900;color:var(--text-primary);letter-spacing:-.2px;}
-    .confirm-message{margin:0 0 14px;font-size:14px;font-weight:600;color:var(--text-secondary);line-height:1.35;}
-    .confirm-actions{display:flex;gap:10px;margin-top:auto;}
-    .confirm-btn{flex:1;border:none;border-radius:12px;padding:12px 12px;font-weight:900;cursor:pointer;transition:transform .12s ease, opacity .12s ease;font-size:13px;text-transform:uppercase;letter-spacing:.4px;}
+
+    .confirm-sheet{
+      position:absolute;
+      left:12px;
+      right:12px;
+      bottom:max(20px, calc(env(safe-area-inset-bottom) + 12px));
+      min-height:198px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,0.8);
+      box-shadow:var(--shadow-lg);
+      padding:20px 16px 18px;
+      animation:slideUpModal .22s ease;
+      display:flex;
+      flex-direction:column;
+    }
+    .confirm-title{
+      margin:0 0 6px;
+      font-size:16px;
+      font-weight:900;
+      color:var(--text-primary);
+      letter-spacing:-.2px;
+    }
+    .confirm-message{
+      margin:0 0 14px;
+      font-size:14px;
+      font-weight:600;
+      color:var(--text-secondary);
+      line-height:1.35;
+    }
+    .confirm-actions{
+      display:flex;
+      gap:10px;
+      margin-top:auto;
+    }
+    .confirm-btn{
+      flex:1;
+      border:none;
+      border-radius:12px;
+      padding:12px 12px;
+      font-weight:900;
+      cursor:pointer;
+      transition:transform .12s ease, opacity .12s ease;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
     .confirm-btn:active{transform:scale(.97);}
     .confirm-btn.yes{background:var(--success);color:#fff;}
     .confirm-btn.no{background:var(--danger);color:#fff;}
-    #toast{position:fixed;bottom:max(60px, calc(env(safe-area-inset-bottom) + 60px));left:50%;transform:translateX(-50%) translateY(12px);background:var(--text-primary);color:#fff;padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;z-index:4005;display:block;opacity:0;visibility:hidden;pointer-events:none;box-shadow:var(--shadow-lg);max-width:calc(100% - 40px);text-align:center;transition:opacity .28s ease, transform .28s ease, visibility .28s ease;}
-    #toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
-    #toast.hide{opacity:0;visibility:hidden;transform:translateX(-50%) translateY(12px);}
-    body.preload-main .header,body.preload-main .content-wrapper,body.preload-main .fab{visibility:hidden;}
-    .splash-overlay{position:fixed !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;z-index:99999 !important;display:none;align-items:center;justify-content:center;padding:22px;background:#00442f;opacity:0;transition:opacity .45s ease;}
-    .splash-overlay.active{display:flex;opacity:1;}
+
+    #toast{
+      position:fixed;
+      bottom:max(60px, calc(env(safe-area-inset-bottom) + 60px));
+      left:50%;
+      transform:translateX(-50%) translateY(12px);
+      background:var(--text-primary);
+      color:#fff;
+      padding:12px 20px;
+      border-radius:20px;
+      font-size:13px;
+      font-weight:700;
+      z-index:4005;
+      display:block;
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      box-shadow:var(--shadow-lg);
+      max-width:calc(100% - 40px);
+      text-align:center;
+      transition:opacity .28s ease, transform .28s ease, visibility .28s ease;
+    }
+    #toast.show{
+      opacity:1;
+      visibility:visible;
+      transform:translateX(-50%) translateY(0);
+    }
+    #toast.hide{
+      opacity:0;
+      visibility:hidden;
+      transform:translateX(-50%) translateY(12px);
+    }
+
+    body.preload-main .header,
+    body.preload-main .content-wrapper,
+    body.preload-main .fab{
+      visibility:hidden;
+    }
+
+    .splash-overlay{
+      position:fixed !important;
+      top:0 !important;
+      left:0 !important;
+      width:100% !important;
+      height:100% !important;
+      z-index:99999 !important;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      background:#00442f;
+      opacity:0;
+      transition:opacity .45s ease;
+    }
+    .splash-overlay.active{
+      display:flex;
+      opacity:1;
+    }
     .splash-overlay.active.fading{opacity:0;}
-    .splash-card{width:min(520px,100%);height:100%;max-height:calc(100vh - 44px);color:#fff;background:transparent;border:none;box-shadow:none;display:flex;flex-direction:column;padding-bottom:max(18px, env(safe-area-inset-bottom));}
-    .splash-logo-wrap{flex:1;display:flex;align-items:center;justify-content:center;}
-    .splash-logo{width:min(360px,86%);height:auto;display:block;}
-    .splash-loading{margin-top:-6px;margin-bottom:16px;text-align:center;font-size:14px;font-weight:800;letter-spacing:.2px;color:#EAD9B5;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;opacity:.95;display:flex;align-items:center;justify-content:center;gap:12px;height:60px;}
-    .splash-loading-dot {width:16px;height:16px;border-radius:50%;background:#EAD9B5;animation:waveDot 1.4s ease-in-out infinite;}
-    .splash-loading-dot:nth-child(1) {animation-delay:0s;}
-    .splash-loading-dot:nth-child(2) {animation-delay:0.2s;}
-    .splash-loading-dot:nth-child(3) {animation-delay:0.4s;}
-    .splash-loading-dot:nth-child(4) {animation-delay:0.6s;}
-    @keyframes waveDot {0%, 100% {transform:translateY(0);opacity:1;} 50% {transform:translateY(-20px);opacity:0.6;}}
-    .splash-bottom{display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:6px;}
-    .splash-version{margin:0;font-size:12px;font-weight:800;opacity:.85;letter-spacing:.6px;text-transform:uppercase;text-align:center;}
-    .settings-container {width:min(390px, 95vw);background:radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);border-radius:28px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.74);padding:24px 20px;position:relative;animation:coachMarkIn 0.4s ease;max-height:80vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-    .settings-title {font-size:18px;font-weight:900;color:#fff;margin:0 0 18px;text-align:center;letter-spacing:-0.3px;}
-    .settings-section {margin-bottom:18px;}
-    .settings-section-title {font-size:12px;font-weight:900;color:#E8F5E9;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px;}
-    .settings-button {display:block;width:100%;padding:12px 14px;background:rgba(255, 255, 255, 0.15);border:1px solid rgba(255, 255, 255, 0.2);border-radius:12px;cursor:pointer;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.3px;color:#fff;transition:all 0.2s ease;margin-bottom:10px;text-align:left;}
-    .settings-button:active {transform:scale(0.95);background:rgba(255, 255, 255, 0.25);}
-    .settings-input-group {display:flex;gap:10px;margin-bottom:10px;align-items:center;}
-    .settings-input-group input {flex:1;padding:10px 12px;border:1px solid rgba(255, 255, 255, 0.2);border-radius:10px;background:rgba(255, 255, 255, 0.1);color:#fff;font-size:12px;}
-    .settings-input-group input::placeholder {color:rgba(255, 255, 255, 0.6);}
-    .settings-input-group button {padding:10px 16px;background:rgba(255, 255, 255, 0.2);border:1px solid rgba(255, 255, 255, 0.2);border-radius:10px;color:#fff;cursor:pointer;font-weight:800;font-size:11px;text-transform:uppercase;transition:all 0.2s ease;}
-    .settings-input-group button:active {transform:scale(0.95);background:rgba(255, 255, 255, 0.3);}
-    .settings-close {position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:rgba(255, 255, 255, 0.2);border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;padding:0;line-height:0;}
-    .settings-close svg {width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
-    .settings-close:active {transform:scale(0.9);}
-    .coach-mark-overlay {position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.26);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s ease;}
-    .coach-mark-overlay.active {display:flex;opacity:1;}
-    .help-menu-container {width:min(360px, 95vw);background:radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);border-radius:28px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.74);padding:28px 20px 22px;position:relative;animation:coachMarkIn 0.4s ease;}
-    .help-menu-title {font-size:18px;font-weight:900;color:#fff;margin:0 0 18px;text-align:center;letter-spacing:-0.3px;}
-    .help-menu-buttons {display:flex;flex-direction:column;gap:10px;margin-bottom:12px;}
-    .help-region-copy {margin-top:6px;margin-bottom:12px;text-align:center;}
-    .help-region-title {font-size:14px;font-weight:900;color:#fff;margin-bottom:6px;letter-spacing:-0.2px;}
-    .help-region-text {font-size:12px;line-height:1.4;color:#E8F5E9;max-width:280px;margin:0 auto;}
-    .help-menu-btn {display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 14px;border:1px solid rgba(255, 255, 255, 0.3);border-radius:18px;cursor:pointer;transition:all 0.2s ease;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:0.3px;text-align:center;background:transparent;color:#fff;}
-    .help-menu-btn-icon {width:24px;height:24px;display:flex;align-items:center;justify-content:center;stroke:#fff;color:#fff;flex-shrink:0;}
-    .help-menu-btn-text {color:#fff;line-height:1.2;}
-    .help-menu-btn:active {transform:scale(0.95);box-shadow:var(--shadow-md);border-color:rgba(255, 255, 255, 0.8);background:rgba(255, 255, 255, 0.1);}
-    .help-menu-close {position:absolute;top:12px;right:12px;width:32px;height:32px;border:none;background:var(--bg);border-radius:8px;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;padding:0;line-height:0;}
+    .splash-card{
+      width:min(520px,100%);
+      height:100%;
+      max-height:calc(100vh - 44px);
+      color:#fff;
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      display:flex;
+      flex-direction:column;
+      padding-bottom:max(18px, env(safe-area-inset-bottom));
+    }
+    .splash-logo-wrap{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .splash-logo{
+      width:min(360px,86%);
+      height:auto;
+      display:block;
+    }
+    .splash-loading{
+      margin-top:-6px;
+      margin-bottom:16px;
+      text-align:center;
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:.2px;
+      color:#EAD9B5;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      opacity:.95;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      height: 60px;
+    }
+
+    .splash-loading-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #EAD9B5;
+      animation: waveDot 1.4s ease-in-out infinite;
+    }
+
+    .splash-loading-dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .splash-loading-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .splash-loading-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .splash-loading-dot:nth-child(4) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes waveDot {
+      0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-20px);
+        opacity: 0.6;
+      }
+    }
+    .splash-bottom{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+      padding-bottom:6px;
+    }
+    .splash-version{
+      margin:0;
+      font-size:12px;
+      font-weight:800;
+      opacity:.85;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      text-align:center;
+    }
+
+    /* Coach Mark Styles */
+    .coach-mark-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15,23,42,0.26);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .coach-mark-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Help Menu Styles */
+    .help-menu-container {
+      width: min(360px, 95vw);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      padding: 28px 20px 22px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .help-menu-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .help-menu-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .help-menu-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 900;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      text-align: center;
+      background: transparent;
+      color: #fff;
+    }
+
+    .help-menu-btn-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      stroke: #fff;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .help-menu-btn-text {
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .help-menu-btn:active {
+      transform: scale(0.95);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Settings Panel */
+    .settings-container {
+      width: min(390px, 95vw);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .settings-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .settings-section {
+      margin-bottom: 18px;
+    }
+
+    .settings-section-title {
+      font-size: 12px;
+      font-weight: 900;
+      color: #E8F5E9;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
+    }
+
+    .settings-field {
+      margin-bottom: 12px;
+    }
+
+    .settings-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #E8F5E9;
+      margin-bottom: 6px;
+    }
+
+    .settings-field select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .settings-field select:hover,
+    .settings-field select:focus {
+      background-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .settings-field select option {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .settings-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .settings-btn:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .settings-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      padding: 0;
+      line-height: 0;
+    }
+
+    .settings-close svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      fill: none;
+      overflow: visible;
+    }
+
+    .settings-close:active {
+      transform: scale(0.9);
+    }
+
+    /* Data Manager Modal */
+    .data-manager-container {
+      width: min(390px, 95vw);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .data-manager-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .data-section {
+      margin-bottom: 18px;
+    }
+
+    .data-section-title {
+      font-size: 12px;
+      font-weight: 900;
+      color: #E8F5E9;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
+    }
+
+    .export-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .data-btn {
+      padding: 12px 10px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .data-btn:active {
+      transform: scale(0.95);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .import-section {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 16px;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+
+    #dataFileInput {
+      display: none;
+    }
+
+    .file-input-label {
+      display: block;
+      padding: 12px 14px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 12px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      transition: all 0.2s ease;
+    }
+
+    .file-input-label:active {
+      transform: scale(0.98);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .data-info {
+      font-size: 12px;
+      color: #E8F5E9;
+      line-height: 1.5;
+      margin-top: 12px;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+
+    .data-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      padding:0;
+      line-height:0;
+    }
+    .data-close svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
+
+    .data-close:active {
+      transform: scale(0.9);
+    }
+
+    .help-menu-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--bg);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      padding:0;
+      line-height:0;
+    }
     .help-menu-close svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
-    .help-menu-close:active {transform:scale(0.9);}
-    .coach-mark-container {width:min(430px, 95vw);max-height:85vh;background:radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);border-radius:28px;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,0.74);overflow:hidden;display:flex;flex-direction:column;animation:coachMarkIn 0.4s ease;padding-bottom:max(20px, env(safe-area-inset-bottom));}
-    @keyframes coachMarkIn {from {opacity:0;transform:scale(0.9);} to {opacity:1;transform:scale(1);}}
-    .coach-mark-content {min-height:430px;position:relative;display:grid;place-items:center;align-content:center;padding:36px 24px 28px;text-align:center;flex:1;overflow:hidden;isolation:isolate;-webkit-overflow-scrolling:touch;touch-action:pan-y;}
-    .coach-mark-panel {grid-area:1 / 1;min-height:100%;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;will-change:transform, opacity;backface-visibility:hidden;transform:translate3d(0,0,0);}
-    .coach-mark-panel.enter-from-right {animation:coachPanelEnterFromRight 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;}
-    .coach-mark-panel.enter-from-left {animation:coachPanelEnterFromLeft 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;}
-    .coach-mark-panel.exit-to-left {animation:coachPanelExitToLeft 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;pointer-events:none;}
-    .coach-mark-panel.exit-to-right {animation:coachPanelExitToRight 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;pointer-events:none;}
-    .coach-mark-icon {width:70px;height:70px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;margin-bottom:18px;box-shadow:var(--shadow-md);background:#ffffff;}
-    .coach-mark-icon.green {background:#ffffff;color:var(--primary);}
-    .coach-mark-icon svg {width:100%;height:100%;padding:12px;stroke:var(--primary);color:var(--primary);fill:none;}
-    .coach-mark-title {font-size:18px;font-weight:900;color:#fff;margin:0 0 10px;letter-spacing:-0.3px;line-height:1.2;}
-    .coach-mark-title.welcome {font-size:24px;margin-bottom:14px;}
-    .coach-mark-text {font-size:14px;line-height:1.5;color:#E8F5E9;margin:0 0 22px;}
-    .coach-mark-text.welcome {font-size:15px;line-height:1.6;margin-bottom:28px;}
-    .coach-mark-button {padding:11px 20px;background:#fff;color:var(--primary);border:none;border-radius:10px;font-weight:900;font-size:12px;cursor:pointer;transition:all 0.2s ease;text-transform:uppercase;letter-spacing:0.3px;white-space:nowrap;}
-    .coach-mark-button:active {transform:scale(0.95);background:#F5F5F5;}
-    .coach-mark-footer {display:flex;align-items:center;justify-content:center;padding:12px 24px;border-top:1px solid rgba(255, 255, 255, 0.2);background:rgba(0, 0, 0, 0.1);}
-    .coach-mark-dots {display:flex;gap:6px;align-items:center;}
-    .coach-mark-dot {width:7px;height:7px;border-radius:50%;background:rgba(255, 255, 255, 0.4);cursor:pointer;transition:all 0.2s ease;}
-    .coach-mark-dot.active {background:#fff;}
-    .coach-mark-nav {display:none;gap:8px;}
-    .coach-mark-nav-btn {width:36px;height:36px;border:none;border-radius:8px;background:rgba(255, 255, 255, 0.15);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900;transition:all 0.2s ease;border:1px solid rgba(255, 255, 255, 0.3);}
-    .coach-mark-nav-btn:active {transform:scale(0.9);background:rgba(255, 255, 255, 0.25);}
-    .coach-mark-nav-btn:disabled {opacity:0.4;cursor:not-allowed;}
-    .coach-mark-startup-pref {display:flex;align-items:center;gap:8px;padding:12px 24px;background:rgba(255, 255, 255, 0.12);border-top:1px solid rgba(255, 255, 255, 0.2);}
-    .coach-mark-startup-pref input {width:16px;height:16px;accent-color:#fff;cursor:pointer;flex-shrink:0;}
-    .coach-mark-startup-pref label {margin:0;font-size:12px;font-weight:700;color:#E8F5E9;cursor:pointer;flex:1;line-height:1.3;}
-    @keyframes coachPanelEnterFromRight {from {opacity:0;transform:translate3d(100%, 0, 0);} to {opacity:1;transform:translate3d(0, 0, 0);}}
-    @keyframes coachPanelEnterFromLeft {from {opacity:0;transform:translate3d(-100%, 0, 0);} to {opacity:1;transform:translate3d(0, 0, 0);}}
-    @keyframes coachPanelExitToLeft {from {opacity:1;transform:translate3d(0, 0, 0);} to {opacity:0;transform:translate3d(-100%, 0, 0);}}
-    @keyframes coachPanelExitToRight {from {opacity:1;transform:translate3d(0, 0, 0);} to {opacity:0;transform:translate3d(100%, 0, 0);}}
-    @keyframes slideUpToast{from{opacity:0;transform:translateX(-50%) translateY(20px);} to{opacity:1;transform:translateX(-50%) translateY(0);}}
-    @keyframes slideUpModal{0%{transform:translateY(120px) scale(.985);opacity:0;} 55%{transform:translateY(-10px) scale(1);opacity:1;} 78%{transform:translateY(4px) scale(1);opacity:1;} 100%{transform:translateY(0) scale(1);opacity:1;}}
-    @keyframes slideDownRegion{from{opacity:0;transform:translateY(-10px);} to{opacity:1;transform:translateY(0);}}
-    @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
-    @media (max-width:480px){.header h1{font-size:20px;} .cat-title{font-size:14px;} .item-label{font-size:15px;} .form-grid{grid-template-columns:1fr;} .item-actions{width:124px;} .region-btn{padding:0 10px;font-size:12px;} .form-row-2{grid-template-columns:1fr 1fr;} .form-row-expiry-qty{grid-template-columns:1fr 1fr;} .coach-mark-container{width:min(95vw, 360px);max-height:calc(100vh - 60px);} .coach-mark-content{min-height:390px;padding:28px 20px 24px;} .help-menu-container{width:min(95vw, 320px);padding:24px 18px;} .help-region-row{gap:8px;} .coach-mark-title{font-size:16px;} .coach-mark-title.welcome{font-size:20px;margin-bottom:12px;} .coach-mark-text{font-size:13px;margin-bottom:18px;} .coach-mark-button{font-size:11px;padding:10px 18px;}}
-    @media (prefers-color-scheme: dark){:root{--surface:#1E293B;--bg:#0F172A;--text-primary:#F1F5F9;--text-secondary:#94A3B8;--border:#334155;--primary-light:rgba(45,122,79,0.2);--field-idle-bg:rgba(45,122,79,0.18);} .search-input-wrapper{background:rgba(30,41,59,0.82);border-color:rgba(255,255,255,0.08);} #search{color:var(--text-primary);} .chip{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);} .cat-header{background:rgba(45,122,79,0.08);} .qty-control{background:rgba(51,65,85,0.72);border-color:rgba(255,255,255,0.06);} .item-row.fridge{border-color:rgba(255,255,255,0.18);} .region-selector{background:#0F172A;border:1px solid rgba(255,255,255,0.06);} .region-button{background:#0F172A;color:var(--text-primary);border-color:var(--border);} .field input:focus,.field select:focus,.field textarea:focus{background:rgba(15,23,42,0.65);}}
+
+    .help-menu-close:active {
+      transform: scale(0.9);
+    }
+
+    /* About View Styles */
+    .about-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .about-card {
+      background: rgba(45, 122, 79, 0.08);
+      border: 1px solid rgba(45, 122, 79, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #E8F5E9;
+    }
+
+    .about-card-text {
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .about-card-text::before {
+      content: "✓";
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 900;
+      padding-top: 1px;
+    }
+
+    .about-version {
+      background: rgba(45, 122, 79, 0.08);
+      border: 1px solid rgba(45, 122, 79, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 10px;
+    }
+
+    .about-version-item {
+      font-size: 12px;
+      color: #E8F5E9;
+      margin: 6px 0;
+      line-height: 1.3;
+    }
+
+    .about-version-item strong {
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .coach-mark-container {
+      width: min(430px, 95vw);
+      max-height: 85vh;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: coachMarkIn 0.4s ease;
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+
+    @keyframes coachMarkIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .coach-mark-content {
+      min-height: 430px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      padding: 36px 24px 28px;
+      text-align: center;
+      flex: 1;
+      overflow: hidden;
+      isolation: isolate;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
+
+    .coach-mark-panel {
+      grid-area: 1 / 1;
+      min-height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      transform: translate3d(0,0,0);
+    }
+
+    .coach-mark-panel.enter-from-right {
+      animation: coachPanelEnterFromRight 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+
+    .coach-mark-panel.enter-from-left {
+      animation: coachPanelEnterFromLeft 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+
+    .coach-mark-panel.exit-to-left {
+      animation: coachPanelExitToLeft 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      pointer-events: none;
+    }
+
+    .coach-mark-panel.exit-to-right {
+      animation: coachPanelExitToRight 0.42s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      pointer-events: none;
+    }
+
+    .coach-mark-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-md);
+      background: #ffffff;
+      color: var(--primary);
+    }
+
+    .coach-mark-icon svg {
+      width: 100%;
+      height: 100%;
+      padding: 12px;
+      stroke: var(--primary);
+      color: var(--primary);
+      fill: none;
+    }
+
+    .coach-mark-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 10px;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .coach-mark-title.welcome {
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+
+    .coach-mark-text {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #E8F5E9;
+      margin: 0 0 22px;
+    }
+
+    .coach-mark-text.welcome {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .coach-mark-button {
+      padding: 11px 20px;
+      background: #fff;
+      color: var(--primary);
+      border: none;
+      border-radius: 10px;
+      font-weight: 900;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .coach-mark-button:active {
+      transform: scale(0.95);
+      background: #F5F5F5;
+    }
+
+    .coach-mark-button:hover {
+      background: #E8F5E9;
+    }
+
+    .coach-mark-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .coach-mark-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .coach-mark-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .coach-mark-dot.active {
+      background: #fff;
+    }
+
+    .coach-mark-nav {
+      display: none;
+      gap: 8px;
+    }
+
+    .coach-mark-nav-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .coach-mark-nav-btn:active {
+      transform: scale(0.9);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .coach-mark-nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .coach-mark-startup-pref {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.12);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .coach-mark-startup-pref input {
+      width: 16px;
+      height: 16px;
+      accent-color: #fff;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .coach-mark-startup-pref label {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: #E8F5E9;
+      cursor: pointer;
+      flex: 1;
+      line-height: 1.3;
+    }
+
+    /* Import Options Panel */
+    .import-options-container {
+      width: min(390px, 95vw);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .import-options-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .import-options-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .import-option-btn {
+      padding: 14px 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #fff;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .import-option-btn:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .import-option-title {
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .import-option-desc {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.9;
+      line-height: 1.3;
+    }
+
+    /* Import Summary Panel */
+    .import-summary-container {
+      width: min(390px, 95vw);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .import-summary-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
+    }
+
+    .import-summary-item {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .import-summary-number {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      min-width: 40px;
+    }
+
+    .import-summary-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #E8F5E9;
+      line-height: 1.3;
+    }
+
+    .import-summary-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .import-summary-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .import-summary-btn.yes {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .import-summary-btn.yes:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes coachPanelEnterFromRight {
+      from { opacity: 0; transform: translate3d(100%, 0, 0); }
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    @keyframes coachPanelEnterFromLeft {
+      from { opacity: 0; transform: translate3d(-100%, 0, 0); }
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    @keyframes coachPanelExitToLeft {
+      from { opacity: 1; transform: translate3d(0, 0, 0); }
+      to { opacity: 0; transform: translate3d(-100%, 0, 0); }
+    }
+
+    @keyframes coachPanelExitToRight {
+      from { opacity: 1; transform: translate3d(0, 0, 0); }
+      to { opacity: 0; transform: translate3d(100%, 0, 0); }
+    }
+
+    @keyframes slideUpToast{
+      from{opacity:0;transform:translateX(-50%) translateY(20px);}
+      to{opacity:1;transform:translateX(-50%) translateY(0);}
+    }
+    @keyframes slideUpModal{
+      0%{transform:translateY(120px) scale(.985);opacity:0;}
+      55%{transform:translateY(-10px) scale(1);opacity:1;}
+      78%{transform:translateY(4px) scale(1);opacity:1;}
+      100%{transform:translateY(0) scale(1);opacity:1;}
+    }
+    @keyframes slideDownRegion{
+      from{opacity:0;transform:translateY(-10px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+    @media (max-width:480px){
+      .header h1{font-size:20px;}
+      .cat-title{font-size:14px;}
+      .item-label{font-size:15px;}
+      .form-grid{grid-template-columns:1fr;}
+      .item-actions{width:124px;}
+      .region-btn{padding:0 10px;font-size:12px;}
+      .form-row-2{grid-template-columns:1fr 1fr;}
+      .coach-mark-container{width:min(95vw, 360px);max-height:calc(100vh - 60px);}
+      .coach-mark-content{min-height:390px;}
+      .coach-mark-content{padding:28px 20px 24px;}
+      .help-menu-container{width:min(95vw, 320px);padding:24px 18px;}
+      .coach-mark-title{font-size:16px;}
+      .coach-mark-title.welcome{font-size:20px;margin-bottom:12px;}
+      .coach-mark-text{font-size:13px;margin-bottom:18px;}
+      .coach-mark-button{font-size:11px;padding:10px 18px;}
+      .about-card{padding:10px 12px;}
+      .about-card-text{font-size:12px;}
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root{
+        --surface:#1E293B;
+        --bg:#0F172A;
+        --text-primary:#F1F5F9;
+        --text-secondary:#94A3B8;
+        --border:#334155;
+        --primary-light:rgba(45,122,79,0.2);
+        --field-idle-bg: rgba(45,122,79,0.18);
+      }
+      .search-input-wrapper{background:rgba(30,41,59,0.82);border-color:rgba(255,255,255,0.08);}
+      #search{color:var(--text-primary);}
+      .chip{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);}
+      .cat-header{background:rgba(45,122,79,0.08);}
+      .qty-control{background:rgba(51,65,85,0.72);border-color:rgba(255,255,255,0.06);}
+      .item-row.fridge{border-color:rgba(255,255,255,0.18);}
+      .region-selector{background:#0F172A;border:1px solid rgba(255,255,255,0.06);}
+      .region-button{background:#0F172A;color:var(--text-primary);border-color:var(--border);}
+      .field input:focus,.field select:focus,.field textarea:focus{
+        background: rgba(15,23,42,0.65);
+      }
+    }
   </style>
 </head>
 <body class="splash-showing preload-main">
   <div class="splash-overlay" id="splash" aria-hidden="true">
     <div class="splash-card">
-      <div class="splash-logo-wrap"><img src="JP_logo.png" class="splash-logo" alt="JemsPantry logo"></div>
-      <div class="splash-loading" aria-live="polite" aria-label="Loading your pantry">
-        <div class="splash-loading-dot"></div><div class="splash-loading-dot"></div><div class="splash-loading-dot"></div><div class="splash-loading-dot"></div>
+      <div class="splash-logo-wrap">
+        <img src="JP_logo.png" class="splash-logo" alt="JemsPantry logo">
       </div>
-      <div class="splash-bottom"><div class="splash-version" id="splashVersion">Version</div></div>
+      <div class="splash-loading" aria-live="polite" aria-label="Loading your pantry">
+        <div class="splash-loading-dot"></div>
+        <div class="splash-loading-dot"></div>
+        <div class="splash-loading-dot"></div>
+        <div class="splash-loading-dot"></div>
+      </div>
+      <div class="splash-bottom">
+        <div class="splash-version" id="splashVersion">Version</div>
+      </div>
     </div>
   </div>
 
@@ -311,27 +2113,61 @@
       <div class="header-top">
         <h1>JemsPantry</h1>
         <div class="header-actions">
-          <button class="undo-btn" id="undoBtn" onclick="performUndo()" title="Undo (Ctrl+Z)" aria-label="Undo last action" disabled>
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H6"></path><path d="M10 8L6 12L10 16"></path></svg>
+          <button class="undo-btn" id="undoBtn" onclick="performUndo()"
+            title="Undo (Ctrl+Z)" aria-label="Undo last action" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 12H6"></path>
+              <path d="M10 8L6 12L10 16"></path>
+            </svg>
           </button>
-          <button class="redo-btn" id="redoBtn" onclick="performRedo()" title="Redo (Ctrl+Y / Ctrl+Shift+Z)" aria-label="Redo last action" disabled>
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12H18"></path><path d="M14 8L18 12L14 16"></path></svg>
+          <button class="redo-btn" id="redoBtn" onclick="performRedo()"
+            title="Redo (Ctrl+Y / Ctrl+Shift+Z)" aria-label="Redo last action" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12H18"></path>
+              <path d="M14 8L18 12L14 16"></path>
+            </svg>
           </button>
           <button class="help-btn" onclick="openHelpMenu()" aria-label="Help">?</button>
         </div>
       </div>
-      <div class="filter-group"><span class="filter-label">Location</span><div class="filter-chips"><div class="chip" onclick="setFilter('loc','Kitchen',this)">Kitchen</div><div class="chip" onclick="setFilter('loc','Garage',this)">Garage</div></div></div>
-      <div class="filter-group"><span class="filter-label">Storage Type</span><div class="filter-chips"><div class="chip" onclick="setFilter('stor','Fridge',this)">Fridge</div><div class="chip" onclick="setFilter('stor','Cupboard',this)">Cupboard</div><div class="chip" onclick="setFilter('stor','Freezer',this)">Freezer</div></div></div>
+
+      <div class="filter-group">
+        <span class="filter-label">Location</span>
+        <div class="filter-chips">
+          <div class="chip" onclick="setFilter('loc','Kitchen',this)">Kitchen</div>
+          <div class="chip" onclick="setFilter('loc','Garage',this)">Garage</div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Storage Type</span>
+        <div class="filter-chips">
+          <div class="chip" onclick="setFilter('stor','Fridge',this)">Fridge</div>
+          <div class="chip" onclick="setFilter('stor','Cupboard',this)">Cupboard</div>
+          <div class="chip" onclick="setFilter('stor','Freezer',this)">Freezer</div>
+        </div>
+      </div>
+
       <div class="search-row">
         <div class="search-container">
           <div class="search-input-wrapper">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
             <input type="text" id="search" placeholder="Search items...">
-            <button class="search-clear" onclick="clearSearch()" aria-label="Clear search"><svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>
+            <button class="search-clear" onclick="clearSearch()" aria-label="Clear search">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+              </svg>
+            </button>
           </div>
         </div>
+
         <button class="cart-btn" onclick="openShoppingList()" aria-label="Shopping list">
-          <svg class="cart-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          <svg class="cart-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
           <span class="cart-badge hidden" id="cartBadge">0</span>
         </button>
       </div>
@@ -347,34 +2183,165 @@
 
   <div class="modal-overlay" id="shoppingModal" onclick="closeShoppingList(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <div class="modal-header"><h2>Shopping List</h2><button class="modal-close" onclick="closeShoppingList()" aria-label="Close shopping list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button></div>
-      <div class="modal-body" id="shoppingListContent"><div class="shopping-list-empty"><div class="shopping-list-empty-icon">🛒</div><h3 style="margin: 0 0 8px; font-size: 16px; color: var(--text-primary);">No items yet</h3><p>Add items from your pantry to start shopping</p></div></div>
+      <div class="modal-header">
+        <h2>Shopping List</h2>
+        <button class="modal-close" onclick="closeShoppingList()" aria-label="Close shopping list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
+      </div>
+      <div class="modal-body" id="shoppingListContent">
+        <div class="shopping-list-empty">
+          <div class="shopping-list-empty-icon">🛒</div>
+          <h3 style="margin: 0 0 8px; font-size: 16px; color: var(--text-primary);">No items yet</h3>
+          <p>Add items from your pantry to start shopping</p>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="modal-overlay" id="itemModal" onclick="closeItemEditor(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <div class="modal-header"><h2 id="itemModalTitle">Add Item</h2><button class="modal-close" onclick="closeItemEditor()" aria-label="Close item editor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button></div>
-      <div class="modal-body" id="itemModalBody">
-        <div class="field"><label>Item Name</label><input id="f_item" type="text" placeholder="e.g. Milk, Chicken Breast" autocomplete="off"></div>
-        <div class="form-grid"><div class="field"><label>Store</label><input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off"></div></div>
-        <div class="form-row-2"><div class="field"><label>Location</label><select id="f_location"><option value="Kitchen">Kitchen</option><option value="Garage">Garage</option></select></div><div class="field"><label>Storage Type</label><select id="f_storage"><option value="Fridge">Fridge</option><option value="Cupboard">Cupboard</option><option value="Freezer">Freezer</option></select></div></div>
-        <div class="form-row-expiry-qty"><div class="field"><label>Expiry Date</label><input id="f_expiry" type="date"></div><div class="field"><label>Quantity</label><input id="f_qty" type="number" min="0" step="1" value="1"></div></div>
-        <div class="form-grid"><div class="field"><label>Category</label><select id="f_category"><option value="">Auto (recommended)</option></select></div></div>
-        <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Optional notes..."></textarea></div>
-        <div class="form-actions"><button class="btn-wide secondary" onclick="closeItemEditor()">Cancel</button><button class="btn-wide primary" onclick="saveItemFromModal()">Save</button></div>
-        <div class="form-actions" id="deleteRow" style="display:none;"><button class="btn-wide danger" onclick="deleteItemFromModal()">Remove Item</button></div>
+      <div class="modal-header">
+        <h2 id="itemModalTitle">Add Item</h2>
+        <button class="modal-close" onclick="closeItemEditor()" aria-label="Close item editor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
       </div>
+      <div class="modal-body" id="itemModalBody">
+        <div class="field">
+          <label>Item Name</label>
+          <input id="f_item" type="text" placeholder="e.g. Milk, Chicken Breast" autocomplete="off">
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>Store</label>
+            <input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off">
+          </div>
+          <div class="field">
+            <label>Location</label>
+            <select id="f_location">
+              <option value="Kitchen">Kitchen</option>
+              <option value="Garage">Garage</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="field">
+            <label>Storage Type</label>
+            <select id="f_storage">
+              <option value="Fridge">Fridge</option>
+              <option value="Cupboard">Cupboard</option>
+              <option value="Freezer">Freezer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <select id="f_category">
+              <option value="">Auto (recommended)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="field">
+            <label>Expiry Date</label>
+            <input id="f_expiry" type="date" placeholder="Click to enter date">
+          </div>
+          <div class="field">
+            <label>Quantity</label>
+            <input id="f_qty" type="number" min="0" step="1" value="1">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Notes</label>
+          <textarea id="f_notes" placeholder="Optional notes..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-wide secondary" onclick="closeItemEditor()">Cancel</button>
+          <button class="btn-wide primary" onclick="saveItemFromModal()">Save</button>
+        </div>
+
+        <div class="form-actions" id="deleteRow" style="display:none;">
+          <button class="btn-wide danger" onclick="deleteItemFromModal()">Remove Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-mark-overlay" id="dataManagerOverlay" onclick="closeDataManager(event)" role="dialog" aria-modal="true" aria-labelledby="dataManagerTitle">
+    <div class="data-manager-container" onclick="event.stopPropagation()">
+      <h2 id="dataManagerTitle" class="data-manager-title">Backup & Data</h2>
+      
+      <div class="data-section">
+        <div class="data-section-title">Export Pantry Data</div>
+        <div class="export-buttons">
+          <button class="data-btn" onclick="exportAsCSV()">CSV</button>
+          <button class="data-btn" onclick="exportAsTSV()">TSV</button>
+        </div>
+        <div class="data-info">Export your pantry data as a spreadsheet file. You can edit it offline and import it back.</div>
+      </div>
+
+      <div class="data-section import-section">
+        <div class="data-section-title">Import Pantry Data</div>
+        <div class="file-input-wrapper">
+          <input type="file" id="dataFileInput" accept=".csv,.tsv" onchange="handleFileImport(event)">
+          <label for="dataFileInput" class="file-input-label">Click to select file (CSV or TSV)</label>
+        </div>
+        <div class="data-info">Supported formats: CSV, TSV. Must have headers: Item, Category, Store, Location, Storage, Quantity, Expiry, Notes</div>
+      </div>
+
+      <button class="data-close" onclick="closeDataManager()" aria-label="Close backup and data"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
 
   <div class="coach-mark-overlay" id="settingsOverlay" onclick="closeSettings(event)" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
     <div class="settings-container" onclick="event.stopPropagation()">
       <h2 id="settingsTitle" class="settings-title">Settings</h2>
-      <div class="settings-section"><div class="settings-section-title">Expiry Alert Days</div><div class="settings-input-group"><input type="number" id="expiryAlertDays" min="1" max="30" placeholder="Days before expiry" style="width: 80px;"><button onclick="saveExpiryAlertDays()">Save</button></div></div>
-      <div class="settings-section"><div class="settings-section-title">Date Format</div><button class="settings-button" onclick="setDateFormat('DD-MM-YYYY')">DD-MM-YYYY</button><button class="settings-button" onclick="setDateFormat('MM-DD-YYYY')">MM-DD-YYYY</button><button class="settings-button" onclick="setDateFormat('YYYY-MM-DD')">YYYY-MM-DD</button></div>
-      <div class="settings-section"><div class="settings-section-title">Keywords & Categories</div><button class="settings-button" onclick="openKeywordManager()">Edit Keywords</button><button class="settings-button" onclick="resetKeywords()">Reset to Defaults</button></div>
-      <div class="settings-section"><div class="settings-section-title">Reset</div><button class="settings-button" onclick="resetAllSettings()">Reset All Settings</button></div>
+      
+      <div class="settings-section">
+        <div class="settings-section-title">Region</div>
+        <div class="settings-field">
+          <label>Select your region:</label>
+          <select id="settingRegion" onchange="updateRegionFromSettings()">
+            <option value="UK">United Kingdom</option>
+            <option value="US">United States</option>
+            <option value="EU">Europe</option>
+            <option value="Global">Global</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Date Format</div>
+        <div class="settings-field">
+          <label>Choose date display format:</label>
+          <select id="settingDateFormat" onchange="updateDateFormatFromSettings()">
+            <option value="UK">DD-MM-YYYY</option>
+            <option value="US">MM-DD-YYYY</option>
+            <option value="EU">DD.MM.YYYY</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Expiry Alert</div>
+        <div class="settings-field">
+          <label>Alert when items expire in (days):</label>
+          <select id="settingExpiryAlert" onchange="updateExpiryAlertFromSettings()">
+            <option value="0">Never (0 days)</option>
+            <option value="1">1 day</option>
+            <option value="3">3 days</option>
+            <option value="7">1 week (7 days)</option>
+            <option value="14">2 weeks (14 days)</option>
+            <option value="30">1 month (30 days)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-actions">
+        <button class="settings-btn" onclick="resetSettings()">Reset to Defaults</button>
+      </div>
+
       <button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
@@ -384,636 +2351,103 @@
       <h2 id="helpMenuTitle" class="help-menu-title">How can we help?</h2>
       <div class="help-menu-buttons">
         <button class="help-menu-btn user-guide-btn" onclick="openUserGuide()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="User Guide"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="User Guide">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
           <span class="help-menu-btn-text">User Guide</span>
         </button>
-        <button class="help-menu-btn export-btn" onclick="openSettings()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Settings"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m2.12 2.12l4.24 4.24M1 12h6m6 0h6m-1.78-7.78l-4.24 4.24m-2.12 2.12l-4.24 4.24"></path></svg>
+        <button class="help-menu-btn export-btn" onclick="openDataManager()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Import/Export">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span class="help-menu-btn-text">Import/Export</span>
+        </button>
+        <button class="help-menu-btn settings-btn" onclick="openSettings()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m2.96 2.96l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m2.96-2.96l4.24-4.24M19.78 19.78l-4.24-4.24m-2.96-2.96l-4.24-4.24"></path>
+          </svg>
           <span class="help-menu-btn-text">Settings</span>
         </button>
+        <button class="help-menu-btn about-btn" onclick="openAbout()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="8" r="0.8" fill="currentColor"></circle>
+            <line x1="12" y1="11" x2="12" y2="16"></line>
+          </svg>
+          <span class="help-menu-btn-text">About</span>
+        </button>
       </div>
-      <div class="help-region-copy"><div class="help-region-title">Region Select</div><div class="help-region-text">This allows smarter regional brand and produce sorting.</div></div>
-      <div class="help-region-row" aria-label="Region select">
-        <button class="help-region-btn" onclick="selectRegion('UK')" data-region="UK" title="United Kingdom" aria-label="Select UK region">UK</button>
-        <button class="help-region-btn" onclick="selectRegion('US')" data-region="US" title="United States" aria-label="Select US region">US</button>
-        <button class="help-region-btn" onclick="selectRegion('EU')" data-region="EU" title="Europe" aria-label="Select EU region">EU</button>
-        <button class="help-region-btn" onclick="selectRegion('Global')" data-region="Global" title="Global" aria-label="Select Global region"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></button>
-      </div>
+
+      <button class="help-menu-close" onclick="closeHelpMenu()" aria-label="Close help menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
 
   <div class="coach-mark-overlay" id="coachMarkOverlay" onclick="closeCoachMarks(event)" role="dialog" aria-modal="true" aria-labelledby="coachMarkTitle" aria-describedby="coachMarkDescription">
     <div class="coach-mark-container" onclick="event.stopPropagation()">
-      <div class="coach-mark-content" id="coachMarkContent" role="main"></div>
-      <div class="coach-mark-footer" role="navigation" aria-label="Coach mark navigation"><div class="coach-mark-dots" id="coachMarkDots" role="tablist" aria-label="Step indicators"></div><div class="coach-mark-nav"><button class="coach-mark-nav-btn" id="coachMarkPrev" onclick="prevCoachMark()" aria-label="Previous step">←</button><button class="coach-mark-nav-btn" id="coachMarkNext" onclick="nextCoachMark()" aria-label="Next step">→</button></div></div>
-      <div class="coach-mark-startup-pref" id="coachMarkStartupPref" style="display:none;" role="region" aria-label="Preferences"><input type="checkbox" id="coachMarkDontShow" onchange="setCoachMarkPreference(this.checked)" aria-label="Do not show this onboarding guide again on startup"><label for="coachMarkDontShow">Don't show this again</label></div>
+      <div class="coach-mark-content" id="coachMarkContent" role="main">
+        <!-- Content populated by JavaScript -->
+      </div>
+      <div class="coach-mark-footer" role="navigation" aria-label="Coach mark navigation">
+        <div class="coach-mark-dots" id="coachMarkDots" role="tablist" aria-label="Step indicators">
+          <!-- Dots populated by JavaScript -->
+        </div>
+        <div class="coach-mark-nav">
+          <button class="coach-mark-nav-btn" id="coachMarkPrev" onclick="prevCoachMark()" aria-label="Previous step">←</button>
+          <button class="coach-mark-nav-btn" id="coachMarkNext" onclick="nextCoachMark()" aria-label="Next step">→</button>
+        </div>
+      </div>
+      <div class="coach-mark-startup-pref" id="coachMarkStartupPref" style="display:none;" role="region" aria-label="Preferences">
+        <input type="checkbox" id="coachMarkDontShow" onchange="setCoachMarkPreference(this.checked)" aria-label="Do not show this onboarding guide again on startup">
+        <label for="coachMarkDontShow">Don't show this again</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-mark-overlay" id="importOptionsOverlay" onclick="closeImportOptions(event)" role="dialog" aria-modal="true">
+    <div class="import-options-container" onclick="event.stopPropagation()">
+      <h2 class="import-options-title">How do you want to import?</h2>
+      <div class="import-options-buttons">
+        <button class="import-option-btn" onclick="proceedWithImport('replace')">
+          <span class="import-option-title">Replace All Data</span>
+          <span class="import-option-desc">Remove all current items and use uploaded file</span>
+        </button>
+        <button class="import-option-btn" onclick="proceedWithImport('merge')">
+          <span class="import-option-title">Merge Quantities</span>
+          <span class="import-option-desc">Add quantities to matching items</span>
+        </button>
+      </div>
+      <button class="data-close" onclick="closeImportOptions()" style="top: 12px; right: 12px;" aria-label="Close import options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
+    </div>
+  </div>
+
+  <div class="coach-mark-overlay" id="importSummaryOverlay" onclick="closeImportSummary(event)" role="dialog" aria-modal="true">
+    <div class="import-summary-container" onclick="event.stopPropagation()">
+      <h2 class="import-summary-title">Import Summary</h2>
+      <div id="importSummaryContent">
+        <!-- Populated by JavaScript -->
+      </div>
+      <div class="import-summary-actions">
+        <button class="import-summary-btn yes" onclick="closeImportSummary()">Done</button>
+      </div>
+      <button class="data-close" onclick="closeImportSummary()" style="top: 12px; right: 12px;" aria-label="Close import summary"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
 
   <div class="modal-overlay" id="confirmModal" onclick="closeConfirm(event)">
-    <div class="confirm-sheet" onclick="event.stopPropagation()"><h3 class="confirm-title" id="confirmTitle">Confirm</h3><p class="confirm-message" id="confirmMessage">Are you sure?</p><div class="confirm-actions"><button class="confirm-btn no" id="confirmNoBtn" onclick="confirmNo()">No</button><button class="confirm-btn yes" id="confirmYesBtn" onclick="confirmYes()">Yes</button></div></div>
+    <div class="confirm-sheet" onclick="event.stopPropagation()">
+      <h3 class="confirm-title" id="confirmTitle">Confirm</h3>
+      <p class="confirm-message" id="confirmMessage">Are you sure?</p>
+      <div class="confirm-actions">
+        <button class="confirm-btn no" id="confirmNoBtn" onclick="confirmNo()">No</button>
+        <button class="confirm-btn yes" id="confirmYesBtn" onclick="confirmYes()">Yes</button>
+      </div>
+    </div>
   </div>
 
-  <script>
-    // ===== CORE APPLICATION CODE =====
-    class UndoManager {
-      constructor(maxHistory = 50) {
-        this.history = [];
-        this.currentIndex = -1;
-        this.maxHistory = maxHistory;
-      }
-      record(action) {
-        this.history = this.history.slice(0, this.currentIndex + 1);
-        this.history.push(action);
-        this.currentIndex++;
-        if (this.history.length > this.maxHistory) {
-          this.history.shift();
-          this.currentIndex--;
-        }
-        updateUndoRedoButtons();
-      }
-      undo() {
-        if (this.currentIndex < 0) return false;
-        const action = this.history[this.currentIndex];
-        if (action && action.undo) action.undo();
-        this.currentIndex--;
-        updateUndoRedoButtons();
-        return true;
-      }
-      redo() {
-        if (this.currentIndex >= this.history.length - 1) return false;
-        this.currentIndex++;
-        const action = this.history[this.currentIndex];
-        if (action && action.redo) action.redo();
-        updateUndoRedoButtons();
-        return true;
-      }
-      canUndo() { return this.currentIndex >= 0; }
-      canRedo() { return this.currentIndex < this.history.length - 1; }
-    }
-
-    const undoManager = new UndoManager();
-
-    function updateUndoRedoButtons() {
-      const undoBtn = document.getElementById('undoBtn');
-      const redoBtn = document.getElementById('redoBtn');
-      if (undoBtn) undoBtn.disabled = !undoManager.canUndo();
-      if (redoBtn) redoBtn.disabled = !undoManager.canRedo();
-    }
-
-    function performUndo() {
-      if (undoManager.undo()) {
-        toast('Action undone');
-      }
-    }
-
-    function performRedo() {
-      if (undoManager.redo()) {
-        toast('Action redone');
-      }
-    }
-
-    function createDeleteAction(itemId, itemData, shoppingListSnapshot) {
-      return {
-        undo: () => {
-          inventory.push(JSON.parse(JSON.stringify(itemData)));
-          shoppingList = JSON.parse(JSON.stringify(shoppingListSnapshot));
-          saveInventoryToStorage();
-          saveShoppingList();
-          updateCartBadge();
-          render();
-          toast('Item restored');
-        },
-        redo: () => {
-          inventory = inventory.filter(x => x.rowNumber !== itemId);
-          shoppingList = shoppingList.filter(x => x.rowNumber !== itemId);
-          saveInventoryToStorage();
-          saveShoppingList();
-          updateCartBadge();
-          render();
-          toast('Item deleted');
-        }
-      };
-    }
-
-    function createEditAction(itemId, oldData, newData) {
-      return {
-        undo: () => {
-          const idx = inventory.findIndex(x => x.rowNumber === itemId);
-          if (idx !== -1) inventory[idx] = JSON.parse(JSON.stringify(oldData));
-          saveInventoryToStorage();
-          reconcileShoppingListWithInventory();
-          updateCartBadge();
-          render();
-          toast('Changes undone');
-        },
-        redo: () => {
-          const idx = inventory.findIndex(x => x.rowNumber === itemId);
-          if (idx !== -1) inventory[idx] = JSON.parse(JSON.stringify(newData));
-          saveInventoryToStorage();
-          reconcileShoppingListWithInventory();
-          updateCartBadge();
-          render();
-          toast('Changes redone');
-        }
-      };
-    }
-
-    const APP_VERSION = "1.0.0";
-
-    let inventory = [];
-    let shoppingList = [];
-    let filters = { loc: new Set(), stor: new Set() };
-    let openCats = new Set();
-
-    const INVENTORY_STORAGE_KEY = "jemspantry_inventory_v1";
-    const SHOPPING_STORAGE_KEY = "jemspantry_shoppingList_v1";
-    const OPENCATS_STORAGE_KEY = "jemspantry_openCats_v1";
-    const REGION_KEY = "jemspantry_region_v1";
-    const STORE_COLORS_KEY = "jemspantry_storeColors_v1";
-    const COACH_MARK_HIDE_KEY = "jemspantry_hideCoachMarks_v1";
-    const EXPIRY_ALERT_DAYS_KEY = "jemspantry_expiryAlertDays_v1";
-    const DATE_FORMAT_KEY = "jemspantry_dateFormat_v1";
-    const CUSTOM_KEYWORDS_KEY = "jemspantry_customKeywords_v1";
-
-    let region = "UK";
-    let storeColors = {};
-    let editingId = null;
-    let currentCoachMarkStep = 0;
-    let isStartupCoachMark = false;
-    let expiryAlertDays = 2;
-    let dateFormat = "DD-MM-YYYY";
-
-    const CATEGORIES = ["Fruit & Veg", "Meat, Poultry & Seafood", "Dairy & Refrigerated", "Bakery & Bread", "Pantry & Dry Goods", "Herbs & Spices", "Cereals & Breakfast", "Canned Goods & Sauces", "Frozen Foods", "Snacks", "Beverages", "Condiments & Oils", "Household & Cleaning", "Personal Care & Pharmacy"];
-
-    const COACH_MARKS = [
-      { title: "JemsPantry", text: "Our Mission\n\nOur goal is to make food organisation simple and help households waste less food while saving time and money.", icon: null, iconClass: "green", buttonText: "Next", isMission: true },
-      { title: "Add Items", text: "Tap + to add pantry items with quantity, storage,\nand expiry.", icon: "plus", iconClass: "green", buttonText: "Next" },
-      { title: "Find Items Quickly", text: "Use search, location, and storage filters to find items. Switch regions to see region-specific brands.", icon: "search", iconClass: "primary", buttonText: "Next" },
-      { title: "Smart Categories", text: "Items are automatically categorised. Expand categories to see all your items organised by type.", icon: "folder", iconClass: "primary", buttonText: "Next" },
-      { title: "Shopping List", text: "When items run low (qty ≤ 2), add them to your shopping list. Check items off as you buy them.", icon: "cart", iconClass: "blue", buttonText: "Next" },
-      { title: "100% Privacy", text: "All your pantry data is stored locally on your device. Nothing is uploaded to external servers.", icon: "shield", iconClass: "success", buttonText: "Done" }
-    ];
-
-    const REGION_BRANDS = {
-      UK: { dairy: ["cathedral city","arla","muller","müller","oatly","alpro","lurpak","kerrygold","anchor","philadelphia","lindahls","yeo valley"], bakery: ["warburtons","kingsmill","hovis","allinsons","allinson's","jacksons","jackson's","roberts","sunblest"], breakfast: ["weetabix","alpen","jordans","jordan's","ready brek","dorset cereals","shreddies"], herbsSpices: ["schwartz","bart","rajah","east end","trs","oxo"], canned: ["heinz","branston","baxters","princes","john west","napolina","mutti","cirio"], frozen: ["birds eye","birdseye","mccain","goodfella's","goodfellas","chicago town","aunt bessie's","aunt bessies"], snacks: ["walkers","mcvities","cadbury","tunnocks","foxs","fox's","tyrrells","kettle","pringles","doritos","ferrero"], beverages: ["coca cola","coca-cola","pepsi","ribena","lucozade","vimto","tango","robinsons","irn bru","irn-bru","twinings","pg tips"], personalCare: ["gillette","venus","colgate","sensodyne","sure","lynx"] },
-      US: { dairy: ["kraft","philadelphia","land o'lakes","daisy","chobani","yoplait","dannon","horizon","silk","oatly"], bakery: ["wonder","pepperidge farm","sara lee","nature's own","entennmann's","martin's","bimbo","oroweat","ball park","thomas'"], breakfast: ["kellogg's","quaker","cheerios","special k","general mills"], herbsSpices: ["mccormick","simply organic","spice islands"], canned: ["campbell's","progresso","hunts","del monte","libby's","hormel","stagg","goya","bush's","heinz"], frozen: ["ore-ida","birds eye","mccain","ben & jerry's","haagen-dazs"], snacks: ["lays","doritos","cheetos","ritz","oreo","hershey's","reese's","nature valley","ferrero"], beverages: ["gatorade","powerade","coke","coca-cola","pepsi","dr pepper","mountain dew","snapple","arizona"], personalCare: ["gillette","crest","colgate","old spice","degree"] },
-      EU: { dairy: ["danone","nestle","muller","müller","arla","president","président","galbani","valio","kerrygold"], bakery: ["wasa","jacquet"], breakfast: ["alpen","nestle cereals","jordans","jordan's"], herbsSpices: ["ducros","santa maria","fuchs","knorr"], canned: ["mutti","cirio","bonduelle","rio mare","ortiz","heinz"], frozen: ["findus","dr oetker","mccain"], snacks: ["haribo","milka","ritter sport","lays","pringles","kinder","ferrero","oreo","jacobs"], beverages: ["coca-cola","pepsi","fanta","sprite","san pellegrino","lavazza","nescafe","nespresso"], personalCare: ["nivea","dove","sensodyne","gillette"] },
-      Global: { dairy: ["danone","nestle","oatly","alpro","arla","philadelphia","yoplait","muller","müller","kerrygold","lindahls"], bakery: ["bimbo","warburtons","hovis","pepperidge farm","sara lee","wasa"], breakfast: ["quaker","cheerios","weetabix","alpen","kellogg's"], herbsSpices: ["schwartz","mccormick","simply organic","bart","knorr"], canned: ["heinz","campbell's","mutti","cirio","del monte","libby's","princes","john west","goya"], frozen: ["birds eye","birdseye","mccain","findus","ben & jerry's","haagen-dazs"], snacks: ["pringles","oreo","doritos","lays","kettle","walkers","haribo","kinder","cadbury","mcvities","ferrero"], beverages: ["coca-cola","pepsi","fanta","sprite","nescafe","nespresso","lavazza","twinings"], personalCare: ["gillette","colgate","sensodyne","dove","nivea"] }
-    };
-
-    let toastTimer = null;
-    let toastHideTimer = null;
-
-    function toast(msg){
-      const t = document.getElementById('toast');
-      if (!t) return;
-      t.textContent = msg;
-      t.classList.remove('hide');
-      t.classList.add('show');
-      if (toastTimer) clearTimeout(toastTimer);
-      if (toastHideTimer) clearTimeout(toastHideTimer);
-      toastTimer = setTimeout(() => {
-        t.classList.remove('show');
-        t.classList.add('hide');
-      }, 2200);
-      toastHideTimer = setTimeout(() => {
-        t.classList.remove('hide');
-      }, 2500);
-    }
-
-    function escapeHtml(text){
-      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-      return String(text ?? '').replace(/[&<>"']/g, m => map[m]);
-    }
-
-    function updateHeaderHeight(){
-      const header = document.querySelector('.header');
-      const height = header.offsetHeight;
-      document.documentElement.style.setProperty('--header-height', height + 'px');
-    }
-
-    function showSplashIfNeeded(){
-      const splash = document.getElementById("splash");
-      const ver = document.getElementById("splashVersion");
-      if (ver) ver.textContent = `Version ${APP_VERSION}`;
-      splash.classList.add("active");
-      splash.setAttribute("aria-hidden", "false");
-      document.body.classList.add('splash-showing');
-      const HOLD_MS = 2500;
-      const FADE_MS = 450;
-      setTimeout(() => {
-        splash.classList.add("fading");
-        setTimeout(() => {
-          splash.classList.remove("active", "fading");
-          splash.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("splash-showing", "preload-main");
-          maybeShowStartupCoachMarks();
-        }, FADE_MS + 20);
-      }, HOLD_MS);
-    }
-
-    function getHideCoachMarks(){
-      try {
-        return localStorage.getItem(COACH_MARK_HIDE_KEY) === "1";
-      } catch(e){
-        return false;
-      }
-    }
-
-    function setCoachMarkPreference(checked){
-      try {
-        localStorage.setItem(COACH_MARK_HIDE_KEY, checked ? "1" : "0");
-      } catch(e){}
-    }
-
-    function maybeShowStartupCoachMarks(){
-      if (getHideCoachMarks()) return;
-      openCoachMarks(true);
-    }
-
-    function buildCoachMarkInner(step, stepIndex){
-      let iconHTML = '';
-      if (step.icon === 'plus') {
-        iconHTML = `<div class="coach-mark-icon ${step.iconClass}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" xmlns="http://www.w3.org/2000/svg" aria-label="Add item button"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div>`;
-      } else if (step.icon === 'search') {
-        iconHTML = `<div class="coach-mark-icon ${step.iconClass}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Search icon"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg></div>`;
-      } else if (step.icon === 'folder') {
-        iconHTML = `<div class="coach-mark-icon ${step.iconClass}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Categories"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></div>`;
-      } else if (step.icon === 'cart') {
-        iconHTML = `<div class="coach-mark-icon ${step.iconClass}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Shopping cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>`;
-      } else if (step.icon === 'shield') {
-        iconHTML = `<div class="coach-mark-icon ${step.iconClass}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Shield lock"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><circle cx="12" cy="12" r="2"></circle></svg></div>`;
-      }
-      const isWelcome = stepIndex === 0;
-      const isMission = step.isMission || false;
-      const isLastStep = stepIndex === COACH_MARKS.length - 1;
-      let textHTML = '';
-      if (isMission) {
-        const textParts = step.text.split('\n\n');
-        textHTML = textParts.map((part, idx) => idx === 0 ? `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}" style="font-weight: 900; margin-bottom: 8px;">${escapeHtml(part)}</p>` : `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(part)}</p>`).join('');
-      } else {
-        textHTML = `<p class="coach-mark-text ${isWelcome ? 'welcome' : ''}">${escapeHtml(step.text).replace(/\n/g, "<br>")}</p>`;
-      }
-      const actionButton = isLastStep ? `<button class="coach-mark-button" onclick="closeCoachMarks()" aria-label="Close guide">Close</button>` : '';
-      return `${iconHTML}<h2 class="coach-mark-title ${isWelcome ? 'welcome' : ''}">${escapeHtml(step.title)}</h2>${textHTML}${actionButton}`;
-    }
-
-    function renderCoachMark(direction = 'none'){
-      const step = COACH_MARKS[currentCoachMarkStep];
-      if (!step) return;
-      const content = document.getElementById('coachMarkContent');
-      const isLastStep = currentCoachMarkStep === COACH_MARKS.length - 1;
-      const panel = document.createElement('div');
-      panel.className = 'coach-mark-panel';
-      if (direction === 'forward') panel.classList.add('enter-from-right');
-      if (direction === 'backward') panel.classList.add('enter-from-left');
-      panel.innerHTML = buildCoachMarkInner(step, currentCoachMarkStep);
-      coachSwipeLock = true;
-      const currentPanel = content.querySelector('.coach-mark-panel');
-      if (currentPanel) {
-        currentPanel.classList.remove('enter-from-right', 'enter-from-left');
-        currentPanel.classList.add(direction === 'backward' ? 'exit-to-right' : 'exit-to-left');
-        currentPanel.addEventListener('animationend', () => currentPanel.remove(), { once: true });
-      } else {
-        content.innerHTML = '';
-      }
-      content.appendChild(panel);
-      const unlock = () => { coachSwipeLock = false; };
-      panel.addEventListener('animationend', unlock, { once: true });
-      if (direction === 'none') requestAnimationFrame(unlock);
-      const dotsContainer = document.getElementById('coachMarkDots');
-      dotsContainer.innerHTML = '';
-      for (let i = 0; i < COACH_MARKS.length; i++) {
-        const dot = document.createElement('div');
-        dot.className = `coach-mark-dot ${i === currentCoachMarkStep ? 'active' : ''}`;
-        dot.onclick = () => goToCoachMark(i);
-        dotsContainer.appendChild(dot);
-      }
-      const prevBtn = document.getElementById('coachMarkPrev');
-      const nextBtn = document.getElementById('coachMarkNext');
-      prevBtn.disabled = currentCoachMarkStep === 0;
-      nextBtn.disabled = isLastStep;
-    }
-
-    let coachSwipeLock = false;
-
-    function attachCoachMarkInteractions(){
-      const content = document.getElementById('coachMarkContent');
-      if (!content) return;
-      let touchStartX = 0, touchStartY = 0, touchMoved = false;
-      content.onclick = (event) => {
-        if (coachSwipeLock || event.target.closest('.coach-mark-button, .coach-mark-dot, .coach-mark-nav-btn')) return;
-        if (currentCoachMarkStep < COACH_MARKS.length - 1) nextCoachMark();
-      };
-      content.onkeydown = (event) => {
-        if (coachSwipeLock) return;
-        if (event.key === 'ArrowLeft' && currentCoachMarkStep > 0) { event.preventDefault(); prevCoachMark(); }
-        if (event.key === 'ArrowRight' && currentCoachMarkStep < COACH_MARKS.length - 1) { event.preventDefault(); nextCoachMark(); }
-      };
-      content.ontouchstart = (e) => {
-        if (!e.touches || !e.touches.length) return;
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        touchMoved = false;
-      };
-      content.ontouchmove = (e) => {
-        if (!e.touches || !e.touches.length) return;
-        const deltaX = e.touches[0].clientX - touchStartX;
-        const deltaY = e.touches[0].clientY - touchStartY;
-        if (Math.abs(deltaX) > 12 || Math.abs(deltaY) > 12) touchMoved = true;
-      };
-      content.ontouchend = (e) => {
-        if (coachSwipeLock || !e.changedTouches || !e.changedTouches.length) return;
-        const deltaX = e.changedTouches[0].clientX - touchStartX;
-        const deltaY = e.changedTouches[0].clientY - touchStartY;
-        const absX = Math.abs(deltaX);
-        const absY = Math.abs(deltaY);
-        if (touchMoved && absX > 36 && absX > absY * 1.2) {
-          if (deltaX < 0 && currentCoachMarkStep < COACH_MARKS.length - 1) nextCoachMark();
-          else if (deltaX > 0 && currentCoachMarkStep > 0) prevCoachMark();
-        }
-      };
-    }
-
-    function nextCoachMark(){ if (currentCoachMarkStep < COACH_MARKS.length - 1) { currentCoachMarkStep++; renderCoachMark('forward'); } }
-    function prevCoachMark(){ if (currentCoachMarkStep > 0) { currentCoachMarkStep--; renderCoachMark('backward'); } }
-    function goToCoachMark(index){ const nextIndex = Math.max(0, Math.min(index, COACH_MARKS.length - 1)); const direction = nextIndex > currentCoachMarkStep ? 'forward' : (nextIndex < currentCoachMarkStep ? 'backward' : 'none'); currentCoachMarkStep = nextIndex; renderCoachMark(direction); }
-    
-    function openHelpMenu(){ document.getElementById('helpMenuOverlay').classList.add('active'); }
-    function closeHelpMenu(event){ if (event && event.target !== document.getElementById('helpMenuOverlay')) return; document.getElementById('helpMenuOverlay').classList.remove('active'); }
-    function openUserGuide(){ const helpMenuOverlay = document.getElementById('helpMenuOverlay'); if (helpMenuOverlay) helpMenuOverlay.classList.remove('active'); setTimeout(() => { openCoachMarks(false); }, 50); }
-    
-    function openSettings(){ const helpMenuOverlay = document.getElementById('helpMenuOverlay'); if (helpMenuOverlay) helpMenuOverlay.classList.remove('active'); setTimeout(() => { document.getElementById('settingsOverlay').classList.add('active'); loadSettingsUI(); }, 50); }
-    function closeSettings(event){ if (event && event.target !== document.getElementById('settingsOverlay')) return; document.getElementById('settingsOverlay').classList.remove('active'); }
-    function loadSettingsUI(){ document.getElementById('expiryAlertDays').value = expiryAlertDays; }
-    function saveExpiryAlertDays(){ const val = parseInt(document.getElementById('expiryAlertDays').value, 10); if (val && val > 0 && val <= 30) { expiryAlertDays = val; saveSettingsToStorage(); toast(`Expiry alert set to ${val} days`); render(); } else { toast('Enter a value between 1 and 30'); } }
-    function setDateFormat(format){ dateFormat = format; saveSettingsToStorage(); toast(`Date format: ${format}`); render(); }
-    function openKeywordManager(){ toast('Keyword management feature coming soon'); }
-    function resetKeywords(){ showConfirm({ title: "Reset Keywords?", message: "Reset all category keywords to defaults?", yesText: "Yes", noText: "No", onYes: () => { try { localStorage.removeItem(CUSTOM_KEYWORDS_KEY); } catch(e){} toast("Keywords reset to defaults"); } }); }
-    function resetAllSettings(){ showConfirm({ title: "Reset All Settings?", message: "This will reset all settings to their original defaults.", yesText: "Yes", noText: "No", onYes: () => { expiryAlertDays = 2; dateFormat = "DD-MM-YYYY"; try { localStorage.removeItem(EXPIRY_ALERT_DAYS_KEY); localStorage.removeItem(DATE_FORMAT_KEY); localStorage.removeItem(CUSTOM_KEYWORDS_KEY); } catch(e){} toast("All settings reset to defaults"); loadSettingsUI(); render(); } }); }
-    function saveSettingsToStorage(){ try { localStorage.setItem(EXPIRY_ALERT_DAYS_KEY, String(expiryAlertDays)); localStorage.setItem(DATE_FORMAT_KEY, dateFormat); } catch(e){} }
-    function loadSettingsFromStorage(){ try { const days = localStorage.getItem(EXPIRY_ALERT_DAYS_KEY); if (days) expiryAlertDays = parseInt(days, 10); const fmt = localStorage.getItem(DATE_FORMAT_KEY); if (fmt) dateFormat = fmt; } catch(e){} }
-    
-    function openCoachMarks(isStartup = false){ currentCoachMarkStep = 0; isStartupCoachMark = isStartup; const overlay = document.getElementById('coachMarkOverlay'); const contentDiv = document.getElementById('coachMarkContent'); const prefSection = document.getElementById('coachMarkStartupPref'); const checkbox = document.getElementById('coachMarkDontShow'); if (contentDiv) { contentDiv.style.overflow = ''; contentDiv.style.overflowY = ''; contentDiv.style.WebkitOverflowScrolling = ''; } prefSection.style.display = isStartup ? 'flex' : 'none'; if (checkbox) checkbox.checked = getHideCoachMarks(); renderCoachMark(); overlay.classList.add('active'); attachCoachMarkInteractions(); }
-    function closeCoachMarks(event){ if (event && event.target !== document.getElementById('coachMarkOverlay')) return; document.getElementById('coachMarkOverlay').classList.remove('active'); }
-
-    function saveRegion(){ try { localStorage.setItem(REGION_KEY, region); } catch(e){} }
-    function loadRegion(){ try { region = localStorage.getItem(REGION_KEY) || "UK"; } catch(e){ region = "UK"; } }
-    function selectRegion(val){ region = val; saveRegion(); syncRegionUI(); toast(`Region: ${val}`); render(); }
-    function syncRegionUI(){ document.querySelectorAll('.help-region-btn').forEach(btn => { btn.classList.toggle('active', btn.getAttribute('data-region') === region); }); }
-    
-    function clearSearch(){ document.getElementById('search').value = ''; document.querySelector('.search-clear').classList.remove('active'); render(); }
-    function setFilter(type,val,el){ filters[type].has(val) ? filters[type].delete(val) : filters[type].add(val); el.classList.toggle('active'); render(); }
-    function clearFilters() { filters.loc.clear(); filters.stor.clear(); document.querySelectorAll('.filter-chips .chip').forEach(chip => { chip.classList.remove('active'); }); render(); toast('Filters cleared'); }
-    
-    function saveOpenCatsToStorage(){ try { localStorage.setItem(OPENCATS_STORAGE_KEY, JSON.stringify([...openCats])); } catch(e){} }
-    function loadOpenCatsFromStorage(){ try{ const raw = localStorage.getItem(OPENCATS_STORAGE_KEY); if (!raw) return new Set(); const parsed = JSON.parse(raw); return new Set(Array.isArray(parsed) ? parsed : []); }catch(e){ return new Set(); } }
-    function toggleCategory(cat){ openCats.forEach(c => { if (c !== cat) openCats.delete(c); }); openCats.has(cat) ? openCats.delete(cat) : openCats.add(cat); saveOpenCatsToStorage(); render(); }
-    function getOpenCategory(){ return openCats.size > 0 ? Array.from(openCats)[0] : null; }
-
-    const STORE_BRAND_STYLES = {
-      UK: { "tesco": { bg: "#2F6FD6", text: "#FFFFFF" }, "sainsbury's": { bg: "#F68B1F", text: "#111111" }, "asda": { bg: "#78BE20", text: "#111111" }, "aldi": { bg: "#00539F", text: "#FFFFFF" }, "lidl": { bg: "#0050AA", text: "#FFFFFF" }, "morrisons": { bg: "#1B5E20", text: "#FFFFFF" }, "co-op": { bg: "#00A1E0", text: "#111111" }, "waitrose": { bg: "#3E6F31", text: "#FFFFFF" }, "iceland": { bg: "#D7261E", text: "#FFFFFF" }, "ocado": { bg: "#7F3FBF", text: "#FFFFFF" } },
-      US: { "walmart": { bg: "#0071CE", text: "#FFFFFF" }, "costco": { bg: "#E31837", text: "#FFFFFF" }, "kroger": { bg: "#0054A6", text: "#FFFFFF" }, "albertsons": { bg: "#1B5FA7", text: "#FFFFFF" }, "publix": { bg: "#067A33", text: "#FFFFFF" }, "h-e-b": { bg: "#C8102E", text: "#FFFFFF" }, "aldi": { bg: "#00539F", text: "#FFFFFF" }, "trader joe's": { bg: "#B22222", text: "#FFFFFF" }, "whole foods": { bg: "#2E6B3F", text: "#FFFFFF" }, "meijer": { bg: "#D71920", text: "#FFFFFF" } },
-      EU: { "carrefour": { bg: "#004E9E", text: "#FFFFFF" }, "lidl": { bg: "#0050AA", text: "#FFFFFF" }, "kaufland": { bg: "#D5001C", text: "#FFFFFF" }, "aldi": { bg: "#00539F", text: "#FFFFFF" }, "e.leclerc": { bg: "#005BBB", text: "#FFFFFF" }, "rewe": { bg: "#CC071E", text: "#FFFFFF" }, "edeka": { bg: "#0054A6", text: "#FFFFFF" }, "intermarché": { bg: "#E30613", text: "#FFFFFF" }, "mercadona": { bg: "#00843D", text: "#FFFFFF" }, "auchan": { bg: "#D71920", text: "#FFFFFF" } }
-    };
-    const DEFAULT_STORE_COLORS = ["#2D7A4F","#3B82F6","#EF4444","#F59E0B","#8B5CF6","#06B6D4","#EC4899"];
-
-    function normalizeText(s){ return String(s || "").toLowerCase().replace(/['`]/g, "'").replace(/\s*&\s*/g, " and ").replace(/\s+/g, " ").trim(); }
-    function storeKey(store){ return normalizeText(store); }
-    function getStoreStyle(store, regionName = region){ const key = storeKey(store); if (!key) return null; const regionStyles = STORE_BRAND_STYLES[regionName] || {}; if (regionStyles[key]) return regionStyles[key]; for (const reg of Object.keys(STORE_BRAND_STYLES)) { if (STORE_BRAND_STYLES[reg][key]) return STORE_BRAND_STYLES[reg][key]; } if (storeColors[key]) { return { bg: storeColors[key], text: getContrastingTextColor(storeColors[key]) }; } return null; }
-    function saveStoreColors(){ try { localStorage.setItem(STORE_COLORS_KEY, JSON.stringify(storeColors)); } catch(e){} }
-    function loadStoreColors(){ try{ const raw = localStorage.getItem(STORE_COLORS_KEY); const parsed = raw ? JSON.parse(raw) : {}; storeColors = (parsed && typeof parsed === "object") ? parsed : {}; }catch(e){ storeColors = {}; } }
-    function getStoreColor(store){ const style = getStoreStyle(store); return style ? style.bg : null; }
-    function getStoreTextColor(store){ const style = getStoreStyle(store); return style ? style.text : null; }
-    function setStoreColor(store,hex){ const key = storeKey(store); if (!key) return; storeColors[key] = hex; saveStoreColors(); }
-    function getContrastingTextColor(hexColor){ const hex = String(hexColor || "").replace("#", ""); if (hex.length !== 6) return "#FFFFFF"; const r = parseInt(hex.substring(0,2),16); const g = parseInt(hex.substring(2,4),16); const b = parseInt(hex.substring(4,6),16); const luminance = (0.299*r + 0.587*g + 0.114*b) / 255; return luminance > 0.62 ? "#000000" : "#FFFFFF"; }
-    function ensureStoreHasColor(store){ const s = String(store || "").trim(); if (!s) return; if (getStoreStyle(s)) return; const key = storeKey(s); if (storeColors[key]) return; let hash = 0; for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0; storeColors[key] = DEFAULT_STORE_COLORS[hash % DEFAULT_STORE_COLORS.length]; saveStoreColors(); }
-
-    function saveInventoryToStorage(){ try { localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(inventory)); } catch(e){} }
-    function loadInventoryFromStorage(){ try{ const raw = localStorage.getItem(INVENTORY_STORAGE_KEY); if (!raw) return []; const parsed = JSON.parse(raw); return Array.isArray(parsed) ? parsed : []; }catch(e){ return []; } }
-    function saveShoppingList(){ try { localStorage.setItem(SHOPPING_STORAGE_KEY, JSON.stringify(shoppingList)); } catch(e){} }
-    function loadShoppingListFromStorage(){ try{ const raw = localStorage.getItem(SHOPPING_STORAGE_KEY); if (!raw) return []; const parsed = JSON.parse(raw); return Array.isArray(parsed) ? parsed : []; }catch(e){ return []; } }
-    function reconcileShoppingListWithInventory(){ const byRow = new Map(inventory.map(i => [i.rowNumber, i])); shoppingList = shoppingList.filter(x => byRow.has(x.rowNumber)).map(x => { const inv = byRow.get(x.rowNumber); return { ...x, item: inv.item, store: inv.store, quantity: inv.quantity, category: inv.category }; }); saveShoppingList(); }
-
-    let _confirm = { onYes:null, onNo:null };
-    function showConfirm({ title, message, yesText="Yes", noText="No", onYes, onNo }){ _confirm.onYes = typeof onYes === "function" ? onYes : null; _confirm.onNo = typeof onNo === "function" ? onNo : null; document.getElementById("confirmTitle").textContent = title || "Confirm"; document.getElementById("confirmMessage").textContent = message || "Are you sure?"; document.getElementById("confirmYesBtn").textContent = yesText; document.getElementById("confirmNoBtn").textContent = noText; document.getElementById("confirmModal").classList.add("active"); }
-    function closeConfirm(event){ if (event && event.target !== document.getElementById("confirmModal")) return; document.getElementById("confirmModal").classList.remove("active"); _confirm.onYes = null; _confirm.onNo = null; }
-    function confirmYes(){ const fn = _confirm.onYes; closeConfirm(); if(fn) fn(); }
-    function confirmNo(){ const fn = _confirm.onNo; closeConfirm(); if(fn) fn(); }
-
-    function detectCategoryAuto(item){
-      const name = normalizeText(item.item);
-      if (item.storage === "Freezer") return "Frozen Foods";
-      const scores = new Map();
-      const add = (cat, pts) => scores.set(cat, (scores.get(cat) || 0) + pts);
-      const has = (k) => name.includes(normalizeText(k));
-      if (has("saffron")) add("Herbs & Spices", 14);
-      if (hasAny(["oil","olive oil","vegetable oil","mayo","mustard","vinegar","ketchup","bbq","hot sauce","soy sauce","worcestershire","fish sauce","oyster sauce","hoisin","sriracha","pesto","hummus","houmous","hummous","tahini","aioli","guacamole","sauce","dressing","teriyaki","tamari","chutney","relish","salad cream"])) add("Condiments & Oils", 7);
-      const pack = REGION_BRANDS[region] || REGION_BRANDS.Global;
-      if (pack?.dairy?.some(has)) add("Dairy & Refrigerated", 3);
-      if (pack?.bakery?.some(has)) add("Bakery & Bread", 3);
-      if (pack?.breakfast?.some(has)) add("Cereals & Breakfast", 3);
-      if (has("milk") || has("cheese") || has("butter")) add("Dairy & Refrigerated", 8);
-      if (has("bread") || has("roll") || has("baguette")) add("Bakery & Bread", 8);
-      if (item.storage === "Fridge") { add("Dairy & Refrigerated", 2); add("Fruit & Veg", 1); }
-      if (item.storage === "Cupboard") { add("Pantry & Dry Goods", 1); add("Cereals & Breakfast", 1); }
-      let best = null;
-      let bestScore = 0;
-      for (const category of CATEGORIES){ const score = scores.get(category) || 0; if (score > bestScore){ bestScore = score; best = category; } }
-      return best;
-    }
-
-    function hasAny(arr) {
-      const name = normalizeText(document.getElementById('f_item')?.value || '');
-      return arr.some(k => name.includes(normalizeText(k)));
-    }
-
-    function isItemIncomplete(item){ const hasItem = item.item && String(item.item).trim(); const hasStore = item.store && String(item.store).trim(); const hasLocation = item.location && String(item.location).trim(); const hasStorage = item.storage && String(item.storage).trim(); return !hasItem || !hasStore || !hasLocation || !hasStorage; }
-    function getCategory(item){ const manualCategory = item.category && String(item.category).trim(); if (manualCategory && CATEGORIES.includes(manualCategory)) return manualCategory; return detectCategoryAuto(item); }
-    function isItemUnsorted(item){ if (isItemIncomplete(item)) return true; const manualCategory = item.category && String(item.category).trim(); if (manualCategory && !CATEGORIES.includes(manualCategory)) return true; return !getCategory(item); }
-    function updateCartBadge(){ const badge = document.getElementById('cartBadge'); const count = shoppingList.length; if (count === 0) badge.classList.add('hidden'); else { badge.classList.remove('hidden'); badge.textContent = count; } }
-    function addToShoppingList(rowNumber){ const item = inventory.find(x => x.rowNumber === rowNumber); if (!item) return; const existing = shoppingList.find(x => x.rowNumber === rowNumber); if (existing){ shoppingList = shoppingList.filter(x => x.rowNumber !== rowNumber); toast('Removed from shopping list'); } else { shoppingList.push({ rowNumber, item: item.item, store: item.store, quantity: item.quantity, category: item.category, checked:false }); toast('Added to shopping list'); } saveShoppingList(); updateCartBadge(); render(); renderShoppingList(); }
-
-    function openShoppingList(){ renderShoppingList(); requestAnimationFrame(() => { document.getElementById('shoppingModal').classList.add('active'); }); }
-    function closeShoppingList(event){ if (event && event.target !== document.getElementById('shoppingModal')) return; document.getElementById('shoppingModal').classList.remove('active'); }
-    function toggleShoppingItem(index){ if (shoppingList[index]){ shoppingList[index].checked = !shoppingList[index].checked; saveShoppingList(); renderShoppingList(); } }
-    function removeFromShoppingList(index){ shoppingList.splice(index,1); saveShoppingList(); updateCartBadge(); render(); renderShoppingList(); }
-    function clearCheckedItems(){ shoppingList = shoppingList.filter(x => !x.checked); saveShoppingList(); updateCartBadge(); render(); renderShoppingList(); }
-    function clearAllItems(){ showConfirm({ title:"Clear shopping list?", message:"This will remove all items from your shopping list.", yesText:"Yes", noText:"No", onYes: () => { shoppingList = []; saveShoppingList(); updateCartBadge(); render(); renderShoppingList(); toast("Shopping list cleared"); } }); }
-
-    function renderShoppingList(){ const content = document.getElementById('shoppingListContent'); if (shoppingList.length === 0){ content.innerHTML = `<div class="shopping-list-empty"><div class="shopping-list-empty-icon">🛒</div><h3 style="margin:0 0 8px;font-size:16px;color:var(--text-primary);">No items yet</h3><p>Add items from your pantry to start shopping</p></div>`; return; } const grouped = {}; shoppingList.forEach((item,index) => { const store = item.store || 'Other'; if (!grouped[store]) grouped[store] = []; grouped[store].push({ ...item, index }); }); let html = ''; Object.keys(grouped).sort().forEach(store => { const bg = getStoreColor(store) || "#2D7A4F"; const fg = getStoreTextColor(store) || getContrastingTextColor(bg); html += `<div class="shopping-list-grouped"`; html += `<div class="shopping-store-header" style="background:${bg};color:${fg};">${escapeHtml(store)}</div>`; grouped[store].forEach(item => { html += `<div class="shopping-list-item ${item.checked ? 'checked' : ''}"><input type="checkbox" class="shopping-item-checkbox" ${item.checked ? 'checked' : ''} onchange="toggleShoppingItem(${item.index})"><div class="shopping-item-info"><span class="shopping-item-name">${escapeHtml(item.item)}</span></div><button class="shopping-item-remove" onclick="removeFromShoppingList(${item.index})">✕</button></div>`; }); html += `</div>`; }); html += `<div class="shopping-actions"><button class="btn-action primary" onclick="clearCheckedItems()">Clear Checked</button><button class="btn-action danger" onclick="clearAllItems()">Clear All</button></div><div class="shopping-list-count">${shoppingList.filter(x => x.checked).length} of ${shoppingList.length} items</div>`; content.innerHTML = html; }
-
-    function populateCategoryDropdown(){ const sel = document.getElementById('f_category'); let html = `<option value="">Auto (recommended)</option>`; CATEGORIES.forEach(c => html += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`); sel.innerHTML = html; }
-    function scrollItemModalToTop(){ const modalScroller = document.querySelector("#itemModal .modal-content"); if (modalScroller) modalScroller.scrollTop = 0; const body = document.getElementById("itemModalBody"); if (body) body.scrollTop = 0; }
-    function clearFieldErrors(){ const fields = document.querySelectorAll('.field'); fields.forEach(field => field.classList.remove('error')); }
-    function openItemEditor(rowNumber){ populateCategoryDropdown(); clearFieldErrors(); const modal = document.getElementById('itemModal'); const title = document.getElementById('itemModalTitle'); const delRow = document.getElementById('deleteRow'); editingId = rowNumber; if (!rowNumber){ title.textContent = "Add Item"; delRow.style.display = "none"; document.getElementById('f_item').value = ""; document.getElementById('f_store').value = ""; document.getElementById('f_qty').value = 1; document.getElementById('f_location').value = "Kitchen"; document.getElementById('f_storage').value = "Cupboard"; const openCategory = getOpenCategory(); document.getElementById('f_category').value = openCategory || ""; document.getElementById('f_expiry').value = ""; document.getElementById('f_notes').value = ""; modal.classList.add('active'); setTimeout(() => { scrollItemModalToTop(); document.getElementById('f_item').focus(); }, 60); return; } const item = inventory.find(x => x.rowNumber === rowNumber); if (!item) return; title.textContent = "Edit Item"; delRow.style.display = "block"; document.getElementById('f_item').value = item.item || ""; document.getElementById('f_store').value = item.store || ""; document.getElementById('f_qty').value = Number.isFinite(item.quantity) ? item.quantity : 1; document.getElementById('f_location').value = item.location || "Kitchen"; document.getElementById('f_storage').value = item.storage || "Cupboard"; document.getElementById('f_category').value = CATEGORIES.includes(item.category) ? item.category : ""; document.getElementById('f_expiry').value = item.expiry || ""; document.getElementById('f_notes').value = item.notes || ""; modal.classList.add('active'); setTimeout(() => { scrollItemModalToTop(); document.getElementById('f_item').focus(); }, 60); }
-
-    function closeItemEditor(event){ if (event && event.target !== document.getElementById('itemModal')) return; document.getElementById('itemModal').classList.remove('active'); editingId = null; }
-
-    function validateUnsortedItem(){ if (!editingId) return true; const item = inventory.find(x => x.rowNumber === editingId); if (!item || !isItemUnsorted(item)) return true; const f_item = document.getElementById('f_item'); const f_store = document.getElementById('f_store'); const f_location = document.getElementById('f_location'); const f_storage = document.getElementById('f_storage'); const itemField = f_item.closest('.field'); const storeField = f_store.closest('.field'); const locationField = f_location.closest('.field'); const storageField = f_storage.closest('.field'); [itemField, storeField, locationField, storageField].forEach(f => { if (f) f.classList.remove('error'); }); const missingFields = []; if (!f_item.value.trim()) { itemField.classList.add('error'); missingFields.push('Item Name'); } if (!f_store.value.trim()) { storeField.classList.add('error'); missingFields.push('Store'); } if (!f_location.value.trim()) { locationField.classList.add('error'); missingFields.push('Location'); } if (!f_storage.value.trim()) { storageField.classList.add('error'); missingFields.push('Storage Type'); } if (missingFields.length > 0) { toast(`Required: ${missingFields.join(', ')}`); return false; } return true; }
-
-    function saveItemFromModal(){ const itemName = document.getElementById('f_item').value.trim(); if (!itemName){ toast("Item name required"); return; } if (!validateUnsortedItem()){ return; } const selectedCategory = document.getElementById('f_category').value; const payload = { item: itemName, store: document.getElementById('f_store').value.trim(), quantity: Math.max(0, parseInt(document.getElementById('f_qty').value || "0", 10)), location: document.getElementById('f_location').value, storage: document.getElementById('f_storage').value, category: CATEGORIES.includes(selectedCategory) ? selectedCategory : "", expiry: document.getElementById('f_expiry').value, notes: document.getElementById('f_notes').value.trim() }; ensureStoreHasColor(payload.store); if (!editingId){ const newId = Date.now() + Math.floor(Math.random()*1000); const newItem = { rowNumber: newId, ...payload }; inventory.push(newItem); toast("Item added"); } else { const idx = inventory.findIndex(x => x.rowNumber === editingId); if (idx !== -1) { const oldData = JSON.parse(JSON.stringify(inventory[idx])); inventory[idx] = { ...inventory[idx], ...payload }; undoManager.record(createEditAction(editingId, oldData, inventory[idx])); toast("Item updated"); } } saveInventoryToStorage(); reconcileShoppingListWithInventory(); updateCartBadge(); render(); closeItemEditor(); }
-
-    function deleteItemFromModal(){ if (!editingId) return; const item = inventory.find(x => x.rowNumber === editingId); if (!item) return; showConfirm({ title:"Delete item?", message:`Delete "${item.item}" from this device?`, yesText:"Yes", noText:"No", onYes: () => { const itemBackup = JSON.parse(JSON.stringify(item)); const shoppingBackup = JSON.parse(JSON.stringify(shoppingList)); inventory = inventory.filter(x => x.rowNumber !== editingId); shoppingList = shoppingList.filter(x => x.rowNumber !== editingId); saveInventoryToStorage(); saveShoppingList(); updateCartBadge(); undoManager.record(createDeleteAction(editingId, itemBackup, shoppingBackup)); render(); closeItemEditor(); toast("Item deleted (Undo available)"); } }); }
-
-    function deleteItem(row){ const item = inventory.find(x => x.rowNumber === row); if (!item) return; showConfirm({ title:"Delete item?", message:`Delete "${item.item}" from this device?`, yesText:"Yes", noText:"No", onYes: () => { const itemBackup = JSON.parse(JSON.stringify(item)); const shoppingBackup = JSON.parse(JSON.stringify(shoppingList)); inventory = inventory.filter(x => x.rowNumber !== row); shoppingList = shoppingList.filter(x => x.rowNumber !== row); saveInventoryToStorage(); saveShoppingList(); updateCartBadge(); undoManager.record(createDeleteAction(row, itemBackup, shoppingBackup)); render(); toast("Item deleted (Undo available)"); } }); }
-
-    function updateQty(row, delta){ const item = inventory.find(x => x.rowNumber === row); if (!item) return; item.quantity = Math.max(0, (item.quantity ?? 0) + delta); const inCart = shoppingList.find(x => x.rowNumber === row); if (inCart){ inCart.quantity = item.quantity; saveShoppingList(); } saveInventoryToStorage(); render(); }
-
-    function parseLocalDate(dateStr) { if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null; const [year, month, day] = dateStr.split('-').map(Number); return new Date(year, month - 1, day); }
-
-    function formatExpiryDateForRegion(expiryDateStr) {
-      const expiry = parseLocalDate(expiryDateStr);
-      if (!expiry) return escapeHtml(expiryDateStr || '');
-      const dd = String(expiry.getDate()).padStart(2, '0');
-      const mm = String(expiry.getMonth() + 1).padStart(2, '0');
-      const yyyy = expiry.getFullYear();
-      if (dateFormat === "MM-DD-YYYY") return `${mm}-${dd}-${yyyy}`;
-      if (dateFormat === "YYYY-MM-DD") return `${yyyy}-${mm}-${dd}`;
-      return `${dd}-${mm}-${yyyy}`;
-    }
-
-    function getExpiryInfo(expiryDateStr) {
-      const expiry = parseLocalDate(expiryDateStr);
-      if (!expiry) return null;
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      expiry.setHours(0, 0, 0, 0);
-      const dayMs = 1000 * 60 * 60 * 24;
-      const daysUntilExpiry = Math.round((expiry.getTime() - today.getTime()) / dayMs);
-      if (daysUntilExpiry < 0) return { status: 'expired', daysUntilExpiry };
-      if (daysUntilExpiry > 0 && daysUntilExpiry <= expiryAlertDays) return { status: 'expiring-soon', daysUntilExpiry };
-      return { status: null, daysUntilExpiry };
-    }
-
-    function getExpiryStatus(expiryDateStr) { const info = getExpiryInfo(expiryDateStr); return info ? info.status : null; }
-
-    function getExpiryBadgeHtml(expiryDateStr) { const info = getExpiryInfo(expiryDateStr); if (!info || !info.status) return ''; if (info.status === 'expired') return `<span class="expiry-badge expired">EXPIRED</span>`; const days = Math.max(0, info.daysUntilExpiry); const label = `${days} ${days === 1 ? 'DAY' : 'DAYS'}`; return `<span class="expiry-badge expiring-soon">${label}</span>`; }
-
-    function render(){
-      const container = document.getElementById('main');
-      const query = document.getElementById('search').value.toLowerCase();
-      const searchBtn = document.querySelector('.search-clear');
-      searchBtn.classList.toggle('active', query.length > 0);
-      container.innerHTML = '';
-      const filtered = inventory.filter(i => { const name = (i.item || "").toLowerCase(); const store = (i.store || "").toLowerCase(); const notes = (i.notes || "").toLowerCase(); const sMatch = !query || name.includes(query) || store.includes(query) || notes.includes(query); const lMatch = filters.loc.size === 0 || filters.loc.has(i.location); const rMatch = filters.stor.size === 0 || filters.stor.has(i.storage); return sMatch && lMatch && rMatch; });
-      if (filtered.length === 0){ const hasActiveFilters = filters.loc.size > 0 || filters.stor.size > 0; const clearButtonHtml = hasActiveFilters ? `<button class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>` : ''; container.innerHTML = `<div class="empty-state"><div class="empty-icon">🧺</div><h2>No items found</h2><p>Try adjusting your filters or search</p>${clearButtonHtml}</div>`; return; }
-      const unsortedItems = filtered.filter(i => isItemUnsorted(i));
-      const sortedItems = filtered.filter(i => !isItemUnsorted(i));
-      const derivedCategories = sortedItems.map(i => getCategory(i) || 'Uncategorised').filter(cat => cat && cat !== 'Slimming World');
-      const allCats = [...new Set([...CATEGORIES, ...derivedCategories])];
-      if (unsortedItems.length > 0) allCats.unshift("Unsorted Items");
-      allCats.forEach(cat => {
-        let items;
-        if (cat === "Unsorted Items") items = unsortedItems;
-        else items = sortedItems.filter(i => (getCategory(i) || 'Uncategorised') === cat);
-        if (items.length === 0) return;
-        const block = document.createElement('div');
-        block.className = `category-card ${openCats.has(cat) ? 'open' : ''} ${cat === 'Unsorted Items' ? 'unsorted-items' : ''}`;
-        const hasExpiryAlert = items.some(i => getExpiryStatus(i.expiry) !== null);
-        const expiryAlertHtml = hasExpiryAlert ? `<span class="cat-expiry-alert">⚠</span>` : '';
-        const catHeader = document.createElement('div');
-        catHeader.className = 'cat-header';
-        catHeader.onclick = () => toggleCategory(cat);
-        catHeader.innerHTML = `<h2 class="cat-title">${escapeHtml(cat)}</h2>${expiryAlertHtml}<span class="cat-count">${items.length}</span><svg class="cat-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
-        block.appendChild(catHeader);
-        const content = document.createElement('div');
-        content.className = 'cat-content';
-        if (cat === 'Unsorted Items') {
-          const warning = document.createElement('div');
-          warning.className = 'unsorted-warning';
-          warning.textContent = 'These items need additional information or a valid category.';
-          content.appendChild(warning);
-        }
-        items.sort((a,b) => (b.quantity || 0) - (a.quantity || 0)).forEach(i => {
-          const isInCart = shoppingList.some(x => x.rowNumber === i.rowNumber);
-          const showAddBtn = (i.quantity ?? 0) <= 2;
-          const row = document.createElement('div');
-          const storageClass = i.storage === "Fridge" ? "fridge" : i.storage === "Cupboard" ? "cupboard" : "freezer";
-          const expiryClass = getExpiryStatus(i.expiry) || '';
-          row.className = `item-row ${storageClass} ${expiryClass} ${(i.quantity ?? 0) === 0 ? 'out-of-stock' : ''}`;
-          const expiryLine = i.expiry ? `Expiry: ${escapeHtml(formatExpiryDateForRegion(i.expiry))}` : "";
-          const notesLine = i.notes ? `Notes: ${escapeHtml(i.notes)}` : "";
-          const expiryBadge = getExpiryBadgeHtml(i.expiry);
-          row.innerHTML = `<div class="item-info"><span class="item-label">${escapeHtml(i.item)}</span><div class="item-meta">${escapeHtml(i.store || "Store")} • ${escapeHtml(i.location)} • ${escapeHtml(i.storage)}</div><div class="item-cat">${escapeHtml(getCategory(i) || "Uncategorised")}</div>${(expiryLine || notesLine) ? `<div class="item-submeta">${[expiryLine, notesLine].filter(Boolean).join(" • ")}</div>` : ""}${expiryBadge}</div><div class="item-actions"><div class="item-controls"><button class="add-to-shop ${showAddBtn ? 'show' : ''} ${isInCart ? 'in-cart' : ''}" onclick="addToShoppingList(${i.rowNumber})"><svg class="add-to-shop-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0020 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>${isInCart ? 'In Cart' : 'Add'}</button><div class="qty-control"><button class="qty-btn minus" onclick="updateQty(${i.rowNumber}, -1)">−</button><div class="qty-display">${i.quantity ?? 0}</div><button class="qty-btn plus" onclick="updateQty(${i.rowNumber}, 1)">+</button></div><div class="item-footer-actions"><button class="edit-btn" onclick="openItemEditor(${i.rowNumber})" title="Edit">✎</button><button class="delete-btn" onclick="deleteItem(${i.rowNumber})">Remove</button></div></div></div>`;
-          content.appendChild(row);
-        });
-        block.appendChild(content);
-        container.appendChild(block);
-      });
-    }
-
-    function setupFieldErrorListeners(){
-      const requiredFields = ['f_item', 'f_store', 'f_location', 'f_storage'];
-      requiredFields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-          field.addEventListener('input', () => {
-            const fieldContainer = field.closest('.field');
-            if (fieldContainer) fieldContainer.classList.remove('error');
-          });
-          field.addEventListener('change', () => {
-            const fieldContainer = field.closest('.field');
-            if (fieldContainer) fieldContainer.classList.remove('error');
-          });
-        }
-      });
-      const itemField = document.getElementById('f_item');
-      if (itemField) {
-        itemField.addEventListener('input', () => {
-          const fieldContainer = itemField.closest('.field');
-          if (fieldContainer) {
-            if (itemField.value.trim()) {
-              fieldContainer.classList.add('item-completed');
-            } else {
-              fieldContainer.classList.remove('item-completed');
-            }
-          }
-        });
-      }
-    }
-
-    function load(){
-      openCats = loadOpenCatsFromStorage();
-      inventory = loadInventoryFromStorage();
-      shoppingList = loadShoppingListFromStorage();
-      loadRegion();
-      syncRegionUI();
-      loadStoreColors();
-      loadSettingsFromStorage();
-      if (!inventory || inventory.length === 0){
-        inventory = [
-          { rowNumber: 1, item: "Bananas", category: "Fruit & Veg", store: "Tesco", location: "Kitchen", storage: "Cupboard", quantity: 5, expiry: "", notes: "" },
-          { rowNumber: 2, item: "Milk", category: "Dairy & Refrigerated", store: "Tesco", location: "Kitchen", storage: "Fridge", quantity: 1, expiry: "", notes: "" },
-          { rowNumber: 3, item: "Chicken Breast", category: "Meat, Poultry & Seafood", store: "Iceland", location: "Kitchen", storage: "Freezer", quantity: 3, expiry: "", notes: "" }
-        ];
-        saveInventoryToStorage();
-      }
-      inventory.forEach(i => ensureStoreHasColor(i.store));
-      reconcileShoppingListWithInventory();
-      updateCartBadge();
-      render();
-      updateHeaderHeight();
-      setupFieldErrorListeners();
-    }
-
-    window.addEventListener('load', () => {
-      load();
-      updateHeaderHeight();
-      showSplashIfNeeded();
-    });
-
-    window.addEventListener('resize', updateHeaderHeight);
-
-    document.getElementById('search').addEventListener('input', () => { render(); });
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); performUndo(); return; }
-      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && e.shiftKey) { e.preventDefault(); performRedo(); return; }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); performRedo(); return; }
-      if (e.key === 'Escape'){ closeShoppingList(); closeItemEditor(); closeConfirm(); closeCoachMarks(); closeHelpMenu(); closeSettings(); }
-    });
-  </script>
+  <script src="jemspantry-script.js"></script>
 </body>
 </html>
