@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -830,7 +829,6 @@
 
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
     .form-grid.full{grid-template-columns:1fr;}
-    .form-grid.four-col{grid-template-columns:1fr 1fr;}
     .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
     .field label{
       font-size:12px;
@@ -1920,7 +1918,6 @@
       .cat-title{font-size:14px;}
       .item-label{font-size:15px;}
       .form-grid{grid-template-columns:1fr;}
-      .form-grid.four-col{grid-template-columns:1fr 1fr;}
       .item-actions{width:124px;}
       .region-btn{padding:0 10px;font-size:12px;}
       .coach-mark-container{width:min(95vw, 360px);max-height:calc(100vh - 60px);}
@@ -2074,19 +2071,20 @@
         <button class="modal-close" onclick="closeItemEditor()" aria-label="Close item editor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
       </div>
       <div class="modal-body" id="itemModalBody">
+        <!-- Item Name - Full Row -->
         <div class="field">
           <label>Item Name</label>
           <input id="f_item" type="text" placeholder="e.g. Milk, Chicken Breast" autocomplete="off">
         </div>
 
-        <div class="form-grid">
-          <div class="field">
-            <label>Store</label>
-            <input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off">
-          </div>
+        <!-- Store - Full Row -->
+        <div class="field">
+          <label>Store</label>
+          <input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off">
         </div>
 
-        <div class="form-grid four-col">
+        <!-- Location | Storage Type - 50/50 Split -->
+        <div class="form-grid">
           <div class="field">
             <label>Location</label>
             <select id="f_location">
@@ -2104,26 +2102,27 @@
           </div>
         </div>
 
-        <div class="form-grid four-col">
-          <div class="field">
-            <label>Category</label>
-            <select id="f_category">
-              <option value="">Auto (recommended)</option>
-            </select>
-          </div>
+        <!-- Category - Full Row -->
+        <div class="field">
+          <label>Category</label>
+          <select id="f_category">
+            <option value="">Auto (recommended)</option>
+          </select>
+        </div>
+
+        <!-- Expiry Date | Quantity - 50/50 Split -->
+        <div class="form-grid">
           <div class="field">
             <label>Expiry Date</label>
             <input id="f_expiry" type="date">
           </div>
-        </div>
-
-        <div class="form-grid">
           <div class="field">
             <label>Quantity</label>
             <input id="f_qty" type="number" min="0" step="1" value="1">
           </div>
         </div>
 
+        <!-- Notes - Full Row -->
         <div class="field">
           <label>Notes</label>
           <textarea id="f_notes" placeholder="Optional notes..."></textarea>
