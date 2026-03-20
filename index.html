@@ -33,8 +33,11 @@
       --surface-strong:rgba(255,255,255,0.94);
       --outline-soft:rgba(255,255,255,0.22);
       --field-shadow:0 0 0 4px rgba(45,122,79,0.10);
+
+      /* moved FAB higher */
       --fab-bottom: max(28px, env(safe-area-inset-bottom));
       --fab-bottom: max(40px, calc(env(safe-area-inset-bottom) + 40px));
+
       --field-idle-bg: rgba(45,122,79,0.10);
     }
 
@@ -57,7 +60,6 @@
       -moz-osx-font-smoothing:grayscale;
       height:100vh;
       overflow:hidden;
-      overscroll-behavior: none;
     }
 
     .header{
@@ -335,7 +337,6 @@
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
       padding-bottom:max(92px, env(safe-area-inset-bottom));
-      overscroll-behavior: contain;
     }
     .container{padding:14px 14px 24px;max-width:880px;margin:0 auto;}
 
@@ -410,25 +411,6 @@
       color: #FF8C00;
     }
     .category-card.open .cat-title{color:#fff;}
-    .cat-badges{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .cat-expiry-badge{
-      font-size:11px;
-      font-weight:900;
-      color:#000;
-      background:var(--expiring-soon);
-      padding:6px 10px;
-      border-radius:999px;
-      min-width:32px;
-      text-align:center;
-    }
-    .category-card.open .cat-expiry-badge{
-      background:rgba(255,255,255,0.3);
-      color:#fff;
-    }
     .cat-count{
       font-size:12px;
       font-weight:900;
@@ -498,7 +480,6 @@
     .item-row.cupboard{background:linear-gradient(180deg,#FFF7E8 0%, #FFF0D2 100%);}
     .item-row.freezer{background:linear-gradient(180deg,#E7FBFF 0%, #D7F3FB 100%);}
     .item-row.expired {
-      border-left: 4px solid var(--expired);
       background: rgba(220, 38, 38, 0.08) !important;
     }
 
@@ -654,7 +635,7 @@
       flex-shrink:0;
     }
     .edit-btn:active{transform:scale(.92);}
-    .delete-btn{
+    .remove-btn{
       display:none;
       flex:1;
       height:38px;
@@ -669,8 +650,8 @@
       text-transform:uppercase;
       letter-spacing:.4px;
     }
-    .delete-btn:active{transform:scale(.96);}
-    .item-row.out-of-stock .item-footer-actions .delete-btn{display:block;opacity:1;}
+    .remove-btn:active{transform:scale(.96);opacity:.95;}
+    .item-row.out-of-stock .item-footer-actions .remove-btn{display:block;}
 
     .modal-overlay{
       position:fixed;top:0;left:0;right:0;bottom:0;
@@ -698,7 +679,6 @@
       transform-origin:bottom center;
       will-change:transform, opacity;
       padding-bottom:max(20px, env(safe-area-inset-bottom));
-      overscroll-behavior: contain;
     }
     .modal-content::before{display:none;}
 
@@ -807,8 +787,6 @@
       font-size:16px;
       flex-shrink:0;
       transition:all .2s ease;
-      line-height:1;
-      padding:0;
     }
     .shopping-item-remove:active{transform:scale(.9);}
     .shopping-list-item.checked{opacity:.6;background:rgba(16,185,129,0.1);}
@@ -850,8 +828,9 @@
     }
 
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;position:relative;}
+    .form-grid.full{grid-template-columns:1fr;}
+    .form-grid.four-col{grid-template-columns:1fr 1fr;}
+    .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
     .field label{
       font-size:12px;
       font-weight:900;
@@ -870,50 +849,12 @@
       color:var(--text-primary);
       transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
-      appearance: none;
-      -webkit-appearance: none;
-    }
-    .field input[type="date"]{
-      background:rgba(251,191,36,0.15);
-      border-color:rgba(251,191,36,0.3);
-    }
-    .field input[type="date"]:focus{
-      background:#fff;
-      border-color:rgba(251,191,36,0.6);
-      box-shadow: 0 0 0 4px rgba(251,191,36,0.15);
-    }
-    .field input::-webkit-calendar-picker-indicator{
-      display:none;
-    }
-    .field input::-webkit-outer-spin-button,
-    .field input::-webkit-inner-spin-button{
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    .field input[type="number"]{
-      -moz-appearance: textfield;
     }
     .field input:focus,.field select:focus,.field textarea:focus{
       background:#fff;
       border-color: rgba(45,122,79,0.45);
       box-shadow: var(--field-shadow);
       transform: translateY(-1px);
-    }
-    .field.valid input,
-    .field.valid select {
-      background: #fff;
-      border-color: rgba(16,185,129,0.4);
-    }
-    .field.valid::after {
-      content: "✓";
-      position: absolute;
-      right: 12px;
-      top: 30px;
-      color: var(--success);
-      font-weight: 900;
-      font-size: 20px;
-      pointer-events: none;
-      line-height: 1;
     }
     .field.error input,
     .field.error select,
@@ -928,8 +869,8 @@
       border-color: #EF4444;
     }
     .field textarea{min-height:54px;resize:vertical;}
-    #deleteRow{justify-content:center;}
-    #deleteRow .btn-wide{width:100%;max-width:100%;margin:0 auto;display:block;}
+    #removeRow{justify-content:center;}
+    #removeRow .btn-wide{width:100%;max-width:100%;margin:0 auto;display:block;}
     .form-actions{display:flex;gap:10px;margin-top:8px;}
     .btn-wide{
       flex:1;
@@ -1205,9 +1146,6 @@
       padding: 28px 20px 22px;
       position: relative;
       animation: coachMarkIn 0.4s ease;
-      max-height: 60vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
     }
 
     .help-menu-title {
@@ -1225,6 +1163,28 @@
       gap: 10px;
       margin-bottom: 12px;
     }
+    .help-region-copy {
+      margin-top: 6px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .help-region-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .help-region-text {
+      font-size: 12px;
+      line-height: 1.4;
+      color: #E8F5E9;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
 
     .help-menu-btn {
       display: flex;
@@ -1268,306 +1228,31 @@
       background: rgba(255, 255, 255, 0.1);
     }
 
-    /* Settings Panel */
-    .settings-container {
-      width: min(390px, 95vw);
-      background:
-        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
-        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-radius: 28px;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255,255,255,0.74);
-      padding: 24px 20px;
-      position: relative;
-      animation: coachMarkIn 0.4s ease;
-      max-height: 80vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .settings-title {
-      font-size: 18px;
-      font-weight: 900;
-      color: #fff;
-      margin: 0 0 18px;
-      text-align: center;
-      letter-spacing: -0.3px;
-    }
-
-    .settings-section {
-      margin-bottom: 18px;
-    }
-
-    .settings-section-title {
-      font-size: 12px;
-      font-weight: 900;
-      color: #E8F5E9;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 10px;
-    }
-
-    .settings-section-title-with-toggle {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .settings-section-title-with-toggle span {
-      font-size: 12px;
-      font-weight: 900;
-      color: #E8F5E9;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .settings-divider {
-      height: 1px;
-      background: rgba(255, 255, 255, 0.2);
-      margin: 12px 0;
-    }
-
-    .settings-toggle-field {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .settings-toggle-field label {
-      font-size: 13px;
-      font-weight: 700;
-      color: #E8F5E9;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 48px;
-      height: 26px;
-    }
-
-    .toggle-checkbox {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(255, 255, 255, 0.2);
-      transition: 0.3s;
-      border-radius: 26px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 2px;
-      bottom: 2px;
-      background-color: #fff;
-      transition: 0.3s;
-      border-radius: 50%;
-    }
-
-    .toggle-checkbox:checked + .toggle-slider {
-      background-color: var(--success);
-      border-color: var(--success);
-    }
-
-    .toggle-checkbox:checked + .toggle-slider:before {
-      transform: translateX(20px);
-    }
-
-    .settings-field {
-      margin-bottom: 12px;
-    }
-
-    .settings-field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #E8F5E9;
-      margin-bottom: 6px;
-    }
-
-    .settings-field select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 28px;
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .settings-field select:hover,
-    .settings-field select:focus {
-      background-color: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.6);
-    }
-
-    .settings-field select option {
-      background: var(--primary);
+    .help-menu-btn.user-guide-btn {
       color: #fff;
     }
 
-    .settings-region-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .settings-region-btn {
-      padding: 12px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
+    .help-menu-btn.user-guide-btn svg {
+      stroke: #fff;
       color: #fff;
-      transition: all 0.2s ease;
     }
 
-    .settings-region-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-      border-color: rgba(255, 255, 255, 0.6);
-    }
-
-    .settings-region-btn.active {
-      background: rgba(255, 255, 255, 0.28);
-      border-color: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-    }
-
-    .settings-region-btn:active {
-      transform: scale(0.96);
-    }
-
-    .settings-expiry-field {
-      margin-bottom: 0;
-    }
-
-    .expiry-number-control {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .expiry-btn {
-      width: 44px;
-      height: 44px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
+    .help-menu-btn.about-btn {
       color: #fff;
-      font-weight: 900;
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
     }
 
-    .expiry-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.5);
-    }
-
-    .expiry-btn:active {
-      transform: scale(0.92);
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .expiry-display {
-      font-size: 20px;
-      font-weight: 900;
+    .help-menu-btn.about-btn svg {
+      stroke: #fff;
       color: #fff;
-      min-width: 50px;
-      text-align: center;
     }
 
-    .settings-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .settings-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    .help-menu-btn.export-btn {
       color: #fff;
-      background: rgba(255, 255, 255, 0.2);
     }
 
-    .settings-btn:active {
-      transform: scale(0.95);
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .settings-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
+    .help-menu-btn.export-btn svg {
+      stroke: #fff;
       color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      padding: 0;
-      line-height: 0;
-    }
-
-    .settings-close svg {
-      width: 16px;
-      height: 16px;
-      display: block;
-      stroke: currentColor;
-      stroke-width: 2.4;
-      fill: none;
-      overflow: visible;
-    }
-
-    .settings-close:active {
-      transform: scale(0.9);
     }
 
     /* Data Manager Modal */
@@ -1876,6 +1561,25 @@
       font-weight: 900;
       margin-bottom: 18px;
       box-shadow: var(--shadow-md);
+      background: #ffffff;
+    }
+
+    .coach-mark-icon.green {
+      background: #ffffff;
+      color: var(--primary);
+    }
+
+    .coach-mark-icon.blue {
+      background: #ffffff;
+      color: var(--primary);
+    }
+
+    .coach-mark-icon.primary {
+      background: #ffffff;
+      color: var(--primary);
+    }
+
+    .coach-mark-icon.success {
       background: #ffffff;
       color: var(--primary);
     }
@@ -2215,13 +1919,14 @@
       .cat-title{font-size:14px;}
       .item-label{font-size:15px;}
       .form-grid{grid-template-columns:1fr;}
+      .form-grid.four-col{grid-template-columns:1fr 1fr;}
       .item-actions{width:124px;}
       .region-btn{padding:0 10px;font-size:12px;}
-      .form-row-2{grid-template-columns:1fr 1fr;}
       .coach-mark-container{width:min(95vw, 360px);max-height:calc(100vh - 60px);}
       .coach-mark-content{min-height:390px;}
       .coach-mark-content{padding:28px 20px 24px;}
       .help-menu-container{width:min(95vw, 320px);padding:24px 18px;}
+      .help-region-row{gap:8px;}
       .coach-mark-title{font-size:16px;}
       .coach-mark-title.welcome{font-size:20px;margin-bottom:12px;}
       .coach-mark-text{font-size:13px;margin-bottom:18px;}
@@ -2373,12 +2078,14 @@
           <input id="f_item" type="text" placeholder="e.g. Milk, Chicken Breast" autocomplete="off">
         </div>
 
-        <div class="field">
-          <label>Store</label>
-          <input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off">
+        <div class="form-grid">
+          <div class="field">
+            <label>Store</label>
+            <input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off">
+          </div>
         </div>
 
-        <div class="form-row-2">
+        <div class="form-grid four-col">
           <div class="field">
             <label>Location</label>
             <select id="f_location">
@@ -2396,18 +2103,20 @@
           </div>
         </div>
 
-        <div class="field">
-          <label>Category</label>
-          <select id="f_category">
-            <option value="">Auto (recommended)</option>
-          </select>
-        </div>
-
-        <div class="form-row-2">
+        <div class="form-grid four-col">
+          <div class="field">
+            <label>Category</label>
+            <select id="f_category">
+              <option value="">Auto (recommended)</option>
+            </select>
+          </div>
           <div class="field">
             <label>Expiry Date</label>
-            <input id="f_expiry" type="date" placeholder="Click to enter date">
+            <input id="f_expiry" type="date">
           </div>
+        </div>
+
+        <div class="form-grid">
           <div class="field">
             <label>Quantity</label>
             <input id="f_qty" type="number" min="0" step="1" value="1">
@@ -2424,8 +2133,8 @@
           <button class="btn-wide primary" onclick="saveItemFromModal()">Save</button>
         </div>
 
-        <div class="form-actions" id="deleteRow" style="display:none;">
-          <button class="btn-wide danger" onclick="deleteItemFromModal()">Remove Item</button>
+        <div class="form-actions" id="removeRow" style="display:none;">
+          <button class="btn-wide danger" onclick="removeItemFromModal()">Remove Item</button>
         </div>
       </div>
     </div>
@@ -2457,58 +2166,6 @@
     </div>
   </div>
 
-  <div class="coach-mark-overlay" id="settingsOverlay" onclick="closeSettings(event)" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-    <div class="settings-container" onclick="event.stopPropagation()">
-    <h2 id="settingsTitle" class="settings-title">Settings</h2>
-      
-    <h2 id="settingsTitle" class="settings-title">Settings</h2>
-      
-      <div class="settings-section">
-        <div class="settings-section-title">Region</div>
-        <div class="settings-region-buttons">
-          <button class="settings-region-btn" data-region="UK" onclick="selectRegionFromSettings('UK')">UK</button>
-          <button class="settings-region-btn" data-region="US" onclick="selectRegionFromSettings('US')">US</button>
-          <button class="settings-region-btn" data-region="EU" onclick="selectRegionFromSettings('EU')">Europe</button>
-          <button class="settings-region-btn" data-region="Global" onclick="selectRegionFromSettings('Global')">Global</button>
-        </div>
-      </div>
-
-      <div class="settings-divider"></div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">Date</div>
-        <div class="settings-field">
-          <select id="settingDateFormat" onchange="updateDateFormatFromSettings()">
-            <option value="UK">DD-MM-YYYY</option>
-            <option value="US">MM-DD-YYYY</option>
-            <option value="EU">DD.MM.YYYY</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="settings-divider"></div>
-
-      <div class="settings-section">
-        <div class="settings-section-title-with-toggle">
-          <span>Expiry</span>
-          <div class="toggle-switch">
-            <input type="checkbox" id="expiryToggle" class="toggle-checkbox" onchange="toggleExpiryAlerts()">
-            <span class="toggle-slider"></span>
-          </div>
-        </div>
-        <div class="settings-expiry-field" id="expiryAlertDaysSection">
-          <div class="expiry-number-control">
-            <button class="expiry-btn minus-btn" onclick="decreaseExpiryAlert()">−</button>
-            <div class="expiry-display" id="expiryDisplay">3</div>
-            <button class="expiry-btn plus-btn" onclick="increaseExpiryAlert()">+</button>
-          </div>
-        </div>
-      </div>
-
-      <button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
-    </div>
-  </div>
-
   <div class="coach-mark-overlay" id="helpMenuOverlay" onclick="closeHelpMenu(event)" role="dialog" aria-modal="true" aria-label="Help menu">
     <div class="help-menu-container" onclick="event.stopPropagation()">
       <h2 id="helpMenuTitle" class="help-menu-title">How can we help?</h2>
@@ -2520,28 +2177,38 @@
           </svg>
           <span class="help-menu-btn-text">User Guide</span>
         </button>
-        <button class="help-menu-btn settings-btn" onclick="openSettings()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
-            <line x1="3" y1="6" x2="18" y2="6"></line>
-            <circle cx="21" cy="6" r="2.5"></circle>
-            <line x1="3" y1="12" x2="18" y2="12"></line>
-            <circle cx="21" cy="12" r="2.5"></circle>
-            <line x1="3" y1="18" x2="18" y2="18"></line>
-            <circle cx="21" cy="18" r="2.5"></circle>
-          </svg>
-          <span class="help-menu-btn-text">Settings</span>
-        </button>
         <button class="help-menu-btn export-btn" onclick="openDataManager()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Data Import/Export">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Import/Export">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span class="help-menu-btn-text">Data Import/Export</span>
+          <span class="help-menu-btn-text">Import/Export</span>
+        </button>
+        <button class="help-menu-btn about-btn" onclick="openAbout()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="8" r="0.8" fill="currentColor"></circle>
+            <line x1="12" y1="11" x2="12" y2="16"></line>
+          </svg>
+          <span class="help-menu-btn-text">About</span>
         </button>
       </div>
-
-      <button class="help-menu-close" onclick="closeHelpMenu()" aria-label="Close help menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
+      <div class="help-region-copy">
+        <div class="help-region-title">Region Select</div>
+        <div class="help-region-text">This allows smarter regional brand and produce sorting.</div>
+      </div>
+      <div class="help-region-row" aria-label="Region select">
+        <button class="help-region-btn" onclick="selectRegion('UK')" data-region="UK" title="United Kingdom" aria-label="Select UK region">UK</button>
+        <button class="help-region-btn" onclick="selectRegion('US')" data-region="US" title="United States" aria-label="Select US region">US</button>
+        <button class="help-region-btn" onclick="selectRegion('EU')" data-region="EU" title="Europe" aria-label="Select EU region">EU</button>
+        <button class="help-region-btn" onclick="selectRegion('Global')" data-region="Global" title="Global" aria-label="Select Global region">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -2607,6 +2274,6 @@
     </div>
   </div>
 
-  <script src="jemspantry-script.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
