@@ -420,7 +420,7 @@
       font-size:11px;
       font-weight:900;
       color:#000;
-      background:var(--expiring-soon);
+      background:#FFEE8C;
       padding:6px 10px;
       border-radius:999px;
       min-width:32px;
@@ -520,7 +520,7 @@
     }
 
     .expiry-badge.expiring-soon {
-      background: #FFEE8C;
+      background: var(--expiring-soon);
       color: #000;
     }
 
@@ -1274,186 +1274,215 @@
 
     /* Settings Panel */
     .settings-container {
-      width: min(390px, 95vw);
-      background:
-        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
-        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      width: min(420px, 94vw);
+      background: var(--surface-strong);
       border-radius: 28px;
       box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255,255,255,0.74);
-      padding: 24px 20px;
+      border: 1px solid rgba(255,255,255,0.9);
+      padding: 0;
       position: relative;
       animation: coachMarkIn 0.4s ease;
-      max-height: 80vh;
+      max-height: 84vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
 
     .settings-title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 900;
       color: #fff;
-      margin: 0 0 18px;
+      margin: 0;
       text-align: center;
       letter-spacing: -0.3px;
+      line-height: 1.2;
+      padding: 20px 56px 18px;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .settings-body {
+      padding: 18px 16px 16px;
+      background:
+        radial-gradient(circle at top, rgba(45,122,79,0.06), transparent 34%),
+        linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);
     }
 
     .settings-section {
-      margin-bottom: 18px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(45,122,79,0.10);
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+      padding: 16px;
     }
 
     .settings-section-title {
-      font-size: 12px;
+      font-size: 18px;
       font-weight: 900;
-      color: #E8F5E9;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 10px;
-    }
-
-    .settings-field {
-      margin-bottom: 12px;
-    }
-
-    .settings-field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #E8F5E9;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
       margin-bottom: 6px;
+      line-height: 1.25;
+      text-transform: none;
+    }
+
+    .settings-section-description {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .settings-field,
+    .settings-expiry-field {
+      margin-bottom: 0;
+    }
+
+    .settings-field label,
+    .settings-expiry-field label {
+      display: none;
     }
 
     .settings-field select {
       width: 100%;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      color: #fff;
-      font-weight: 600;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 16px;
+      color: var(--text-primary);
+      font-weight: 700;
       cursor: pointer;
       appearance: none;
       -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236B7280' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 28px;
-      background-color: rgba(255, 255, 255, 0.15);
+      background-position: right 14px center;
+      padding-right: 36px;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .settings-field select:hover,
     .settings-field select:focus {
-      background-color: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(45,122,79,0.35);
+      box-shadow: var(--field-shadow);
+      outline: none;
     }
 
     .settings-field select option {
-      background: var(--primary);
-      color: #fff;
+      background: #fff;
+      color: var(--text-primary);
     }
 
     .settings-region-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 2px;
     }
 
     .settings-region-btn {
-      padding: 12px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
+      padding: 11px 16px;
+      border: 1.5px solid rgba(45,122,79,0.18);
+      background: #fff;
+      border-radius: 999px;
       cursor: pointer;
       font-weight: 800;
       font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      color: #fff;
+      letter-spacing: 0.2px;
+      color: var(--primary);
       transition: all 0.2s ease;
+      min-width: 84px;
+      flex: 1 1 calc(50% - 5px);
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .settings-region-btn:hover {
-      background: rgba(255, 255, 255, 0.18);
-      border-color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(45,122,79,0.35);
+      background: rgba(45,122,79,0.06);
     }
 
     .settings-region-btn.active {
-      background: rgba(255, 255, 255, 0.28);
-      border-color: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(45,122,79,0.18);
     }
 
     .settings-region-btn:active {
-      transform: scale(0.96);
-    }
-
-    .settings-expiry-field {
-      margin-bottom: 12px;
-    }
-
-    .settings-expiry-field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #E8F5E9;
-      margin-bottom: 10px;
+      transform: scale(0.97);
     }
 
     .expiry-number-control {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
       justify-content: center;
+      padding: 6px 0 0;
     }
 
     .expiry-btn {
-      width: 44px;
-      height: 44px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      color: #fff;
+      width: 46px;
+      height: 46px;
+      border: 1.5px solid rgba(45,122,79,0.18);
+      background: #fff;
+      border-radius: 14px;
+      color: var(--primary);
       font-weight: 900;
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .expiry-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(45,122,79,0.06);
+      border-color: rgba(45,122,79,0.35);
     }
 
     .expiry-btn:active {
-      transform: scale(0.92);
-      background: rgba(255, 255, 255, 0.25);
+      transform: scale(0.95);
+      background: rgba(45,122,79,0.10);
     }
 
     .expiry-display {
-      font-size: 20px;
-      font-weight: 900;
-      color: #fff;
-      min-width: 50px;
+      min-width: 70px;
       text-align: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--text-primary);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 14px;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .reset-btn {
-      background: #EF4444 !important;
-      color: #fff !important;
-      border: none !important;
+      background: #fff !important;
+      color: var(--danger) !important;
+      border: 1.5px solid rgba(239,68,68,0.18) !important;
+      border-radius: 999px !important;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04) !important;
     }
 
     .reset-btn:hover {
-      background: #DC2626 !important;
+      background: rgba(239,68,68,0.06) !important;
+      border-color: rgba(239,68,68,0.35) !important;
     }
 
     .reset-btn:active {
-      background: #B91C1C !important;
+      background: rgba(239,68,68,0.10) !important;
     }
 
     .settings-actions {
