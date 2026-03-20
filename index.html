@@ -520,7 +520,7 @@
     }
 
     .expiry-badge.expiring-soon {
-      background: var(--expiring-soon);
+      background: #FFEE8C;
       color: #000;
     }
 
@@ -858,6 +858,7 @@
     }
     .field input,.field select,.field textarea{
       width:100%;
+      padding-right:42px;
       border:1px solid rgba(15,23,42,0.08);
       border-radius:16px;
       padding:12px 12px;
@@ -902,15 +903,21 @@
       border-color: rgba(16,185,129,0.4);
     }
     .field.valid::after {
-      content: "✓";
+      content: "";
       position: absolute;
       right: 12px;
-      top: 28px;
-      color: var(--success);
-      font-weight: 900;
-      font-size: 18px;
+      top: 50%;
+      transform: translateY(calc(-50% + 12px));
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background-color: #10B981;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 12.5L10 16.5L18.5 8' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 13px 13px;
+      box-shadow: 0 4px 10px rgba(16,185,129,0.22);
       pointer-events: none;
-      line-height: 1;
     }
     .field.error input,
     .field.error select,
@@ -2400,7 +2407,8 @@
     <h2 id="settingsTitle" class="settings-title">Settings</h2>
       
       <div class="settings-section">
-        <div class="settings-section-title">Region</div>
+        <div class="settings-section-title">REGION SELECT</div>
+        <div class="settings-section-description">Choose your region to help auto categorise your items:</div>
         <div class="settings-region-buttons">
           <button class="settings-region-btn" data-region="UK" onclick="selectRegionFromSettings('UK')">UK</button>
           <button class="settings-region-btn" data-region="US" onclick="selectRegionFromSettings('US')">US</button>
@@ -2410,7 +2418,8 @@
       </div>
 
       <div class="settings-section">
-        <div class="settings-section-title">Date Format</div>
+        <div class="settings-section-title">CHOOSE YOUR DATE FORMAT</div>
+        <div class="settings-section-description">Select how you would like the date presented to you:</div>
         <div class="settings-field">
           <label>Choose date display format:</label>
           <select id="settingDateFormat" onchange="updateDateFormatFromSettings()">
@@ -2422,7 +2431,8 @@
       </div>
 
       <div class="settings-section">
-        <div class="settings-section-title">Expiry Alert</div>
+        <div class="settings-section-title">EXPIRY ALERTS</div>
+        <div class="settings-section-description">Customise your expiry alert settings:</div>
         <div class="settings-expiry-field">
           <label>Alert when items expire in (days):</label>
           <div class="expiry-number-control">
