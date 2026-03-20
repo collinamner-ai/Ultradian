@@ -1,6 +1,3 @@
-// JemsPantry - Complete Updated JavaScript
-// All UI/UX changes implemented
-
 class UndoManager {
   constructor(maxHistory = 50) {
     this.history = [];
@@ -82,7 +79,7 @@ function createDeleteAction(itemId, itemData, shoppingListSnapshot) {
       saveShoppingList();
       updateCartBadge();
       render();
-      toast('Item deleted');
+      toast('Item removed');
     }
   };
 }
@@ -121,20 +118,17 @@ const INVENTORY_STORAGE_KEY = "jemspantry_inventory_v1";
 const SHOPPING_STORAGE_KEY = "jemspantry_shoppingList_v1";
 const OPENCATS_STORAGE_KEY = "jemspantry_openCats_v1";
 const REGION_KEY = "jemspantry_region_v1";
-const DATE_FORMAT_KEY = "jemspantry_dateFormat_v1";
-const EXPIRY_ALERT_KEY = "jemspantry_expiryAlert_v1";
 const STORE_COLORS_KEY = "jemspantry_storeColors_v1";
 const COACH_MARK_HIDE_KEY = "jemspantry_hideCoachMarks_v1";
 
 let region = "UK";
-let dateFormat = "UK";
-let expiryAlertDays = 3;
 let storeColors = {};
 let editingId = null;
 let currentCoachMarkStep = 0;
 let isStartupCoachMark = false;
 let pendingImportData = null;
 let pendingImportMode = null;
+let currentViewMode = null; // Track which view is displayed in coach mark overlay
 
 const CATEGORIES = [
   "Fruit & Veg",
@@ -410,7 +404,7 @@ function buildCoachMarkInner(step, stepIndex){
     ? `<p class="coach-mark-text" style="margin: 4px 0 0; font-size: 12px; opacity: 0.85;">Tap or swipe to continue</p>`
     : '';
   const actionButton = isLastStep
-    ? `<button class="coach-mark-button" onclick="closeCoachMarks()" style="width: auto; padding: 13px 28px; font-size: 13px; margin-top: 6px;" aria-label="Close guide - Step ${stepIndex + 1} of ${COACH_MARKS.length}">Close</button>`
+    ? `<button class="coach-mark-button" onclick="closeCoachMarks()" aria-label="Close guide - Step ${stepIndex + 1} of ${COACH_MARKS.length}">Close</button>`
     : '';
 
   return `
@@ -486,6 +480,7 @@ function attachCoachMarkInteractions(){
   content.onclick = (event) => {
     if (coachSwipeLock) return;
     if (event.target.closest('.coach-mark-button, .coach-mark-dot, .coach-mark-nav-btn')) return;
+    if (currentViewMode === 'about') return; // Don't advance on click in about view
     if (currentCoachMarkStep < COACH_MARKS.length - 1) {
       nextCoachMark();
     }
@@ -495,6 +490,7 @@ function attachCoachMarkInteractions(){
     if (coachSwipeLock) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
+      if (currentViewMode === 'about') return; // Don't advance on key in about view
       if (currentCoachMarkStep < COACH_MARKS.length - 1) {
         nextCoachMark();
       }
@@ -509,30 +505,33 @@ function attachCoachMarkInteractions(){
     }
   };
 
-  content.ontouchstart = (e) => {
-    if (!e.touches || !e.touches.length) return;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
+  content.ontouchstart = (event) => {
+    if (!event.touches || !event.touches.length) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
     touchMoved = false;
   };
 
-  content.ontouchmove = (e) => {
-    if (!e.touches || !e.touches.length) return;
-    const deltaX = e.touches[0].clientX - touchStartX;
-    const deltaY = e.touches[0].clientY - touchStartY;
+  content.ontouchmove = (event) => {
+    if (!event.touches || !event.touches.length) return;
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
     if (Math.abs(deltaX) > 12 || Math.abs(deltaY) > 12) {
       touchMoved = true;
     }
   };
 
-  content.ontouchend = (e) => {
+  content.ontouchend = (event) => {
     if (coachSwipeLock) return;
-    if (!e.changedTouches || !e.changedTouches.length) return;
-    const deltaX = e.changedTouches[0].clientX - touchStartX;
-    const deltaY = e.changedTouches[0].clientY - touchStartY;
+    if (!event.changedTouches || !event.changedTouches.length) return;
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
     const absX = Math.abs(deltaX);
     const absY = Math.abs(deltaY);
     if (touchMoved && absX > 36 && absX > absY * 1.2) {
+      if (currentViewMode === 'about') return; // Don't swipe in about view
       if (deltaX < 0 && currentCoachMarkStep < COACH_MARKS.length - 1) {
         nextCoachMark();
       } else if (deltaX > 0 && currentCoachMarkStep > 0) {
@@ -564,6 +563,7 @@ function goToCoachMark(index){
 }
 
 function openHelpMenu(){
+  currentViewMode = null; // Reset view mode
   const overlay = document.getElementById('helpMenuOverlay');
   overlay.classList.add('active');
 }
@@ -579,6 +579,7 @@ function openUserGuide(){
     helpMenuOverlay.classList.remove('active');
   }
   setTimeout(() => {
+    currentViewMode = null;
     openCoachMarks(false);
   }, 50);
 }
@@ -589,6 +590,7 @@ function openAbout(){
     helpMenuOverlay.classList.remove('active');
   }
   setTimeout(() => {
+    currentViewMode = 'about'; // Set to about mode
     const overlay = document.getElementById('coachMarkOverlay');
     const contentDiv = document.getElementById('coachMarkContent');
     const footerDiv = document.querySelector('.coach-mark-footer');
@@ -613,7 +615,7 @@ function openAbout(){
       </div>
     `;
     
-    footerDiv.innerHTML = `<button class="coach-mark-button" onclick="closeCoachMarks()" style="background: #fff; color: var(--primary); width: auto; padding: 13px 28px; font-size: 13px;">Close</button>`;
+    footerDiv.innerHTML = `<button class="coach-mark-button" onclick="closeCoachMarks()" style="background: #fff; color: var(--primary); width: auto;">Close</button>`;
     footerDiv.style.justifyContent = 'center';
     prefDiv.style.display = 'none';
     
@@ -621,128 +623,9 @@ function openAbout(){
   }, 350);
 }
 
-function openSettings(){
-  const helpMenuOverlay = document.getElementById('helpMenuOverlay');
-  if (helpMenuOverlay) {
-    helpMenuOverlay.classList.remove('active');
-  }
-  setTimeout(() => {
-    // Sync settings before opening
-    updateSettingsRegionButtons();
-    document.getElementById('settingDateFormat').value = dateFormat;
-    updateExpiryAlertDisplay();
-    
-    // Show/hide expiry alert days section based on toggle
-    const daysSection = document.getElementById('expiryAlertDaysSection');
-    if (daysSection) {
-      daysSection.style.display = expiryAlertDays > 0 ? 'block' : 'none';
-    }
-    
-    const overlay = document.getElementById('settingsOverlay');
-    if (overlay) {
-      overlay.classList.add('active');
-    }
-  }, 50);
-}
-
-function updateSettingsRegionButtons(){
-  const buttons = document.querySelectorAll('.settings-region-btn');
-  buttons.forEach(btn => {
-    const btnRegion = btn.getAttribute('data-region');
-    btn.classList.toggle('active', btnRegion === region);
-  });
-}
-
-function selectRegionFromSettings(val){
-  region = val;
-  saveRegion();
-  updateSettingsRegionButtons();
-  syncRegionUI();
-  toast(`Region: ${val}`);
-  render();
-}
-
-function increaseExpiryAlert(){
-  if (expiryAlertDays < 30) {
-    expiryAlertDays++;
-    saveExpiryAlert();
-    updateExpiryAlertDisplay();
-    render();
-  }
-}
-
-function decreaseExpiryAlert(){
-  if (expiryAlertDays > 0) {
-    expiryAlertDays--;
-    saveExpiryAlert();
-    updateExpiryAlertDisplay();
-    render();
-  }
-}
-
-function toggleExpiryAlerts(){
-  const toggle = document.getElementById('expiryToggle');
-  const daysSection = document.getElementById('expiryAlertDaysSection');
-  
-  if (toggle.checked) {
-    // Alerts enabled
-    expiryAlertDays = expiryAlertDays === 0 ? 3 : expiryAlertDays;
-    daysSection.style.display = 'block';
-  } else {
-    // Alerts disabled
-    expiryAlertDays = 0;
-    daysSection.style.display = 'none';
-  }
-  
-  saveExpiryAlert();
-  render();
-}
-
-function updateExpiryAlertDisplay(){
-  const display = document.getElementById('expiryDisplay');
-  const toggle = document.getElementById('expiryToggle');
-  if (display) {
-    display.textContent = expiryAlertDays;
-  }
-  if (toggle) {
-    toggle.checked = expiryAlertDays > 0;
-  }
-}
-
-function closeSettings(event){
-  if (event && event.target !== document.getElementById('settingsOverlay')) return;
-  document.getElementById('settingsOverlay').classList.remove('active');
-}
-
-function updateDateFormatFromSettings(){
-  const value = document.getElementById('settingDateFormat').value;
-  dateFormat = value;
-  saveDateFormat();
-  render();
-  toast(`Date format: ${value === 'UK' ? 'DD-MM-YYYY' : value === 'US' ? 'MM-DD-YYYY' : 'DD.MM.YYYY'}`);
-}
-
-function resetSettings(){
-  region = "UK";
-  dateFormat = "UK";
-  expiryAlertDays = 3;
-  
-  saveRegion();
-  saveDateFormat();
-  saveExpiryAlert();
-  
-  // Sync UI
-  document.getElementById('settingRegion').value = "UK";
-  document.getElementById('settingDateFormat').value = "UK";
-  document.getElementById('settingExpiryAlert').value = "3";
-  
-  syncRegionUI();
-  render();
-  toast('Settings reset to defaults');
-}
-
 function openCoachMarks(isStartup = false){
   currentCoachMarkStep = 0;
+  currentViewMode = null; // Reset view mode
   isStartupCoachMark = isStartup;
   const overlay = document.getElementById('coachMarkOverlay');
   const contentDiv = document.getElementById('coachMarkContent');
@@ -772,11 +655,11 @@ function openCoachMarks(isStartup = false){
     footerMarkup.setAttribute('role', 'navigation');
     footerMarkup.setAttribute('aria-label', 'Coach mark navigation');
     footerMarkup.innerHTML = `
-        <div class="coach-mark-dots" id="coachMarkDots" role="tablist" aria-label="Step indicators"></div>
-        <div class="coach-mark-nav">
-          <button class="coach-mark-nav-btn" id="coachMarkPrev" onclick="prevCoachMark()" aria-label="Previous step">←</button>
-          <button class="coach-mark-nav-btn" id="coachMarkNext" onclick="nextCoachMark()" aria-label="Next step">→</button>
-        </div>`;
+      <div class="coach-mark-dots" id="coachMarkDots" role="tablist" aria-label="Step indicators"></div>
+      <div class="coach-mark-nav">
+        <button class="coach-mark-nav-btn" id="coachMarkPrev" onclick="prevCoachMark()" aria-label="Previous step">←</button>
+        <button class="coach-mark-nav-btn" id="coachMarkNext" onclick="nextCoachMark()" aria-label="Next step">→</button>
+      </div>`;
     coachContainer.appendChild(footerMarkup);
   }
 
@@ -790,6 +673,7 @@ function openCoachMarks(isStartup = false){
 
 function closeCoachMarks(event){
   if (event && event.target !== document.getElementById('coachMarkOverlay')) return;
+  currentViewMode = null; // Reset view mode
   document.getElementById('coachMarkOverlay').classList.remove('active');
 }
 
@@ -802,30 +686,6 @@ function loadRegion(){
     region = localStorage.getItem(REGION_KEY) || "UK";
   } catch(e){
     region = "UK";
-  }
-}
-
-function saveDateFormat(){
-  try { localStorage.setItem(DATE_FORMAT_KEY, dateFormat); } catch(e){}
-}
-
-function loadDateFormat(){
-  try {
-    dateFormat = localStorage.getItem(DATE_FORMAT_KEY) || "UK";
-  } catch(e){
-    dateFormat = "UK";
-  }
-}
-
-function saveExpiryAlert(){
-  try { localStorage.setItem(EXPIRY_ALERT_KEY, expiryAlertDays.toString()); } catch(e){}
-}
-
-function loadExpiryAlert(){
-  try {
-    expiryAlertDays = parseInt(localStorage.getItem(EXPIRY_ALERT_KEY) || "3", 10);
-  } catch(e){
-    expiryAlertDays = 3;
   }
 }
 
@@ -1233,20 +1093,48 @@ function detectCategoryAuto(item){
   if (has("saffron")) add("Herbs & Spices", 14);
 
   const KEYWORDS = {
-    "Fruit & Veg": ["apple","apples","banana","bananas","orange","oranges","pear","pears","grape","grapes","melon","watermelon","pineapple","mango","peach","plum","apricot","cherry","cherries","blueberry","blueberries","strawberry","strawberries","raspberry","blackberry","kiwi","lime","lemon","avocado","papaya","guava","grapefruit","clementine","satsuma","mandarin","fig","pomegranate","nectarine","rhubarb","carrot","carrots","broccoli","cauliflower","cabbage","cucumber","tomato","tomatoes","lettuce","spinach","kale","pepper","peppers","onion","onions","garlic","leek","celery","beet","beetroot","radish","turnip","parsnip","potato","potatoes","sweet potato","courgette","zucchini","aubergine","eggplant","mushroom","asparagus","artichoke","green beans","peas","vegetable","vegetables","veg","baby leaf","baby leaves","babyleaf","mixed leaves","salad leaves","leaf salad"],
-    "Meat, Poultry & Seafood": ["beef","pork","lamb","chicken","turkey","duck","steak","mince","minced","ground beef","ground chicken","sausage","sausages","bacon","burger","burgers","ham","gammon","pepperoni","salami","chorizo","fish","salmon","tuna","cod","haddock","plaice","halibut","mackerel","trout","prawn","prawns","shrimp","crab","lobster","mussels","anchovy","sardine","kipper","venison","seafood"],
-    "Dairy & Refrigerated": ["milk","cheese","butter","yoghurt","yogurt","eggs","cream","cheddar","mozzarella","parmesan","parmigiano","parmigiano reggiano","grana padano","feta","brie","camembert","halloumi","edam","stilton","quark","kvarg","ricotta","sour cream","cottage cheese","lactose free","string cheese","cream cheese","double cream","single cream","semi skimmed","skimmed","whole milk","buttermilk","créme fraiche","creme fraiche","custard","kefir","fromage frais","soft cheese","skyr","coleslaw"],
-    "Bakery & Bread": ["bread","roll","rolls","bagel","bagels","wrap","wraps","naan","pitta","pita","baguette","sourdough","croissant","muffin","bun","buns","crumpet","brioche","ciabatta","focaccia","loaf","toastie","teacake"],
-    "Pantry & Dry Goods": ["rice","pasta","noodles","ramen","couscous","quinoa","lentil","lentils","flour","oats","porridge","bean","beans","chickpea","chickpeas","pulses","sugar","honey","syrup","maple","treacle","molasses","jam","preserves","marmalade","semolina","polenta","bulgur","barley","breadcrumbs","stock cube","stock cubes","stock powder","stock pot","stock pots","bouillon","gravy","gravy granules","stuffing","cracker","crackers","taco kit","tortilla kit","pancake mix","baking powder","bicarbonate","baking soda","yeast","custard powder","jelly","gelatine","gelatin","rice pudding","spaghetti","macaroni","penne","fusilli","lasagne sheets","lasagna sheets","icing","icing sugar","icing pens","meringue","meringue nest","meringue nests","oxo"],
-    "Herbs & Spices": ["herb","herbs","spice","spices","seasoning","paprika","cumin","turmeric","coriander","oregano","basil","thyme","rosemary","parsley","mint","dill","chives","tarragon","cinnamon","nutmeg","cardamom","ginger","cloves","pepper","salt","chilli","chili","mustard","vanilla","cocoa","schwartz","colman's","colmans","season all","mixed herbs","italian seasoning","garam masala","five spice","allspice","bay leaf","bay leaves","sage","marjoram","sesame seeds","sesame seed","saffron","garlic powder","onion powder","black pepper","white pepper","peppercorn"],
-    "Cereals & Breakfast": ["cereal","cereals","porridge","muesli","granola","oats","weetabix","cornflakes","frosties","cheerios","bran","flakes","alpen","oatibix","readybrek","ready brek","shreddies","shredded wheat","coco pops","rice krispies","breakfast biscuit","breakfast bar","granola bar","wheats","malt wheats","mini wheats","wheat biscuits"],
-    "Canned Goods & Sauces": ["tin","tins","tinned","canned","passata","soup","soups","pesto","pickle","olives","capers","pasta sauce","curry sauce","baked beans","chopped tomatoes","jar","jars","tomato puree","tomato purée","sundried tomato","sun dried tomato","coconut milk","evaporated milk","condensed milk","sweetcorn","tuna chunks","bean salad","salsa jar","borscht","minestrone","tomato soup","mushroom soup","gherkin","gherkins","pickled gherkins"],
-    "Frozen Foods": ["frozen","sorbet","gelato","popsicle","lolly","ice cream","pizza","chips","fries","hash browns","nuggets","dumplings","gyoza","spring rolls","ice lolly","frozen peas","frozen veg","frozen vegetables","ice lollies"],
-    "Snacks": ["biscuit","biscuits","cookie","cookies","chocolate","crisps","crisp","chips","popcorn","pretzel","flapjack","nuts","trail mix","candy","sweet","sweets","granola bar","cereal bar","protein bar","energy bar","snack bar","rice cake","tart","tarts","brownie","muffin bites","cracker","crackers","nachos","marshmallow","jelly sweets","bars","wafer bar","wafer bars","toffee bars","rocher","pink and whites","pink & whites"],
-    "Beverages": ["juice","cola","tea","coffee","squash","cordial","smoothie","lemonade","cider","beer","wine","vodka","gin","rum","whisky","whiskey","fizz","tonic","water","sparkling","hot chocolate","coke","pepsi","fanta","sprite","kombucha","milkshake","espresso","latte","herbal tea","iced tea","orange juice","apple juice"],
-    "Condiments & Oils": ["oil","olive oil","vegetable oil","mayo","mayonnaise","mustard","vinegar","ketchup","bbq","hot sauce","soy sauce","worcestershire","fish sauce","oyster sauce","hoisin","sriracha","pesto","hummus","houmous","hummous","tahini","aioli","guacamole","sauce","dressing","teriyaki","tamari","chutney","relish","salad cream","fry light","spray oil","cooking spray"],
-    "Household & Cleaning": ["cleaning","detergent","washing powder","washing tablet","laundry","bleach","disinfectant","wipes","toilet paper","tissues","bin bags","bin liner","kitchen roll","paper towel","sponge","cloth","napkins","foil","cling film","washing up liquid","fabric softener","antibacterial","surface cleaner","multi surface","dish soap","soap pads","rubber gloves","toilet cleaner","limescale remover","air freshener","dishwasher","dishwasher cleaner","dishwasher tablet","dishwasher tablets","rinse aid","caddy liners","compostable liners","liners","tie top liners"],
-    "Personal Care & Pharmacy": ["medicine","vitamins","vitamin","supplement","paracetamol","ibuprofen","aspirin","antihistamine","shampoo","conditioner","soap","lotion","moisturiser","moisturizer","deodorant","toothpaste","toothbrush","mouthwash","floss","sunscreen","cold","flu","cough","antacid","allergy","cream","plasters","bandage","bandages","pain relief","lip balm","hand cream","face wash","body wash","sanitiser","sanitizer","razor","razors","gillette","shaving"]
+    "Fruit & Veg": [
+      "apple","apples","banana","bananas","orange","oranges","pear","pears","grape","grapes","melon","watermelon","pineapple","mango","peach","plum","apricot","cherry","cherries","blueberry","blueberries","strawberry","strawberries","raspberry","blackberry","kiwi","lime","lemon","avocado","papaya","guava","grapefruit","clementine","satsuma","mandarin","fig","pomegranate","nectarine","rhubarb","carrot","carrots","broccoli","cauliflower","cabbage","cucumber","tomato","tomatoes","lettuce","spinach","kale","pepper","peppers","onion","onions","garlic","leek","celery","beet","beetroot","radish","turnip","parsnip","potato","potatoes","sweet potato","courgette","zucchini","aubergine","eggplant","mushroom","asparagus","artichoke","green beans","peas","vegetable","vegetables","veg","baby leaf","baby leaves","babyleaf","mixed leaves","salad leaves","leaf salad"
+    ],
+    "Meat, Poultry & Seafood": [
+      "beef","pork","lamb","chicken","turkey","duck","steak","mince","minced","ground beef","ground chicken","sausage","sausages","bacon","burger","burgers","ham","gammon","pepperoni","salami","chorizo","fish","salmon","tuna","cod","haddock","plaice","halibut","mackerel","trout","prawn","prawns","shrimp","crab","lobster","mussels","anchovy","sardine","kipper","venison","seafood"
+    ],
+    "Dairy & Refrigerated": [
+      "milk","cheese","butter","yoghurt","yogurt","eggs","cream","cheddar","mozzarella","parmesan","parmigiano","parmigiano reggiano","grana padano","feta","brie","camembert","halloumi","edam","stilton","quark","kvarg","ricotta","sour cream","cottage cheese","lactose free","string cheese","cream cheese","double cream","single cream","semi skimmed","skimmed","whole milk","buttermilk","créme fraiche","creme fraiche","custard","kefir","fromage frais","soft cheese","skyr","coleslaw"
+    ],
+    "Bakery & Bread": [
+      "bread","roll","rolls","bagel","bagels","wrap","wraps","naan","pitta","pita","baguette","sourdough","croissant","muffin","bun","buns","crumpet","brioche","ciabatta","focaccia","loaf","toastie","teacake"
+    ],
+    "Pantry & Dry Goods": [
+      "rice","pasta","noodles","ramen","couscous","quinoa","lentil","lentils","flour","oats","porridge","bean","beans","chickpea","chickpeas","pulses","sugar","honey","syrup","maple","treacle","molasses","jam","preserves","marmalade","semolina","polenta","bulgur","barley","breadcrumbs","stock cube","stock cubes","stock powder","stock pot","stock pots","bouillon","gravy","gravy granules","stuffing","cracker","crackers","taco kit","tortilla kit","pancake mix","baking powder","bicarbonate","baking soda","yeast","custard powder","jelly","gelatine","gelatin","rice pudding","spaghetti","macaroni","penne","fusilli","lasagne sheets","lasagna sheets","icing","icing sugar","icing pens","meringue","meringue nest","meringue nests","oxo"
+    ],
+    "Herbs & Spices": [
+      "herb","herbs","spice","spices","seasoning","paprika","cumin","turmeric","coriander","oregano","basil","thyme","rosemary","parsley","mint","dill","chives","tarragon","cinnamon","nutmeg","cardamom","ginger","cloves","pepper","salt","chilli","chili","mustard","vanilla","cocoa","schwartz","colman's","colmans","season all","mixed herbs","italian seasoning","garam masala","five spice","allspice","bay leaf","bay leaves","sage","marjoram","sesame seeds","sesame seed","saffron","garlic powder","onion powder","black pepper","white pepper","peppercorn"
+    ],
+    "Cereals & Breakfast": [
+      "cereal","cereals","porridge","muesli","granola","oats","weetabix","cornflakes","frosties","cheerios","bran","flakes","alpen","oatibix","readybrek","ready brek","shreddies","shredded wheat","coco pops","rice krispies","breakfast biscuit","breakfast bar","granola bar","wheats","malt wheats","mini wheats","wheat biscuits"
+    ],
+    "Canned Goods & Sauces": [
+      "tin","tins","tinned","canned","passata","soup","soups","pesto","pickle","olives","capers","pasta sauce","curry sauce","baked beans","chopped tomatoes","jar","jars","tomato puree","tomato purée","sundried tomato","sun dried tomato","coconut milk","evaporated milk","condensed milk","sweetcorn","tuna chunks","bean salad","salsa jar","borscht","minestrone","tomato soup","mushroom soup","gherkin","gherkins","pickled gherkins"
+    ],
+    "Frozen Foods": [
+      "frozen","sorbet","gelato","popsicle","lolly","ice cream","pizza","chips","fries","hash browns","nuggets","dumplings","gyoza","spring rolls","ice lolly","frozen peas","frozen veg","frozen vegetables","ice lollies"
+    ],
+    "Snacks": [
+      "biscuit","biscuits","cookie","cookies","chocolate","crisps","crisp","chips","popcorn","pretzel","flapjack","nuts","trail mix","candy","sweet","sweets","granola bar","cereal bar","protein bar","energy bar","snack bar","rice cake","tart","tarts","brownie","muffin bites","cracker","crackers","nachos","marshmallow","jelly sweets","bars","wafer bar","wafer bars","toffee bars","rocher","pink and whites","pink & whites"
+    ],
+    "Beverages": [
+      "juice","cola","tea","coffee","squash","cordial","smoothie","lemonade","cider","beer","wine","vodka","gin","rum","whisky","whiskey","fizz","tonic","water","sparkling","hot chocolate","coke","pepsi","fanta","sprite","kombucha","milkshake","espresso","latte","herbal tea","iced tea","orange juice","apple juice"
+    ],
+    "Condiments & Oils": [
+      "oil","olive oil","vegetable oil","mayo","mayonnaise","mustard","vinegar","ketchup","bbq","hot sauce","soy sauce","worcestershire","fish sauce","oyster sauce","hoisin","sriracha","pesto","hummus","houmous","hummous","tahini","aioli","guacamole","sauce","dressing","teriyaki","tamari","chutney","relish","salad cream","fry light","spray oil","cooking spray"
+    ],
+    "Household & Cleaning": [
+      "cleaning","detergent","washing powder","washing tablet","laundry","bleach","disinfectant","wipes","toilet paper","tissues","bin bags","bin liner","kitchen roll","paper towel","sponge","cloth","napkins","foil","cling film","washing up liquid","fabric softener","antibacterial","surface cleaner","multi surface","dish soap","soap pads","rubber gloves","toilet cleaner","limescale remover","air freshener","dishwasher","dishwasher cleaner","dishwasher tablet","dishwasher tablets","rinse aid","caddy liners","compostable liners","liners","tie top liners"
+    ],
+    "Personal Care & Pharmacy": [
+      "medicine","vitamins","vitamin","supplement","paracetamol","ibuprofen","aspirin","antihistamine","shampoo","conditioner","soap","lotion","moisturiser","moisturizer","deodorant","toothpaste","toothbrush","mouthwash","floss","sunscreen","cold","flu","cough","antacid","allergy","cream","plasters","bandage","bandages","pain relief","lip balm","hand cream","face wash","body wash","sanitiser","sanitizer","razor","razors","gillette","shaving"
+    ]
   };
 
   Object.entries(KEYWORDS).forEach(([category, keywords]) => {
@@ -1451,33 +1339,7 @@ function scrollItemModalToTop(){
 
 function clearFieldErrors(){
   const fields = document.querySelectorAll('.field');
-  fields.forEach(field => field.classList.remove('error', 'valid'));
-}
-
-function setupFieldValidation(){
-  const requiredFields = ['f_item', 'f_store', 'f_location', 'f_storage'];
-  requiredFields.forEach(fieldId => {
-    const field = document.getElementById(fieldId);
-    if (!field) return;
-    
-    const updateValidation = () => {
-      const fieldContainer = field.closest('.field');
-      if (!fieldContainer) return;
-      
-      const hasValue = field.value && String(field.value).trim();
-      
-      if (hasValue) {
-        fieldContainer.classList.remove('error');
-        fieldContainer.classList.add('valid');
-      } else {
-        fieldContainer.classList.remove('valid');
-        fieldContainer.classList.remove('error');
-      }
-    };
-    
-    field.addEventListener('input', updateValidation);
-    field.addEventListener('change', updateValidation);
-  });
+  fields.forEach(field => field.classList.remove('error'));
 }
 
 function openItemEditor(rowNumber){
@@ -1485,12 +1347,12 @@ function openItemEditor(rowNumber){
   clearFieldErrors();
   const modal = document.getElementById('itemModal');
   const title = document.getElementById('itemModalTitle');
-  const delRow = document.getElementById('deleteRow');
+  const remRow = document.getElementById('removeRow');
   editingId = rowNumber;
 
   if (!rowNumber){
     title.textContent = "Add Item";
-    delRow.style.display = "none";
+    remRow.style.display = "none";
     document.getElementById('f_item').value = "";
     document.getElementById('f_store').value = "";
     document.getElementById('f_qty').value = 1;
@@ -1505,7 +1367,6 @@ function openItemEditor(rowNumber){
     modal.classList.add('active');
     setTimeout(() => {
       scrollItemModalToTop();
-      setupFieldValidation();
       document.getElementById('f_item').focus();
     }, 60);
     return;
@@ -1515,7 +1376,7 @@ function openItemEditor(rowNumber){
   if (!item) return;
 
   title.textContent = "Edit Item";
-  delRow.style.display = "block";
+  remRow.style.display = "block";
   document.getElementById('f_item').value = item.item || "";
   document.getElementById('f_store').value = item.store || "";
   document.getElementById('f_qty').value = Number.isFinite(item.quantity) ? item.quantity : 1;
@@ -1528,7 +1389,6 @@ function openItemEditor(rowNumber){
 
   setTimeout(() => {
     scrollItemModalToTop();
-    setupFieldValidation();
     document.getElementById('f_item').focus();
   }, 60);
 }
@@ -1705,7 +1565,7 @@ function saveItemFromModal(){
   closeItemEditor();
 }
 
-function deleteItemFromModal(){
+function removeItemFromModal(){
   if (!editingId) return;
   const item = inventory.find(x => x.rowNumber === editingId);
   if (!item) return;
@@ -1734,7 +1594,7 @@ function deleteItemFromModal(){
   });
 }
 
-function deleteItem(row){
+function removeItem(row){
   const item = inventory.find(x => x.rowNumber === row);
   if (!item) return;
 
@@ -1790,13 +1650,7 @@ function formatExpiryDateForRegion(expiryDateStr) {
   const mm = String(expiry.getMonth() + 1).padStart(2, '0');
   const yyyy = expiry.getFullYear();
 
-  if (dateFormat === 'US') {
-    return `${mm}-${dd}-${yyyy}`;
-  } else if (dateFormat === 'EU') {
-    return `${dd}.${mm}.${yyyy}`;
-  } else {
-    return `${dd}-${mm}-${yyyy}`;
-  }
+  return region === 'US' ? `${mm}-${dd}-${yyyy}` : `${dd}-${mm}-${yyyy}`;
 }
 
 function getExpiryInfo(expiryDateStr) {
@@ -1814,7 +1668,7 @@ function getExpiryInfo(expiryDateStr) {
     return { status: 'expired', daysUntilExpiry };
   }
 
-  if (daysUntilExpiry <= expiryAlertDays) {
+  if (daysUntilExpiry <= 3) {
     return { status: 'expiring-soon', daysUntilExpiry };
   }
 
@@ -1837,13 +1691,6 @@ function getExpiryBadgeHtml(expiryDateStr) {
   const days = Math.max(0, info.daysUntilExpiry);
   const label = `${days} ${days === 1 ? 'DAY' : 'DAYS'}`;
   return `<span class="expiry-badge expiring-soon">${label}</span>`;
-}
-
-function countCategoryExpiryAlerts(items) {
-  return items.filter(i => {
-    const status = getExpiryStatus(i.expiry);
-    return status !== null;
-  }).length;
 }
 
 function render(){
@@ -1907,17 +1754,9 @@ function render(){
     const catHeader = document.createElement('div');
     catHeader.className = 'cat-header';
     catHeader.onclick = () => toggleCategory(cat);
-    
-    const expiryCount = countCategoryExpiryAlerts(items);
-    const expiryBadgeHTML = expiryCount > 0 ? 
-      `<span class="cat-expiry-badge">${expiryCount}</span>` : '';
-
     catHeader.innerHTML = `
       <h2 class="cat-title">${escapeHtml(cat)}</h2>
-      <div class="cat-badges">
-        ${expiryBadgeHTML}
-        <span class="cat-count">${items.length}</span>
-      </div>
+      <span class="cat-count">${items.length}</span>
       <svg class="cat-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
@@ -1969,7 +1808,7 @@ function render(){
             </div>
             <div class="item-footer-actions">
               <button class="edit-btn" onclick="openItemEditor(${i.rowNumber})" title="Edit">✎</button>
-              <button class="delete-btn" onclick="deleteItem(${i.rowNumber})">Remove</button>
+              <button class="remove-btn" onclick="removeItem(${i.rowNumber})">Remove</button>
             </div>
           </div>
         </div>
@@ -1982,13 +1821,32 @@ function render(){
   });
 }
 
+function setupFieldErrorListeners(){
+  const requiredFields = ['f_item', 'f_store', 'f_location', 'f_storage'];
+  requiredFields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.addEventListener('input', () => {
+        const fieldContainer = field.closest('.field');
+        if (fieldContainer) {
+          fieldContainer.classList.remove('error');
+        }
+      });
+      field.addEventListener('change', () => {
+        const fieldContainer = field.closest('.field');
+        if (fieldContainer) {
+          fieldContainer.classList.remove('error');
+        }
+      });
+    }
+  });
+}
+
 function load(){
   openCats = loadOpenCatsFromStorage();
   inventory = loadInventoryFromStorage();
   shoppingList = loadShoppingListFromStorage();
   loadRegion();
-  loadDateFormat();
-  loadExpiryAlert();
   syncRegionUI();
   loadStoreColors();
 
@@ -2006,6 +1864,7 @@ function load(){
   updateCartBadge();
   render();
   updateHeaderHeight();
+  setupFieldErrorListeners();
   setupDrawerSwipeToClose();
 }
 
@@ -2044,7 +1903,6 @@ document.addEventListener('keydown', (e) => {
     closeCoachMarks();
     closeHelpMenu();
     closeDataManager();
-    closeSettings();
     closeImportOptions();
     closeImportSummary();
   }
