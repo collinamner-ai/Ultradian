@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -426,6 +425,10 @@
       min-width:32px;
       text-align:center;
     }
+    .category-card.open .cat-expiry-badge{
+      background:rgba(255,255,255,0.3);
+      color:#fff;
+    }
     .cat-count{
       font-size:12px;
       font-weight:900;
@@ -750,27 +753,6 @@
       line-height:0;
     }
     .modal-close svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
-
-    .settings-close,
-    .data-close{
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.32);
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      padding: 0;
-      line-height: 0;
-    }
-    .settings-close:active,
-    .data-close:active{
-      transform: scale(0.94);
-    }
     .modal-close:active{transform:scale(.9);}
     .modal-body{padding:16px;}
 
@@ -879,7 +861,6 @@
     }
     .field input,.field select,.field textarea{
       width:100%;
-      padding-right:42px;
       border:1px solid rgba(15,23,42,0.08);
       border-radius:16px;
       padding:12px 12px;
@@ -924,21 +905,15 @@
       border-color: rgba(16,185,129,0.4);
     }
     .field.valid::after {
-      content: "";
+      content: "✓";
       position: absolute;
       right: 12px;
-      top: 50%;
-      transform: translateY(calc(-50% + 12px));
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      background-color: #10B981;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 12.5L10 16.5L18.5 8' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 13px 13px;
-      box-shadow: 0 4px 10px rgba(16,185,129,0.22);
+      top: 30px;
+      color: var(--success);
+      font-weight: 900;
+      font-size: 20px;
       pointer-events: none;
+      line-height: 1;
     }
     .field.error input,
     .field.error select,
@@ -1233,7 +1208,6 @@
       max-height: 80vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      min-height: 520px;
     }
 
     .help-menu-title {
@@ -1296,216 +1270,254 @@
 
     /* Settings Panel */
     .settings-container {
-      width: min(420px, 94vw);
-      background: var(--surface-strong);
-      border-radius: 28px;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255,255,255,0.9);
-      padding: 0;
-      position: relative;
-      animation: coachMarkIn 0.4s ease;
-      max-height: 92vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      min-height: 520px;
-    }
-
-    .settings-title {
-      font-size: 20px;
-      font-weight: 900;
-      color: #fff;
-      margin: 0;
-      text-align: center;
-      letter-spacing: -0.3px;
-      line-height: 1.2;
-      padding: 20px 56px 18px;
+      width: min(390px, 95vw);
       background:
         radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
         linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-top-left-radius: 28px;
-      border-top-right-radius: 28px;
-      box-shadow: var(--shadow-sm);
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .settings-body {
-      padding: 18px 16px 16px;
-      background:
-        radial-gradient(circle at top, rgba(45,122,79,0.06), transparent 34%),
-        linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);
+    .settings-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
     }
 
     .settings-section {
-      margin-bottom: 14px;
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(45,122,79,0.10);
-      border-radius: 18px;
-      box-shadow: var(--shadow-sm);
-      padding: 16px;
+      margin-bottom: 18px;
     }
 
     .settings-section-title {
-      font-size: 18px;
+      font-size: 12px;
       font-weight: 900;
-      color: var(--text-primary);
-      letter-spacing: -0.2px;
+      color: #E8F5E9;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
       margin-bottom: 6px;
-      line-height: 1.25;
-      text-transform: none;
     }
 
-    .settings-section-description {
-      font-size: 14px;
-      line-height: 1.5;
-      color: var(--text-secondary);
-      margin-bottom: 14px;
+    .settings-section-desc {
+      font-size: 12px;
+      font-weight: 600;
+      color: #B5E7A0;
+      line-height: 1.4;
+      margin-bottom: 12px;
     }
 
-    .settings-field,
-    .settings-expiry-field {
-      margin-bottom: 0;
+    .settings-toggle-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
-    .settings-field label,
-    .settings-expiry-field label {
-      display: none;
+    .settings-toggle-field label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #E8F5E9;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .toggle-checkbox {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.2);
+      transition: 0.3s;
+      border-radius: 28px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 2px;
+      bottom: 2px;
+      background-color: #fff;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .toggle-checkbox:checked + .toggle-slider {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+
+    .toggle-checkbox:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+
+    .settings-field {
+      margin-bottom: 12px;
+    }
+
+    .settings-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #E8F5E9;
+      margin-bottom: 6px;
     }
 
     .settings-field select {
       width: 100%;
-      padding: 14px 16px;
-      border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 16px;
-      color: var(--text-primary);
-      font-weight: 700;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
       cursor: pointer;
       appearance: none;
       -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236B7280' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+      background-position: right 10px center;
+      padding-right: 28px;
+      background-color: rgba(255, 255, 255, 0.15);
     }
 
     .settings-field select:hover,
     .settings-field select:focus {
-      border-color: rgba(45,122,79,0.35);
-      box-shadow: var(--field-shadow);
-      outline: none;
+      background-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.6);
     }
 
     .settings-field select option {
-      background: #fff;
-      color: var(--text-primary);
+      background: var(--primary);
+      color: #fff;
     }
 
     .settings-region-buttons {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 2px;
+      margin-top: 10px;
     }
 
     .settings-region-btn {
-      padding: 11px 16px;
-      border: 1.5px solid rgba(45,122,79,0.18);
-      background: #fff;
-      border-radius: 999px;
+      padding: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 800;
       font-size: 13px;
-      letter-spacing: 0.2px;
-      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #fff;
       transition: all 0.2s ease;
-      min-width: 84px;
-      flex: 1 1 calc(50% - 5px);
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .settings-region-btn:hover {
-      border-color: rgba(45,122,79,0.35);
-      background: rgba(45,122,79,0.06);
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.6);
     }
 
     .settings-region-btn.active {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-color: transparent;
-      color: #fff;
-      box-shadow: 0 10px 20px rgba(45,122,79,0.18);
+      background: rgba(255, 255, 255, 0.28);
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
     }
 
     .settings-region-btn:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
+    }
+
+    .settings-expiry-field {
+      margin-bottom: 12px;
+    }
+
+    .settings-expiry-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #E8F5E9;
+      margin-bottom: 10px;
     }
 
     .expiry-number-control {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
       justify-content: center;
-      padding: 6px 0 0;
     }
 
     .expiry-btn {
-      width: 46px;
-      height: 46px;
-      border: 1.5px solid rgba(45,122,79,0.18);
-      background: #fff;
-      border-radius: 14px;
-      color: var(--primary);
+      width: 44px;
+      height: 44px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      color: #fff;
       font-weight: 900;
-      font-size: 20px;
+      font-size: 18px;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .expiry-btn:hover {
-      background: rgba(45,122,79,0.06);
-      border-color: rgba(45,122,79,0.35);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
     }
 
     .expiry-btn:active {
-      transform: scale(0.95);
-      background: rgba(45,122,79,0.10);
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.25);
     }
 
     .expiry-display {
-      min-width: 70px;
-      text-align: center;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 900;
-      color: var(--text-primary);
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 10px 14px;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+      color: #fff;
+      min-width: 50px;
+      text-align: center;
     }
 
     .reset-btn {
-      background: #fff !important;
-      color: var(--danger) !important;
-      border: 1.5px solid rgba(239,68,68,0.18) !important;
-      border-radius: 999px !important;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04) !important;
+      background: #EF4444 !important;
+      color: #fff !important;
+      border: none !important;
     }
 
     .reset-btn:hover {
-      background: rgba(239,68,68,0.06) !important;
-      border-color: rgba(239,68,68,0.35) !important;
+      background: #DC2626 !important;
     }
 
     .reset-btn:active {
-      background: rgba(239,68,68,0.10) !important;
+      background: #B91C1C !important;
     }
 
     .settings-actions {
@@ -1536,13 +1548,13 @@
 
     .settings-close {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(255,255,255,0.24);
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
       color: #fff;
       cursor: pointer;
       display: flex;
@@ -1569,102 +1581,73 @@
 
     /* Data Manager Modal */
     .data-manager-container {
-      width: min(420px, 94vw);
-      background: #FFFFFF;
-      border-radius: 28px;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255,255,255,0.9);
-      padding: 0;
-      position: relative;
-      animation: coachMarkIn 0.4s ease;
-      max-height: 92vh;
-      overflow: hidden;
-    }
-
-    .data-manager-header {
-      position: relative;
-      padding: 20px 56px 18px;
+      width: min(390px, 95vw);
       background:
         radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
         linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-top-left-radius: 28px;
-      border-top-right-radius: 28px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .data-manager-title {
-      font-size: 20px;
-      font-weight: 900;
-      color: #fff;
-      margin: 0;
-      text-align: center;
-      letter-spacing: -0.3px;
-      line-height: 1.2;
-    }
-
-    .data-manager-body {
-      padding: 16px 16px 18px;
-      background: #FFFFFF;
-      max-height: calc(92vh - 74px);
+      border-radius: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.74);
+      padding: 24px 20px;
+      position: relative;
+      animation: coachMarkIn 0.4s ease;
+      max-height: 80vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
 
-    .data-section {
-      margin-bottom: 14px;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-      padding: 0;
+    .data-manager-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 18px;
+      text-align: center;
+      letter-spacing: -0.3px;
     }
 
-    .data-section:last-child {
-      margin-bottom: 0;
+    .data-section {
+      margin-bottom: 18px;
     }
 
     .data-section-title {
-      font-size: 16px;
+      font-size: 12px;
       font-weight: 900;
-      color: var(--text-primary);
-      letter-spacing: -0.2px;
-      margin-bottom: 10px;
-      line-height: 1.25;
+      color: #E8F5E9;
       text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
     }
 
     .export-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
     }
 
     .data-btn {
-      flex: 1 1 calc(50% - 5px);
-      min-width: 120px;
-      padding: 10px 16px;
-      border: 1.5px solid rgba(45,122,79,0.18);
-      background: #fff;
-      border-radius: 999px;
+      padding: 12px 10px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: transparent;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 800;
-      font-size: 13px;
-      letter-spacing: 0.2px;
-      color: var(--primary);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #fff;
       transition: all 0.2s ease;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .data-btn:active {
-      transform: scale(0.97);
-      border-color: rgba(45,122,79,0.35);
-      background: rgba(45,122,79,0.06);
+      transform: scale(0.95);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .import-section {
-      border-top: none;
-      padding-top: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 16px;
     }
 
     .file-input-wrapper {
@@ -1679,31 +1662,31 @@
 
     .file-input-label {
       display: block;
-      padding: 11px 16px;
-      background: #fff;
-      border: 1.5px solid rgba(45,122,79,0.18);
-      border-radius: 999px;
+      padding: 12px 14px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
       text-align: center;
       cursor: pointer;
       font-weight: 800;
-      font-size: 13px;
-      color: var(--primary);
-      letter-spacing: 0.2px;
+      font-size: 12px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
       transition: all 0.2s ease;
-      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .file-input-label:active {
       transform: scale(0.98);
-      border-color: rgba(45,122,79,0.35);
-      background: rgba(45,122,79,0.06);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .data-info {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.45;
-      margin-top: 10px;
+      font-size: 12px;
+      color: #E8F5E9;
+      line-height: 1.5;
+      margin-top: 12px;
       padding: 0;
       border: none;
       background: transparent;
@@ -1713,19 +1696,24 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      z-index: 2;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      padding:0;
+      line-height:0;
     }
+    .data-close svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
 
-    .data-close svg {
-      width: 18px;
-      height: 18px;
-      display: block;
-      stroke: currentColor;
-      stroke-width: 2.4;
-      fill: none;
-      overflow: visible;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .data-close:active {
+      transform: scale(0.9);
     }
 
     .help-menu-close {
@@ -2062,7 +2050,6 @@
       max-height: 80vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      min-height: 520px;
     }
 
     .import-options-title {
@@ -2131,7 +2118,6 @@
       max-height: 80vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      min-height: 520px;
     }
 
     .import-summary-title {
@@ -2391,14 +2377,14 @@
         <button class="modal-close" onclick="closeItemEditor()" aria-label="Close item editor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
       </div>
       <div class="modal-body" id="itemModalBody">
-                <div class="field">
+        <div class="field">
           <label>Item Name</label>
           <input id="f_item" type="text" placeholder="e.g. Milk, Chicken Breast" autocomplete="off">
         </div>
 
         <div class="field">
           <label>Store</label>
-          <input id="f_store" type="text" placeholder="e.g. Tesco, Aldi, Costco" autocomplete="off">
+          <input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off">
         </div>
 
         <div class="form-row-2">
@@ -2456,12 +2442,87 @@
 
   <div class="coach-mark-overlay" id="dataManagerOverlay" onclick="closeDataManager(event)" role="dialog" aria-modal="true" aria-labelledby="dataManagerTitle">
     <div class="data-manager-container" onclick="event.stopPropagation()">
-      <div class="data-manager-header">
-        <h2 id="dataManagerTitle" class="data-manager-title">Data Backup / Export</h2>
-</div>
+      <h2 id="dataManagerTitle" class="data-manager-title">Backup & Data</h2>
+      
+      <div class="data-section">
+        <div class="data-section-title">Export Pantry Data</div>
+        <div class="export-buttons">
+          <button class="data-btn" onclick="exportAsCSV()">CSV</button>
+          <button class="data-btn" onclick="exportAsTSV()">TSV</button>
+        </div>
+        <div class="data-info">Export your pantry data as a spreadsheet file. You can edit it offline and import it back.</div>
+      </div>
+
+      <div class="data-section import-section">
+        <div class="data-section-title">Import Pantry Data</div>
+        <div class="file-input-wrapper">
+          <input type="file" id="dataFileInput" accept=".csv,.tsv" onchange="handleFileImport(event)">
+          <label for="dataFileInput" class="file-input-label">Click to select file (CSV or TSV)</label>
+        </div>
+        <div class="data-info">Supported formats: CSV, TSV. Must have headers: Item, Category, Store, Location, Storage, Quantity, Expiry, Notes</div>
+      </div>
+
+      <button class="data-close" onclick="closeDataManager()" aria-label="Close backup and data"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
+    </div>
+  </div>
+
+  <div class="coach-mark-overlay" id="settingsOverlay" onclick="closeSettings(event)" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-container" onclick="event.stopPropagation()">
+    <h2 id="settingsTitle" class="settings-title">Settings</h2>
+      
+      <div class="settings-section">
+        <div class="settings-section-title">Region Select</div>
+        <div class="settings-section-desc">Select your region to help with smart sorting:</div>
+        <div class="settings-region-buttons">
+          <button class="settings-region-btn" data-region="UK" onclick="selectRegionFromSettings('UK')">UK</button>
+          <button class="settings-region-btn" data-region="US" onclick="selectRegionFromSettings('US')">US</button>
+          <button class="settings-region-btn" data-region="EU" onclick="selectRegionFromSettings('EU')">Europe</button>
+          <button class="settings-region-btn" data-region="Global" onclick="selectRegionFromSettings('Global')">Global</button>
         </div>
       </div>
-</div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Choose Date Format</div>
+        <div class="settings-section-desc">Select how you like the data shown:</div>
+        <div class="settings-field">
+          <select id="settingDateFormat" onchange="updateDateFormatFromSettings()">
+            <option value="UK">DD-MM-YYYY</option>
+            <option value="US">MM-DD-YYYY</option>
+            <option value="EU">DD.MM.YYYY</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">Expiry Alerts</div>
+        <div class="settings-section-desc">Add in a toggle on / off - On shows alert badge on ACCORDIAN HEADER</div>
+        <div class="settings-toggle-field">
+          <label for="expiryToggle">Enable Expiry Alerts</label>
+          <div class="toggle-switch">
+            <input type="checkbox" id="expiryToggle" class="toggle-checkbox" onchange="toggleExpiryAlerts()">
+            <span class="toggle-slider"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section" id="expiryAlertDaysSection">
+        <div class="settings-section-title">Expiry Date Alerts</div>
+        <div class="settings-section-desc">Confirm how many days notice you would like:</div>
+        <div class="settings-expiry-field">
+          <div class="expiry-number-control">
+            <button class="expiry-btn minus-btn" onclick="decreaseExpiryAlert()">−</button>
+            <div class="expiry-display" id="expiryDisplay">3</div>
+            <button class="expiry-btn plus-btn" onclick="increaseExpiryAlert()">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-actions">
+        <button class="settings-btn reset-btn" onclick="resetSettings()">Reset to Defaults</button>
+      </div>
+
+      <button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
+    </div>
   </div>
 
   <div class="coach-mark-overlay" id="helpMenuOverlay" onclick="closeHelpMenu(event)" role="dialog" aria-modal="true" aria-label="Help menu">
@@ -2475,24 +2536,24 @@
           </svg>
           <span class="help-menu-btn-text">User Guide</span>
         </button>
-        <button type="button" class="help-menu-btn" onclick="openSettings()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
-            <line x1="3" y1="5" x2="21" y2="5"></line>
-            <circle cx="15" cy="5" r="2.5"></circle>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <circle cx="9" cy="12" r="2.5"></circle>
-            <line x1="3" y1="19" x2="21" y2="19"></line>
-            <circle cx="16" cy="19" r="2.5"></circle>
+        <button class="help-menu-btn settings-btn" onclick="openSettings()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
+            <line x1="3" y1="6" x2="18" y2="6"></line>
+            <circle cx="21" cy="6" r="2.5"></circle>
+            <line x1="3" y1="12" x2="18" y2="12"></line>
+            <circle cx="21" cy="12" r="2.5"></circle>
+            <line x1="3" y1="18" x2="18" y2="18"></line>
+            <circle cx="21" cy="18" r="2.5"></circle>
           </svg>
           <span class="help-menu-btn-text">Settings</span>
         </button>
         <button class="help-menu-btn export-btn" onclick="openDataManager()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Data Backup / Export">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Data Import/Export">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span class="help-menu-btn-text">Data Backup / Export</span>
+          <span class="help-menu-btn-text">Data Import/Export</span>
         </button>
         <button class="help-menu-btn about-btn" onclick="openAbout()">
           <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
