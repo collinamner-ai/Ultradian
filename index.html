@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2309,16 +2310,14 @@
         <button class="modal-close" onclick="closeItemEditor()" aria-label="Close item editor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
       </div>
       <div class="modal-body" id="itemModalBody">
+        <input id="f_store" type="hidden" value="">
+
         <div class="field">
           <label>Item Name</label>
           <input id="f_item" type="text" placeholder="e.g. Milk, Chicken Breast" autocomplete="off">
         </div>
 
-        <div class="form-grid">
-          <div class="field">
-            <label>Store</label>
-            <input id="f_store" type="text" placeholder="e.g. Tesco, Iceland" autocomplete="off">
-          </div>
+        <div class="form-row-2">
           <div class="field">
             <label>Location</label>
             <select id="f_location">
@@ -2326,9 +2325,6 @@
               <option value="Garage">Garage</option>
             </select>
           </div>
-        </div>
-
-        <div class="form-row-2">
           <div class="field">
             <label>Storage Type</label>
             <select id="f_storage">
@@ -2336,10 +2332,6 @@
               <option value="Cupboard">Cupboard</option>
               <option value="Freezer">Freezer</option>
             </select>
-          </div>
-          <div class="field">
-            <label>Expiry Date</label>
-            <input id="f_expiry" type="date" placeholder="Click to enter date">
           </div>
         </div>
 
@@ -2351,6 +2343,10 @@
         </div>
 
         <div class="form-row-2">
+          <div class="field">
+            <label>Expiry Date</label>
+            <input id="f_expiry" type="date" placeholder="Click to enter date">
+          </div>
           <div class="field">
             <label>Quantity</label>
             <input id="f_qty" type="number" min="0" step="1" value="1">
@@ -2457,14 +2453,14 @@
           </svg>
           <span class="help-menu-btn-text">User Guide</span>
         </button>
-        <button class="help-menu-btn settings-btn" onclick="openSettings()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <circle cx="12" cy="6" r="2.5"></circle>
+        <button type="button" class="help-menu-btn settings-btn" onclick="openSettings()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
+            <line x1="3" y1="5" x2="21" y2="5"></line>
+            <circle cx="15" cy="5" r="2.5"></circle>
             <line x1="3" y1="12" x2="21" y2="12"></line>
-            <circle cx="12" cy="12" r="2.5"></circle>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-            <circle cx="12" cy="18" r="2.5"></circle>
+            <circle cx="9" cy="12" r="2.5"></circle>
+            <line x1="3" y1="19" x2="21" y2="19"></line>
+            <circle cx="16" cy="19" r="2.5"></circle>
           </svg>
           <span class="help-menu-btn-text">Settings</span>
         </button>
