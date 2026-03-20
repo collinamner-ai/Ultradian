@@ -623,24 +623,26 @@ function openAbout(){
 
 function openSettings(){
   const helpMenuOverlay = document.getElementById('helpMenuOverlay');
-  const overlay = document.getElementById('settingsOverlay');
-  const dateFormatSelect = document.getElementById('settingDateFormat');
-
   if (helpMenuOverlay) {
     helpMenuOverlay.classList.remove('active');
   }
-
-  updateSettingsRegionButtons();
-  if (dateFormatSelect) {
-    dateFormatSelect.value = dateFormat;
-  }
-  updateExpiryAlertDisplay();
-
-  if (!overlay) return;
-
   setTimeout(() => {
-    overlay.classList.add('active');
-  }, 20);
+    // Sync settings before opening
+    updateSettingsRegionButtons();
+    document.getElementById('settingDateFormat').value = dateFormat;
+    updateExpiryAlertDisplay();
+    
+    // Show/hide expiry alert days section based on toggle
+    const daysSection = document.getElementById('expiryAlertDaysSection');
+    if (daysSection) {
+      daysSection.style.display = expiryAlertDays > 0 ? 'block' : 'none';
+    }
+    
+    const overlay = document.getElementById('settingsOverlay');
+    if (overlay) {
+      overlay.classList.add('active');
+    }
+  }, 50);
 }
 
 function updateSettingsRegionButtons(){
@@ -678,10 +680,32 @@ function decreaseExpiryAlert(){
   }
 }
 
+function toggleExpiryAlerts(){
+  const toggle = document.getElementById('expiryToggle');
+  const daysSection = document.getElementById('expiryAlertDaysSection');
+  
+  if (toggle.checked) {
+    // Alerts enabled
+    expiryAlertDays = expiryAlertDays === 0 ? 3 : expiryAlertDays;
+    daysSection.style.display = 'block';
+  } else {
+    // Alerts disabled
+    expiryAlertDays = 0;
+    daysSection.style.display = 'none';
+  }
+  
+  saveExpiryAlert();
+  render();
+}
+
 function updateExpiryAlertDisplay(){
   const display = document.getElementById('expiryDisplay');
+  const toggle = document.getElementById('expiryToggle');
   if (display) {
     display.textContent = expiryAlertDays;
+  }
+  if (toggle) {
+    toggle.checked = expiryAlertDays > 0;
   }
 }
 
@@ -707,12 +731,10 @@ function resetSettings(){
   saveDateFormat();
   saveExpiryAlert();
   
-  updateSettingsRegionButtons();
-  const dateFormatSelect = document.getElementById('settingDateFormat');
-  if (dateFormatSelect) {
-    dateFormatSelect.value = "UK";
-  }
-  updateExpiryAlertDisplay();
+  // Sync UI
+  document.getElementById('settingRegion').value = "UK";
+  document.getElementById('settingDateFormat').value = "UK";
+  document.getElementById('settingExpiryAlert').value = "3";
   
   syncRegionUI();
   render();
@@ -1433,7 +1455,7 @@ function clearFieldErrors(){
 }
 
 function setupFieldValidation(){
-  const requiredFields = ['f_item', 'f_location', 'f_storage'];
+  const requiredFields = ['f_item', 'f_store', 'f_location', 'f_storage'];
   requiredFields.forEach(fieldId => {
     const field = document.getElementById(fieldId);
     if (!field) return;
@@ -1596,14 +1618,16 @@ function validateUnsortedItem(){
   if (!item || !isItemUnsorted(item)) return true;
   
   const f_item = document.getElementById('f_item');
+  const f_store = document.getElementById('f_store');
   const f_location = document.getElementById('f_location');
   const f_storage = document.getElementById('f_storage');
   
   const itemField = f_item.closest('.field');
+  const storeField = f_store.closest('.field');
   const locationField = f_location.closest('.field');
   const storageField = f_storage.closest('.field');
   
-  [itemField, locationField, storageField].forEach(f => {
+  [itemField, storeField, locationField, storageField].forEach(f => {
     if (f) f.classList.remove('error');
   });
   
@@ -1612,6 +1636,10 @@ function validateUnsortedItem(){
   if (!f_item.value.trim()) {
     itemField.classList.add('error');
     missingFields.push('Item Name');
+  }
+  if (!f_store.value.trim()) {
+    storeField.classList.add('error');
+    missingFields.push('Store');
   }
   if (!f_location.value.trim()) {
     locationField.classList.add('error');
