@@ -638,9 +638,9 @@ function openSettings(){
 
   if (!overlay) return;
 
-  requestAnimationFrame(() => {
+  setTimeout(() => {
     overlay.classList.add('active');
-  });
+  }, 20);
 }
 
 function updateSettingsRegionButtons(){
