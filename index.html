@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -139,7 +140,6 @@
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       padding: 0;
-      min-height: 520px;
     }
     .undo-btn svg, .redo-btn svg {
       width: 22px;
@@ -1210,8 +1210,9 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 80vh;
-      overflow-y: visible;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      min-height: 520px;
     }
 
     .help-menu-title {
@@ -1280,12 +1281,12 @@
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(255,255,255,0.9);
       padding: 0;
-      min-height: 520px;
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 92vh;
-      overflow-y: visible;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      min-height: 520px;
     }
 
     .settings-title {
@@ -1309,7 +1310,7 @@
     }
 
     .settings-body {
-      padding: 18px 16px 20px;
+      padding: 18px 16px 16px;
       background:
         radial-gradient(circle at top, rgba(45,122,79,0.06), transparent 34%),
         linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);
@@ -1514,13 +1515,13 @@
 
     .settings-close {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
       color: #fff;
       cursor: pointer;
       display: flex;
@@ -1528,7 +1529,6 @@
       justify-content: center;
       transition: all 0.2s ease;
       padding: 0;
-      min-height: 520px;
       line-height: 0;
     }
 
@@ -1548,73 +1548,100 @@
 
     /* Data Manager Modal */
     .data-manager-container {
-      width: min(390px, 95vw);
-      background:
-        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
-        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      width: min(420px, 94vw);
+      background: var(--surface-strong);
       border-radius: 28px;
       box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255,255,255,0.74);
-      padding: 24px 20px;
+      border: 1px solid rgba(255,255,255,0.9);
+      padding: 0;
       position: relative;
       animation: coachMarkIn 0.4s ease;
-      max-height: 80vh;
-      overflow-y: visible;
+      max-height: 92vh;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
 
+    .data-manager-header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 20px 56px 18px;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
+        linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
     .data-manager-title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 900;
       color: #fff;
-      margin: 0 0 18px;
+      margin: 0;
       text-align: center;
       letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .data-manager-body {
+      padding: 18px 16px 16px;
+      background:
+        radial-gradient(circle at top, rgba(45,122,79,0.06), transparent 34%),
+        linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);
     }
 
     .data-section {
-      margin-bottom: 18px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(45,122,79,0.10);
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+      padding: 16px;
     }
 
     .data-section-title {
-      font-size: 12px;
+      font-size: 18px;
       font-weight: 900;
-      color: #E8F5E9;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 10px;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+      margin-bottom: 12px;
+      line-height: 1.25;
+      text-transform: none;
     }
 
     .export-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .data-btn {
-      padding: 12px 10px;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      background: transparent;
-      border-radius: 10px;
+      flex: 1 1 calc(50% - 5px);
+      min-width: 120px;
+      padding: 11px 16px;
+      border: 1.5px solid rgba(45,122,79,0.18);
+      background: #fff;
+      border-radius: 999px;
       cursor: pointer;
       font-weight: 800;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      color: #fff;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--primary);
       transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .data-btn:active {
-      transform: scale(0.95);
-      border-color: rgba(255, 255, 255, 0.8);
-      background: rgba(255, 255, 255, 0.1);
+      transform: scale(0.97);
+      border-color: rgba(45,122,79,0.35);
+      background: rgba(45,122,79,0.06);
     }
 
     .import-section {
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      padding-top: 16px;
+      border-top: none;
+      padding-top: 0;
     }
 
     .file-input-wrapper {
@@ -1629,56 +1656,65 @@
 
     .file-input-label {
       display: block;
-      padding: 12px 14px;
-      background: transparent;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      border-radius: 10px;
+      padding: 12px 16px;
+      background: #fff;
+      border: 1.5px solid rgba(45,122,79,0.18);
+      border-radius: 999px;
       text-align: center;
       cursor: pointer;
       font-weight: 800;
-      font-size: 12px;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
+      font-size: 13px;
+      color: var(--primary);
+      letter-spacing: 0.2px;
       transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.04);
     }
 
     .file-input-label:active {
       transform: scale(0.98);
-      border-color: rgba(255, 255, 255, 0.8);
-      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(45,122,79,0.35);
+      background: rgba(45,122,79,0.06);
     }
 
     .data-info {
-      font-size: 12px;
-      color: #E8F5E9;
+      font-size: 13px;
+      color: var(--text-secondary);
       line-height: 1.5;
       margin-top: 12px;
       padding: 0;
-      min-height: 520px;
       border: none;
       background: transparent;
     }
 
     .data-close {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
       color: #fff;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
-      padding:0;
-      line-height:0;
+      padding: 0;
+      line-height: 0;
+      z-index: 2;
     }
-    .data-close svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
+
+    .data-close svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      fill: none;
+      overflow: visible;
+    }
 
     .data-close:active {
       transform: scale(0.9);
@@ -2016,8 +2052,9 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 80vh;
-      overflow-y: visible;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      min-height: 520px;
     }
 
     .import-options-title {
@@ -2084,8 +2121,9 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 80vh;
-      overflow-y: visible;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      min-height: 520px;
     }
 
     .import-summary-title {
@@ -2430,7 +2468,9 @@
         <div class="data-info">Supported formats: CSV, TSV. Must have headers: Item, Category, Store, Location, Storage, Quantity, Expiry, Notes</div>
       </div>
 
-      <button class="data-close" onclick="closeDataManager()" aria-label="Close backup and data"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
+      </div>
+
+      <button class="data-close" onclick="closeDataManager()" aria-label="Close data backup and export"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
 
@@ -2474,6 +2514,7 @@
           </div>
         </div>
       </div>
+
 <button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
@@ -2501,12 +2542,12 @@
           <span class="help-menu-btn-text">Settings</span>
         </button>
         <button class="help-menu-btn export-btn" onclick="openDataManager()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Data Import/Export">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Data Backup / Export">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span class="help-menu-btn-text">Data Import/Export</span>
+          <span class="help-menu-btn-text">Data Backup / Export</span>
         </button>
         <button class="help-menu-btn about-btn" onclick="openAbout()">
           <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
