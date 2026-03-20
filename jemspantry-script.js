@@ -623,30 +623,71 @@ function openAbout(){
 
 function openSettings(){
   const helpMenuOverlay = document.getElementById('helpMenuOverlay');
+  const overlay = document.getElementById('settingsOverlay');
+  const dateFormatSelect = document.getElementById('settingDateFormat');
+
   if (helpMenuOverlay) {
     helpMenuOverlay.classList.remove('active');
   }
-  setTimeout(() => {
-    // Sync settings before opening
-    document.getElementById('settingRegion').value = region;
-    document.getElementById('settingDateFormat').value = dateFormat;
-    document.getElementById('settingExpiryAlert').value = expiryAlertDays.toString();
-    
-    const overlay = document.getElementById('settingsOverlay');
-    if (overlay) {
-      overlay.classList.add('active');
-    }
-  }, 50);
+
+  updateSettingsRegionButtons();
+  if (dateFormatSelect) {
+    dateFormatSelect.value = dateFormat;
+  }
+  updateExpiryAlertDisplay();
+
+  if (!overlay) return;
+
+  requestAnimationFrame(() => {
+    overlay.classList.add('active');
+  });
+}
+
+function updateSettingsRegionButtons(){
+  const buttons = document.querySelectorAll('.settings-region-btn');
+  buttons.forEach(btn => {
+    const btnRegion = btn.getAttribute('data-region');
+    btn.classList.toggle('active', btnRegion === region);
+  });
+}
+
+function selectRegionFromSettings(val){
+  region = val;
+  saveRegion();
+  updateSettingsRegionButtons();
+  syncRegionUI();
+  toast(`Region: ${val}`);
+  render();
+}
+
+function increaseExpiryAlert(){
+  if (expiryAlertDays < 30) {
+    expiryAlertDays++;
+    saveExpiryAlert();
+    updateExpiryAlertDisplay();
+    render();
+  }
+}
+
+function decreaseExpiryAlert(){
+  if (expiryAlertDays > 0) {
+    expiryAlertDays--;
+    saveExpiryAlert();
+    updateExpiryAlertDisplay();
+    render();
+  }
+}
+
+function updateExpiryAlertDisplay(){
+  const display = document.getElementById('expiryDisplay');
+  if (display) {
+    display.textContent = expiryAlertDays;
+  }
 }
 
 function closeSettings(event){
   if (event && event.target !== document.getElementById('settingsOverlay')) return;
   document.getElementById('settingsOverlay').classList.remove('active');
-}
-
-function updateRegionFromSettings(){
-  const value = document.getElementById('settingRegion').value;
-  selectRegion(value);
 }
 
 function updateDateFormatFromSettings(){
@@ -655,14 +696,6 @@ function updateDateFormatFromSettings(){
   saveDateFormat();
   render();
   toast(`Date format: ${value === 'UK' ? 'DD-MM-YYYY' : value === 'US' ? 'MM-DD-YYYY' : 'DD.MM.YYYY'}`);
-}
-
-function updateExpiryAlertFromSettings(){
-  const value = parseInt(document.getElementById('settingExpiryAlert').value, 10);
-  expiryAlertDays = value;
-  saveExpiryAlert();
-  render();
-  toast(value === 0 ? 'Expiry alerts disabled' : `Expiry alerts in ${value} day${value === 1 ? '' : 's'}`);
 }
 
 function resetSettings(){
@@ -674,10 +707,12 @@ function resetSettings(){
   saveDateFormat();
   saveExpiryAlert();
   
-  // Sync UI
-  document.getElementById('settingRegion').value = "UK";
-  document.getElementById('settingDateFormat').value = "UK";
-  document.getElementById('settingExpiryAlert').value = "3";
+  updateSettingsRegionButtons();
+  const dateFormatSelect = document.getElementById('settingDateFormat');
+  if (dateFormatSelect) {
+    dateFormatSelect.value = "UK";
+  }
+  updateExpiryAlertDisplay();
   
   syncRegionUI();
   render();
@@ -1398,7 +1433,7 @@ function clearFieldErrors(){
 }
 
 function setupFieldValidation(){
-  const requiredFields = ['f_item', 'f_store', 'f_location', 'f_storage'];
+  const requiredFields = ['f_item', 'f_location', 'f_storage'];
   requiredFields.forEach(fieldId => {
     const field = document.getElementById(fieldId);
     if (!field) return;
@@ -1561,16 +1596,14 @@ function validateUnsortedItem(){
   if (!item || !isItemUnsorted(item)) return true;
   
   const f_item = document.getElementById('f_item');
-  const f_store = document.getElementById('f_store');
   const f_location = document.getElementById('f_location');
   const f_storage = document.getElementById('f_storage');
   
   const itemField = f_item.closest('.field');
-  const storeField = f_store.closest('.field');
   const locationField = f_location.closest('.field');
   const storageField = f_storage.closest('.field');
   
-  [itemField, storeField, locationField, storageField].forEach(f => {
+  [itemField, locationField, storageField].forEach(f => {
     if (f) f.classList.remove('error');
   });
   
@@ -1579,10 +1612,6 @@ function validateUnsortedItem(){
   if (!f_item.value.trim()) {
     itemField.classList.add('error');
     missingFields.push('Item Name');
-  }
-  if (!f_store.value.trim()) {
-    storeField.classList.add('error');
-    missingFields.push('Store');
   }
   if (!f_location.value.trim()) {
     locationField.classList.add('error');
