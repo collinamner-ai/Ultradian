@@ -908,11 +908,12 @@
       content: "✓";
       position: absolute;
       right: 12px;
-      top: 42px;
+      top: 28px;
       color: var(--success);
       font-weight: 900;
-      font-size: 16px;
+      font-size: 18px;
       pointer-events: none;
+      line-height: 1;
     }
     .field.error input,
     .field.error select,
@@ -1345,6 +1346,110 @@
     .settings-field select option {
       background: var(--primary);
       color: #fff;
+    }
+
+    .settings-region-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .settings-region-btn {
+      padding: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .settings-region-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .settings-region-btn.active {
+      background: rgba(255, 255, 255, 0.28);
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+    }
+
+    .settings-region-btn:active {
+      transform: scale(0.96);
+    }
+
+    .settings-expiry-field {
+      margin-bottom: 12px;
+    }
+
+    .settings-expiry-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #E8F5E9;
+      margin-bottom: 10px;
+    }
+
+    .expiry-number-control {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .expiry-btn {
+      width: 44px;
+      height: 44px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 900;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .expiry-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .expiry-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .expiry-display {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .reset-btn {
+      background: #EF4444 !important;
+      color: #fff !important;
+      border: none !important;
+    }
+
+    .reset-btn:hover {
+      background: #DC2626 !important;
+    }
+
+    .reset-btn:active {
+      background: #B91C1C !important;
     }
 
     .settings-actions {
@@ -2233,18 +2338,19 @@
             </select>
           </div>
           <div class="field">
-            <label>Category</label>
-            <select id="f_category">
-              <option value="">Auto (recommended)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row-2">
-          <div class="field">
             <label>Expiry Date</label>
             <input id="f_expiry" type="date" placeholder="Click to enter date">
           </div>
+        </div>
+
+        <div class="field">
+          <label>Category</label>
+          <select id="f_category">
+            <option value="">Auto (recommended)</option>
+          </select>
+        </div>
+
+        <div class="form-row-2">
           <div class="field">
             <label>Quantity</label>
             <input id="f_qty" type="number" min="0" step="1" value="1">
@@ -2296,18 +2402,15 @@
 
   <div class="coach-mark-overlay" id="settingsOverlay" onclick="closeSettings(event)" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
     <div class="settings-container" onclick="event.stopPropagation()">
-      <h2 id="settingsTitle" class="settings-title">Settings</h2>
+    <h2 id="settingsTitle" class="settings-title">Settings</h2>
       
       <div class="settings-section">
         <div class="settings-section-title">Region</div>
-        <div class="settings-field">
-          <label>Select your region:</label>
-          <select id="settingRegion" onchange="updateRegionFromSettings()">
-            <option value="UK">United Kingdom</option>
-            <option value="US">United States</option>
-            <option value="EU">Europe</option>
-            <option value="Global">Global</option>
-          </select>
+        <div class="settings-region-buttons">
+          <button class="settings-region-btn" data-region="UK" onclick="selectRegionFromSettings('UK')">UK</button>
+          <button class="settings-region-btn" data-region="US" onclick="selectRegionFromSettings('US')">US</button>
+          <button class="settings-region-btn" data-region="EU" onclick="selectRegionFromSettings('EU')">Europe</button>
+          <button class="settings-region-btn" data-region="Global" onclick="selectRegionFromSettings('Global')">Global</button>
         </div>
       </div>
 
@@ -2325,21 +2428,18 @@
 
       <div class="settings-section">
         <div class="settings-section-title">Expiry Alert</div>
-        <div class="settings-field">
+        <div class="settings-expiry-field">
           <label>Alert when items expire in (days):</label>
-          <select id="settingExpiryAlert" onchange="updateExpiryAlertFromSettings()">
-            <option value="0">Never (0 days)</option>
-            <option value="1">1 day</option>
-            <option value="3">3 days</option>
-            <option value="7">1 week (7 days)</option>
-            <option value="14">2 weeks (14 days)</option>
-            <option value="30">1 month (30 days)</option>
-          </select>
+          <div class="expiry-number-control">
+            <button class="expiry-btn minus-btn" onclick="decreaseExpiryAlert()">−</button>
+            <div class="expiry-display" id="expiryDisplay">3</div>
+            <button class="expiry-btn plus-btn" onclick="increaseExpiryAlert()">+</button>
+          </div>
         </div>
       </div>
 
       <div class="settings-actions">
-        <button class="settings-btn" onclick="resetSettings()">Reset to Defaults</button>
+        <button class="settings-btn reset-btn" onclick="resetSettings()">Reset to Defaults</button>
       </div>
 
       <button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
@@ -2357,20 +2457,24 @@
           </svg>
           <span class="help-menu-btn-text">User Guide</span>
         </button>
+        <button class="help-menu-btn settings-btn" onclick="openSettings()">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <circle cx="12" cy="6" r="2.5"></circle>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <circle cx="12" cy="12" r="2.5"></circle>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+            <circle cx="12" cy="18" r="2.5"></circle>
+          </svg>
+          <span class="help-menu-btn-text">Settings</span>
+        </button>
         <button class="help-menu-btn export-btn" onclick="openDataManager()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Import/Export">
+          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Data Import/Export">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span class="help-menu-btn-text">Import/Export</span>
-        </button>
-        <button class="help-menu-btn settings-btn" onclick="openSettings()">
-          <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="Settings">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m2.96 2.96l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m2.96-2.96l4.24-4.24M19.78 19.78l-4.24-4.24m-2.96-2.96l-4.24-4.24"></path>
-          </svg>
-          <span class="help-menu-btn-text">Settings</span>
+          <span class="help-menu-btn-text">Data Import/Export</span>
         </button>
         <button class="help-menu-btn about-btn" onclick="openAbout()">
           <svg class="help-menu-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg" aria-label="About">
