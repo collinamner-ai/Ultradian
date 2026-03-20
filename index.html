@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,6 +139,7 @@
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       padding: 0;
+      min-height: 520px;
     }
     .undo-btn svg, .redo-btn svg {
       width: 22px;
@@ -420,7 +420,7 @@
       font-size:11px;
       font-weight:900;
       color:#000;
-      background:#FFEE8C;
+      background:var(--expiring-soon);
       padding:6px 10px;
       border-radius:999px;
       min-width:32px;
@@ -1210,7 +1210,7 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 80vh;
-      overflow-y: auto;
+      overflow-y: visible;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -1280,10 +1280,11 @@
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(255,255,255,0.9);
       padding: 0;
+      min-height: 520px;
       position: relative;
       animation: coachMarkIn 0.4s ease;
-      max-height: 84vh;
-      overflow-y: auto;
+      max-height: 92vh;
+      overflow-y: visible;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -1308,7 +1309,7 @@
     }
 
     .settings-body {
-      padding: 18px 16px 16px;
+      padding: 18px 16px 20px;
       background:
         radial-gradient(circle at top, rgba(45,122,79,0.06), transparent 34%),
         linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);
@@ -1527,6 +1528,7 @@
       justify-content: center;
       transition: all 0.2s ease;
       padding: 0;
+      min-height: 520px;
       line-height: 0;
     }
 
@@ -1557,7 +1559,7 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 80vh;
-      overflow-y: auto;
+      overflow-y: visible;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -1653,6 +1655,7 @@
       line-height: 1.5;
       margin-top: 12px;
       padding: 0;
+      min-height: 520px;
       border: none;
       background: transparent;
     }
@@ -2013,7 +2016,7 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 80vh;
-      overflow-y: auto;
+      overflow-y: visible;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -2081,7 +2084,7 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 80vh;
-      overflow-y: auto;
+      overflow-y: visible;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -2407,7 +2410,7 @@
 
   <div class="coach-mark-overlay" id="dataManagerOverlay" onclick="closeDataManager(event)" role="dialog" aria-modal="true" aria-labelledby="dataManagerTitle">
     <div class="data-manager-container" onclick="event.stopPropagation()">
-      <h2 id="dataManagerTitle" class="data-manager-title">Backup & Data</h2>
+      <h2 id="dataManagerTitle" class="data-manager-title">Data Backup / Export</h2>
       
       <div class="data-section">
         <div class="data-section-title">Export Pantry Data</div>
@@ -2471,12 +2474,7 @@
           </div>
         </div>
       </div>
-
-      <div class="settings-actions">
-        <button class="settings-btn reset-btn" onclick="resetSettings()">Reset to Defaults</button>
-      </div>
-
-      <button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
+<button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
 
