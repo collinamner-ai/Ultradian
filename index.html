@@ -1549,7 +1549,7 @@
     /* Data Manager Modal */
     .data-manager-container {
       width: min(420px, 94vw);
-      background: var(--surface-strong);
+      background: #FFFFFF;
       border-radius: 28px;
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(255,255,255,0.9);
@@ -1557,14 +1557,11 @@
       position: relative;
       animation: coachMarkIn 0.4s ease;
       max-height: 92vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow: hidden;
     }
 
     .data-manager-header {
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      position: relative;
       padding: 20px 56px 18px;
       background:
         radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%),
@@ -1585,15 +1582,16 @@
     }
 
     .data-manager-body {
-      padding: 18px 16px 16px;
-      background:
-        radial-gradient(circle at top, rgba(45,122,79,0.06), transparent 34%),
-        linear-gradient(180deg, #F7FBF8 0%, var(--bg) 22%, #EEF3EF 100%);
+      padding: 18px 16px 20px;
+      background: #FFFFFF;
+      max-height: calc(92vh - 74px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .data-section {
       margin-bottom: 14px;
-      background: rgba(255,255,255,0.88);
+      background: #FFFFFF;
       border: 1px solid rgba(45,122,79,0.10);
       border-radius: 18px;
       box-shadow: var(--shadow-sm);
@@ -1693,7 +1691,7 @@
       width: 36px;
       height: 36px;
       border: 1px solid rgba(255,255,255,0.24);
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255,255,255,0.12);
       border-radius: 999px;
       color: #fff;
       cursor: pointer;
@@ -1707,13 +1705,15 @@
     }
 
     .data-close svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       display: block;
       stroke: currentColor;
       stroke-width: 2.4;
       fill: none;
       overflow: visible;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .data-close:active {
@@ -2469,8 +2469,6 @@
       </div>
 
       </div>
-
-      <button class="data-close" onclick="closeDataManager()" aria-label="Close data backup and export"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
     </div>
   </div>
 
@@ -2504,7 +2502,7 @@
 
       <div class="settings-section">
         <div class="settings-section-title">EXPIRY ALERTS</div>
-        <div class="settings-section-description">Customise your expiry alert settings:</div>
+        <div class="settings-section-description">How many days notice for expiry dates would you like?</div>
         <div class="settings-expiry-field">
           <label>Alert when items expire in (days):</label>
           <div class="expiry-number-control">
