@@ -750,6 +750,27 @@
       line-height:0;
     }
     .modal-close svg{width:16px;height:16px;display:block;stroke:currentColor;stroke-width:2.4;fill:none;overflow:visible;}
+
+    .settings-close,
+    .data-close{
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.32);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      padding: 0;
+      line-height: 0;
+    }
+    .settings-close:active,
+    .data-close:active{
+      transform: scale(0.94);
+    }
     .modal-close:active{transform:scale(.9);}
     .modal-body{padding:16px;}
 
@@ -1582,7 +1603,7 @@
     }
 
     .data-manager-body {
-      padding: 18px 16px 20px;
+      padding: 16px 16px 18px;
       background: #FFFFFF;
       max-height: calc(92vh - 74px);
       overflow-y: auto;
@@ -1591,34 +1612,38 @@
 
     .data-section {
       margin-bottom: 14px;
-      background: #FFFFFF;
-      border: 1px solid rgba(45,122,79,0.10);
-      border-radius: 18px;
-      box-shadow: var(--shadow-sm);
-      padding: 16px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .data-section:last-child {
+      margin-bottom: 0;
     }
 
     .data-section-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 900;
       color: var(--text-primary);
       letter-spacing: -0.2px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       line-height: 1.25;
-      text-transform: none;
+      text-transform: uppercase;
     }
 
     .export-buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .data-btn {
       flex: 1 1 calc(50% - 5px);
       min-width: 120px;
-      padding: 11px 16px;
+      padding: 10px 16px;
       border: 1.5px solid rgba(45,122,79,0.18);
       background: #fff;
       border-radius: 999px;
@@ -1654,7 +1679,7 @@
 
     .file-input-label {
       display: block;
-      padding: 12px 16px;
+      padding: 11px 16px;
       background: #fff;
       border: 1.5px solid rgba(45,122,79,0.18);
       border-radius: 999px;
@@ -1677,8 +1702,8 @@
     .data-info {
       font-size: 13px;
       color: var(--text-secondary);
-      line-height: 1.5;
-      margin-top: 12px;
+      line-height: 1.45;
+      margin-top: 10px;
       padding: 0;
       border: none;
       background: transparent;
@@ -1686,21 +1711,8 @@
 
     .data-close {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(255,255,255,0.24);
-      background: rgba(255,255,255,0.12);
-      border-radius: 999px;
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      padding: 0;
-      line-height: 0;
+      top: 12px;
+      right: 12px;
       z-index: 2;
     }
 
@@ -1714,10 +1726,6 @@
       overflow: visible;
       stroke-linecap: round;
       stroke-linejoin: round;
-    }
-
-    .data-close:active {
-      transform: scale(0.9);
     }
 
     .help-menu-close {
@@ -2448,73 +2456,12 @@
 
   <div class="coach-mark-overlay" id="dataManagerOverlay" onclick="closeDataManager(event)" role="dialog" aria-modal="true" aria-labelledby="dataManagerTitle">
     <div class="data-manager-container" onclick="event.stopPropagation()">
-      <h2 id="dataManagerTitle" class="data-manager-title">Data Backup / Export</h2>
-      
-      <div class="data-section">
-        <div class="data-section-title">Export Pantry Data</div>
-        <div class="export-buttons">
-          <button class="data-btn" onclick="exportAsCSV()">CSV</button>
-          <button class="data-btn" onclick="exportAsTSV()">TSV</button>
-        </div>
-        <div class="data-info">Export your pantry data as a spreadsheet file. You can edit it offline and import it back.</div>
-      </div>
-
-      <div class="data-section import-section">
-        <div class="data-section-title">Import Pantry Data</div>
-        <div class="file-input-wrapper">
-          <input type="file" id="dataFileInput" accept=".csv,.tsv" onchange="handleFileImport(event)">
-          <label for="dataFileInput" class="file-input-label">Click to select file (CSV or TSV)</label>
-        </div>
-        <div class="data-info">Supported formats: CSV, TSV. Must have headers: Item, Category, Store, Location, Storage, Quantity, Expiry, Notes</div>
-      </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div class="coach-mark-overlay" id="settingsOverlay" onclick="closeSettings(event)" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-    <div class="settings-container" onclick="event.stopPropagation()">
-    <h2 id="settingsTitle" class="settings-title">Settings</h2>
-      
-      <div class="settings-section">
-        <div class="settings-section-title">REGION SELECT</div>
-        <div class="settings-section-description">Choose your region to help auto categorise your items:</div>
-        <div class="settings-region-buttons">
-          <button class="settings-region-btn" data-region="UK" onclick="selectRegionFromSettings('UK')">UK</button>
-          <button class="settings-region-btn" data-region="US" onclick="selectRegionFromSettings('US')">US</button>
-          <button class="settings-region-btn" data-region="EU" onclick="selectRegionFromSettings('EU')">Europe</button>
-          <button class="settings-region-btn" data-region="Global" onclick="selectRegionFromSettings('Global')">Global</button>
+      <div class="data-manager-header">
+        <h2 id="dataManagerTitle" class="data-manager-title">Data Backup / Export</h2>
+</div>
         </div>
       </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">CHOOSE YOUR DATE FORMAT</div>
-        <div class="settings-section-description">Select how you would like the date presented to you:</div>
-        <div class="settings-field">
-          <label>Choose date display format:</label>
-          <select id="settingDateFormat" onchange="updateDateFormatFromSettings()">
-            <option value="UK">DD-MM-YYYY</option>
-            <option value="US">MM-DD-YYYY</option>
-            <option value="EU">DD.MM.YYYY</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">EXPIRY ALERTS</div>
-        <div class="settings-section-description">How many days notice for expiry dates would you like?</div>
-        <div class="settings-expiry-field">
-          <label>Alert when items expire in (days):</label>
-          <div class="expiry-number-control">
-            <button class="expiry-btn minus-btn" onclick="decreaseExpiryAlert()">−</button>
-            <div class="expiry-display" id="expiryDisplay">3</div>
-            <button class="expiry-btn plus-btn" onclick="increaseExpiryAlert()">+</button>
-          </div>
-        </div>
-      </div>
-
-<button class="settings-close" onclick="closeSettings()" aria-label="Close settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18"></path></svg></button>
-    </div>
+</div>
   </div>
 
   <div class="coach-mark-overlay" id="helpMenuOverlay" onclick="closeHelpMenu(event)" role="dialog" aria-modal="true" aria-label="Help menu">
